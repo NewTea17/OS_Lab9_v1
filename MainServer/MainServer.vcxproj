@@ -127,11 +127,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DailyExchangeRateService.cpp" />
+    <ClCompile Include="HourlyWeatherService.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MinuteSharePriceService.cpp" />
     <ClCompile Include="Server.cpp" />
+    <ClCompile Include="ServiceDetails.cpp" />
+    <ClCompile Include="Subscriber.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DailyExchangeRateService.h" />
+    <ClInclude Include="HourlyWeatherService.h" />
+    <ClInclude Include="MinuteSharePriceService.h" />
     <ClInclude Include="Server.h" />
+    <ClInclude Include="ServiceDetails.h" />
+    <ClInclude Include="Subscriber.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
