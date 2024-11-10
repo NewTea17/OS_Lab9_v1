@@ -122,6 +122,8 @@ System::Void MainClient::UserDetailsForm::loginBtn_Click(System::Object^ sender,
 		return;
 	}
 
+	
+
 	this->Hide();
 	ServicesListForm^ servicesForm = gcnew ServicesListForm();
 	servicesForm->ShowDialog();
