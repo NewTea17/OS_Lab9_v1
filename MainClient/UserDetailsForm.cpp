@@ -1,4 +1,5 @@
 ﻿#include "UserDetailsForm.h"
+#include "ServicesListForm.h"
 
 MainClient::UserDetailsForm::UserDetailsForm(void)
 {
@@ -120,4 +121,9 @@ System::Void MainClient::UserDetailsForm::loginBtn_Click(System::Object^ sender,
 		MessageBox::Show("Username or email cannot be empty. Please before login enter it.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Warning);
 		return;
 	}
+
+	this->Hide();
+	ServicesListForm^ servicesForm = gcnew ServicesListForm();
+	servicesForm->ShowDialog();
+	this->Close();
 }
