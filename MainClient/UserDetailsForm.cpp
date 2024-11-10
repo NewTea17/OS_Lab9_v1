@@ -128,13 +128,20 @@ System::Void MainClient::UserDetailsForm::btnLogIn_Click(System::Object^ sender,
     System::String^ userName = textBoxName->Text;
     System::String^ userEmail = textBoxEmail->Text;
 
-    UserDetails currentUser(userName, userEmail);
+    UserDetails^ currentUser = gcnew UserDetails(userName, userEmail);
 
-    if (currentUser.isValid()) {
+    if (currentUser->isValid()) {
         MessageBox::Show("Login successful!", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
 
+        Client^ client = gcnew Client();
+        client->setUserDetails(currentUser);
+
+        client->sendUserDetails();
+
+        this->Hide();
         ServiceForm^ serviceForm = gcnew ServiceForm();
-        serviceForm->Show();
+        serviceForm->ShowDialog();
+        this->Close();
     } else {
         MessageBox::Show("Invalid name or email.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
     }
