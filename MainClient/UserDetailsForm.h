@@ -20,6 +20,8 @@ namespace MainClient {
 	private: System::Windows::Forms::TextBox^ userEmailTextBox;
 	private: System::Windows::Forms::Label^ loginLanel;
 	private: System::Windows::Forms::Button^ loginBtn;
+	private: System::Windows::Forms::Label^ usernameLabel;
+	private: System::Windows::Forms::Label^ userEmailLabel;
 
 	private:
 		System::ComponentModel::Container^ components;
@@ -27,5 +29,6 @@ namespace MainClient {
 		void InitializeComponent(void);
 
 		System::Void UserDetailsForm_Load(System::Object^ sender, System::EventArgs^ e);
+		System::Void loginBtn_Click(System::Object^ sender, System::EventArgs^ e);
 	};
 }
