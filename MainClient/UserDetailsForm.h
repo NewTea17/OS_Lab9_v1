@@ -1,5 +1,6 @@
 #pragma once
-#include "UserDetails.h" // Підключення класу для роботи з даними користувача
+
+#include "UserDetails.h" 
 
 namespace MainClient {
 	using namespace System;
@@ -17,17 +18,14 @@ namespace MainClient {
 
 	protected:
 		~UserDetailsForm();
-	private: System::Windows::Forms::TextBox^ textBoxName;
-	private: System::Windows::Forms::TextBox^ textBoxEmail;
-	protected:
 
-	protected:
+	private: 
+		System::Windows::Forms::TextBox^ textBoxName;
+		System::Windows::Forms::TextBox^ textBoxEmail;
 
-	private: System::Windows::Forms::Label^ nameLbl;
-	private: System::Windows::Forms::Label^ label1;
-	private: System::Windows::Forms::Button^ btnLogIn;
-
-
+		System::Windows::Forms::Label^ nameLbl;
+		System::Windows::Forms::Label^ label1;
+		System::Windows::Forms::Button^ btnLogIn;
 
 	private:
 		System::ComponentModel::Container^ components;
