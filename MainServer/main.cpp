@@ -3,7 +3,11 @@
 
 int main() {
 	Server server;
-	server.run();
+
+	server.displayServices();
+
+	// server.run();
+
 
 	return 0;
 }

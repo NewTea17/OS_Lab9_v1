@@ -12,6 +12,8 @@ public:
 	void setUserDetails(const UserDetails^ user);
 	const UserDetails^ getUserDetails();
 
+	void sendUserDetails();
+
 private:
 	UserDetails^ userDetails;
 	HANDLE hPipe;

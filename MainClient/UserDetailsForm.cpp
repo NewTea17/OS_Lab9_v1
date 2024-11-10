@@ -1,5 +1,7 @@
-#include "UserDetailsForm.h"
+п»ї#include "UserDetailsForm.h"
 #include "ServiceForm.h"
+
+#include "Client.h"
 
 MainClient::UserDetailsForm::UserDetailsForm(void)
 {
@@ -124,24 +126,24 @@ System::Void MainClient::UserDetailsForm::UserDetailsForm_Load(System::Object^ s
 
 System::Void MainClient::UserDetailsForm::btnLogIn_Click(System::Object^ sender, System::EventArgs^ e)
 {
-    // Отримуємо введені користувачем дані з текстових полів
+    // РћС‚СЂРёРјСѓС”РјРѕ РІРІРµРґРµРЅС– РєРѕСЂРёСЃС‚СѓРІР°С‡РµРј РґР°РЅС– Р· С‚РµРєСЃС‚РѕРІРёС… РїРѕР»С–РІ
     System::String^ userName = textBoxName->Text;
     System::String^ userEmail = textBoxEmail->Text;
 
-    // Створюємо об'єкт UserDetails з отриманими даними (якщо клас UserDetails відповідає за валідацію)
+    // РЎС‚РІРѕСЂСЋС”РјРѕ РѕР±'С”РєС‚ UserDetails Р· РѕС‚СЂРёРјР°РЅРёРјРё РґР°РЅРёРјРё (СЏРєС‰Рѕ РєР»Р°СЃ UserDetails РІС–РґРїРѕРІС–РґР°С” Р·Р° РІР°Р»С–РґР°С†С–СЋ)
     UserDetails currentUser(userName, userEmail);
 
-    // Перевірка облікових даних
+    // РџРµСЂРµРІС–СЂРєР° РѕР±Р»С–РєРѕРІРёС… РґР°РЅРёС…
     if (currentUser.isValid()) {
-        // Якщо облікові дані коректні, показуємо повідомлення
+        // РЇРєС‰Рѕ РѕР±Р»С–РєРѕРІС– РґР°РЅС– РєРѕСЂРµРєС‚РЅС–, РїРѕРєР°Р·СѓС”РјРѕ РїРѕРІС–РґРѕРјР»РµРЅРЅСЏ
         MessageBox::Show("Login successful!", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
 
-        // Відкриваємо нову форму ServiceForm
+        // Р’С–РґРєСЂРёРІР°С”РјРѕ РЅРѕРІСѓ С„РѕСЂРјСѓ ServiceForm
         ServiceForm^ serviceForm = gcnew ServiceForm();
         serviceForm->Show();
     }
     else {
-        // Якщо облікові дані некоректні, виводимо повідомлення про помилку
+        // РЇРєС‰Рѕ РѕР±Р»С–РєРѕРІС– РґР°РЅС– РЅРµРєРѕСЂРµРєС‚РЅС–, РІРёРІРѕРґРёРјРѕ РїРѕРІС–РґРѕРјР»РµРЅРЅСЏ РїСЂРѕ РїРѕРјРёР»РєСѓ
         MessageBox::Show("Invalid name or email.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
     }
 }

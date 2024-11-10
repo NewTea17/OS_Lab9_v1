@@ -122,7 +122,11 @@
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="main.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="ServiceForm.cpp" />
+=======
+    <ClCompile Include="ServicesListForm.cpp" />
+>>>>>>> d136df5ee267084a74e7215abd9cd9e0783cca2e
     <ClCompile Include="UserDetails.cpp" />
     <ClCompile Include="UserDetailsForm.cpp" />
   </ItemGroup>
@@ -135,7 +139,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
+<<<<<<< HEAD
     <ClInclude Include="ServiceForm.h">
+=======
+    <ClInclude Include="ServicesListForm.h">
+>>>>>>> d136df5ee267084a74e7215abd9cd9e0783cca2e
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="UserDetails.h" />
@@ -144,8 +152,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <EmbeddedResource Include="ServiceForm.resx">
       <DependentUpon>ServiceForm.h</DependentUpon>
+=======
+    <EmbeddedResource Include="ServicesListForm.resx">
+      <DependentUpon>ServicesListForm.h</DependentUpon>
+>>>>>>> d136df5ee267084a74e7215abd9cd9e0783cca2e
     </EmbeddedResource>
     <EmbeddedResource Include="UserDetailsForm.resx">
       <DependentUpon>UserDetailsForm.h</DependentUpon>

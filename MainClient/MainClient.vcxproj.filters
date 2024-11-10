@@ -27,8 +27,13 @@
     <ClCompile Include="UserDetails.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="ServiceForm.cpp">
       <Filter>Header Files</Filter>
+=======
+    <ClCompile Include="ServicesListForm.cpp">
+      <Filter>Source Files</Filter>
+>>>>>>> d136df5ee267084a74e7215abd9cd9e0783cca2e
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -41,7 +46,11 @@
     <ClInclude Include="UserDetails.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="ServiceForm.h">
+=======
+    <ClInclude Include="ServicesListForm.h">
+>>>>>>> d136df5ee267084a74e7215abd9cd9e0783cca2e
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

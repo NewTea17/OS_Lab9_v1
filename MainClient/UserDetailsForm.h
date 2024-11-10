@@ -30,7 +30,7 @@ namespace MainClient {
 
 
 	private:
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 
 		void InitializeComponent(void);
 
