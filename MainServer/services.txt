@@ -1,0 +1,8 @@
+1. Hourly Weather Forecast
+The hourly weather forecast provides weather predictions for every hour, helping individuals plan activities based on changes in weather conditions.
+
+2. Minute-by-Minute Stock Price
+The minute-by-minute stock price displays real-time updates on stock prices every minute, allowing investors to quickly react to market fluctuations.
+
+3. Daily Exchange Rate
+The daily exchange rate provides daily currency exchange rates, essential for international transactions and financial settlements.

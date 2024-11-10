@@ -15,12 +15,20 @@ namespace MainClient {
 
 	protected:
 		~UserDetailsForm();
+	private: System::Windows::Forms::TextBox^ usernameTextBox;
+	protected:
+	private: System::Windows::Forms::TextBox^ userEmailTextBox;
+	private: System::Windows::Forms::Label^ loginLanel;
+	private: System::Windows::Forms::Button^ loginBtn;
+	private: System::Windows::Forms::Label^ usernameLabel;
+	private: System::Windows::Forms::Label^ userEmailLabel;
 
 	private:
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 
 		void InitializeComponent(void);
 
 		System::Void UserDetailsForm_Load(System::Object^ sender, System::EventArgs^ e);
+		System::Void loginBtn_Click(System::Object^ sender, System::EventArgs^ e);
 	};
 }
