@@ -122,6 +122,7 @@
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ServiceForm.cpp" />
     <ClCompile Include="UserDetails.cpp" />
     <ClCompile Include="UserDetailsForm.cpp" />
   </ItemGroup>
@@ -134,12 +135,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
+    <ClInclude Include="ServiceForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="UserDetails.h" />
     <ClInclude Include="UserDetailsForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ServiceForm.resx">
+      <DependentUpon>ServiceForm.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserDetailsForm.resx">
       <DependentUpon>UserDetailsForm.h</DependentUpon>
     </EmbeddedResource>

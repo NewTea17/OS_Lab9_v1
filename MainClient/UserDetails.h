@@ -1,6 +1,6 @@
 #pragma once
-
 using namespace System;
+using namespace System::Text::RegularExpressions;
 
 ref class UserDetails
 {
@@ -11,5 +11,7 @@ public:
 	UserDetails();
 
 	UserDetails(String^ name, String^ email);
+
+	bool isValid();
 };
 
