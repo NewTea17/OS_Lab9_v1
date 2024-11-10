@@ -1,6 +1,8 @@
 ﻿#include "UserDetailsForm.h"
 #include "ServicesListForm.h"
 
+#include "Client.h"
+
 MainClient::UserDetailsForm::UserDetailsForm(void)
 {
 	InitializeComponent();
@@ -118,14 +120,28 @@ System::Void MainClient::UserDetailsForm::loginBtn_Click(System::Object^ sender,
 	String^ userEmail = userEmailTextBox->Text;
 
 	if (String::IsNullOrWhiteSpace(username) || String::IsNullOrWhiteSpace(userEmail)) {
-		MessageBox::Show("Username or email cannot be empty. Please before login enter it.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Warning);
+		MessageBox::Show("Username or email cannot be empty. Please before login enter it.", 
+			"Error", MessageBoxButtons::OK, MessageBoxIcon::Warning);
 		return;
 	}
 
-	
+	try
+	{
+		UserDetails^ details = gcnew UserDetails(username, userEmail);
 
-	this->Hide();
-	ServicesListForm^ servicesForm = gcnew ServicesListForm();
-	servicesForm->ShowDialog();
-	this->Close();
+		Client^ client = gcnew Client();
+		client->setUserDetails(details);
+
+		client->sendUserDetails();
+
+		this->Hide();
+		ServicesListForm^ servicesForm = gcnew ServicesListForm();
+		servicesForm->ShowDialog();
+		this->Close();
+	}
+	catch (Exception^ ex)
+	{
+		MessageBox::Show("Failed to send user details!", 
+			"Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+	}
 }
