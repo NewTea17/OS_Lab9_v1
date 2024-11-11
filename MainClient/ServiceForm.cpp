@@ -12,6 +12,12 @@ MainClient::ServiceForm::~ServiceForm()
 	}
 }
 
+MainClient::ServiceForm::ServiceForm(String^ userName)
+{
+    InitializeComponent();
+    UsernameLbl->Text = userName;
+}
+
 void MainClient::ServiceForm::InitializeComponent(void)
 {
     System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(ServiceForm::typeid));
@@ -32,7 +38,7 @@ void MainClient::ServiceForm::InitializeComponent(void)
     this->btnUnsub2 = (gcnew System::Windows::Forms::Button());
     this->btnSub3 = (gcnew System::Windows::Forms::Button());
     this->btnUnsub3 = (gcnew System::Windows::Forms::Button());
-    this->label1 = (gcnew System::Windows::Forms::Label());
+    this->UsernameLbl = (gcnew System::Windows::Forms::Label());
     (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
     (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
     (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->BeginInit();
@@ -266,18 +272,21 @@ void MainClient::ServiceForm::InitializeComponent(void)
     this->btnUnsub3->UseVisualStyleBackColor = true;
     this->btnUnsub3->Click += gcnew System::EventHandler(this, &ServiceForm::btnUnsub3_Click);
     // 
-    // label1
+    // UsernameLbl
     // 
-    this->label1->AutoSize = true;
-    this->label1->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+    this->UsernameLbl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
+        | System::Windows::Forms::AnchorStyles::Right));
+    this->UsernameLbl->AutoSize = true;
+    this->UsernameLbl->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
         static_cast<System::Byte>(0)));
-    this->label1->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(34)), static_cast<System::Int32>(static_cast<System::Byte>(85)),
+    this->UsernameLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(34)), static_cast<System::Int32>(static_cast<System::Byte>(85)),
         static_cast<System::Int32>(static_cast<System::Byte>(179)));
-    this->label1->Location = System::Drawing::Point(777, 9);
-    this->label1->Name = L"label1";
-    this->label1->Size = System::Drawing::Size(119, 26);
-    this->label1->TabIndex = 16;
-    this->label1->Text = L"username";
+    this->UsernameLbl->Location = System::Drawing::Point(794, 9);
+    this->UsernameLbl->Name = L"UsernameLbl";
+    this->UsernameLbl->Size = System::Drawing::Size(119, 26);
+    this->UsernameLbl->TabIndex = 16;
+    this->UsernameLbl->Text = L"username";
+    this->UsernameLbl->TextAlign = System::Drawing::ContentAlignment::TopRight;
     // 
     // ServiceForm
     // 
@@ -286,7 +295,7 @@ void MainClient::ServiceForm::InitializeComponent(void)
     this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(136)), static_cast<System::Int32>(static_cast<System::Byte>(201)),
         static_cast<System::Int32>(static_cast<System::Byte>(227)));
     this->ClientSize = System::Drawing::Size(925, 544);
-    this->Controls->Add(this->label1);
+    this->Controls->Add(this->UsernameLbl);
     this->Controls->Add(this->btnUnsub3);
     this->Controls->Add(this->btnSub3);
     this->Controls->Add(this->btnUnsub2);

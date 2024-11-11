@@ -139,7 +139,7 @@ System::Void MainClient::UserDetailsForm::btnLogIn_Click(System::Object^ sender,
         client->sendUserDetails();
 
         this->Hide();
-        ServiceForm^ serviceForm = gcnew ServiceForm();
+        ServiceForm^ serviceForm = gcnew ServiceForm(userName);
         serviceForm->ShowDialog();
         this->Close();
     } else {

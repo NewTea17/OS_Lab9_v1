@@ -12,6 +12,7 @@ namespace MainClient {
 	{
 	public:
 		ServiceForm(void);
+		ServiceForm(String^ userName);
 
 	protected:
 		~ServiceForm();
@@ -40,7 +41,9 @@ namespace MainClient {
 
 		System::Windows::Forms::Button^ btnSub3;
 		System::Windows::Forms::Button^ btnUnsub3;
-	private: System::Windows::Forms::Label^ label1;
+	private: System::Windows::Forms::Label^ UsernameLbl;
+
+
 
 		System::ComponentModel::Container ^components;
 

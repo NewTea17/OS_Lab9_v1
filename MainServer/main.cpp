@@ -6,7 +6,7 @@ int main() {
 
 	server.displayServices();
 
-	// server.run();
+	server.run();
 
 
 	return 0;
