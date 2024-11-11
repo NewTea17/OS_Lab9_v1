@@ -123,6 +123,8 @@ System::Void MainClient::UserDetailsForm::UserDetailsForm_Load(System::Object^ s
 
 }
 
+
+// TODO: Create authorization
 System::Void MainClient::UserDetailsForm::btnLogIn_Click(System::Object^ sender, System::EventArgs^ e)
 {
     System::String^ userName = textBoxName->Text;
@@ -133,15 +135,19 @@ System::Void MainClient::UserDetailsForm::btnLogIn_Click(System::Object^ sender,
     if (currentUser->isValid()) {
         MessageBox::Show("Login successful!", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
 
-        Client^ client = gcnew Client();
-        client->setUserDetails(currentUser);
+        try {
+            Client^ client = gcnew Client();
+            client->setUserDetails(currentUser);
 
-        client->sendUserDetails();
+            client->sendUserDetails();
 
-        this->Hide();
-        ServiceForm^ serviceForm = gcnew ServiceForm(userName);
-        serviceForm->ShowDialog();
-        this->Close();
+            this->Hide();
+            ServiceForm^ serviceForm = gcnew ServiceForm(userName);
+            serviceForm->ShowDialog();
+            this->Close();
+        } catch (Exception^ ex) {
+            MessageBox::Show("Failed to send user details!", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+        }
     } else {
         MessageBox::Show("Invalid name or email.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
     }
