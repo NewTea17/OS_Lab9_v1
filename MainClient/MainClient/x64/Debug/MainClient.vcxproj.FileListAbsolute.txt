@@ -1,0 +1,4 @@
+G:\OS_Lab9_v1\MainClient\MainClient\x64\Debug\MainClient.vcxproj.AssemblyReference.cache
+G:\OS_Lab9_v1\MainClient\MainClient\x64\Debug\MainClient.ServiceForm.resources
+G:\OS_Lab9_v1\MainClient\MainClient\x64\Debug\MainClient.UserDetailsForm.resources
+G:\OS_Lab9_v1\MainClient\MainClient\x64\Debug\MainClient.vcxproj.GenerateResource.cache
