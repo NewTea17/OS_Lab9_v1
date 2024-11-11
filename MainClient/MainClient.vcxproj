@@ -125,6 +125,7 @@
     <ClCompile Include="ServiceForm.cpp" />
     <ClCompile Include="UserDetails.cpp" />
     <ClCompile Include="UserDetailsForm.cpp" />
+    <ClCompile Include="WeatherForecastServiceForm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -142,6 +143,9 @@
     <ClInclude Include="UserDetailsForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="WeatherForecastServiceForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ServiceForm.resx">
@@ -149,6 +153,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserDetailsForm.resx">
       <DependentUpon>UserDetailsForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WeatherForecastServiceForm.resx">
+      <DependentUpon>WeatherForecastServiceForm.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
