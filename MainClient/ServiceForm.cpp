@@ -1,8 +1,10 @@
 #include "ServiceForm.h"
+#include "StockForecastForm.h"
+#include <fstream>  // Для роботи з файлами
 
 MainClient::ServiceForm::ServiceForm(void)
 {
-	InitializeComponent();
+	InitializeComponent(nullptr);
 }
 
 MainClient::ServiceForm::~ServiceForm()
@@ -14,12 +16,13 @@ MainClient::ServiceForm::~ServiceForm()
 
 MainClient::ServiceForm::ServiceForm(String^ userName)
 {
-    InitializeComponent();
+    InitializeComponent(userName);
     UsernameLbl->Text = userName;
 }
 
-void MainClient::ServiceForm::InitializeComponent(void)
+void MainClient::ServiceForm::InitializeComponent(String^ nameOfUser)
 {
+    this->nameOfUser = nameOfUser;
     System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(ServiceForm::typeid));
     this->ServicesLbl = (gcnew System::Windows::Forms::Label());
     this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
@@ -281,7 +284,7 @@ void MainClient::ServiceForm::InitializeComponent(void)
         static_cast<System::Byte>(0)));
     this->UsernameLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(34)), static_cast<System::Int32>(static_cast<System::Byte>(85)),
         static_cast<System::Int32>(static_cast<System::Byte>(179)));
-    this->UsernameLbl->Location = System::Drawing::Point(794, 9);
+    this->UsernameLbl->Location = System::Drawing::Point(758, 9);
     this->UsernameLbl->Name = L"UsernameLbl";
     this->UsernameLbl->Size = System::Drawing::Size(119, 26);
     this->UsernameLbl->TabIndex = 16;
@@ -335,7 +338,24 @@ System::Void MainClient::ServiceForm::btnSub1_Click(System::Object^ sender, Syst
 
 System::Void MainClient::ServiceForm::btnSub2_Click(System::Object^ sender, System::EventArgs^ e)
 {
-	return System::Void();
+    // Створюємо нове вікно StockForecastForm
+    StockForecastForm^ stockForecastForm = gcnew StockForecastForm();
+
+    // Додаємо ім'я користувача в файл
+    std::ofstream userFile("usersOfStockService.txt", std::ios::app);  // Відкриваємо файл для дописування
+    if (userFile.is_open()) {
+        // Перетворюємо nameOfUser на std::string
+        IntPtr ptr1 = Marshal::StringToHGlobalAnsi(nameOfUser);
+        std::string userName = static_cast<char*>(ptr1.ToPointer()); // Конвертуємо в std::string
+        Marshal::FreeHGlobal(ptr1);
+        userFile << userName << std::endl;  // Додаємо ім'я користувача у файл
+        userFile.close();  // Закриваємо файл
+    }
+    else {
+        MessageBox::Show("Не вдалося відкрити файл для запису.", "Помилка", MessageBoxButtons::OK, MessageBoxIcon::Error);
+    }
+
+    stockForecastForm->Show();
 }
 
 System::Void MainClient::ServiceForm::btnSub3_Click(System::Object^ sender, System::EventArgs^ e)

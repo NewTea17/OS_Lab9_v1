@@ -7,6 +7,7 @@ namespace MainClient {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace System::Runtime::InteropServices;
 
 	public ref class ServiceForm : public System::Windows::Forms::Form
 	{
@@ -17,7 +18,8 @@ namespace MainClient {
 	protected:
 		~ServiceForm();
 
-	private: 
+	private:
+		String^ nameOfUser;
 		System::Windows::Forms::Label^ ServicesLbl;
 
 		System::Windows::Forms::PictureBox^ pictureBox1;
@@ -48,7 +50,7 @@ namespace MainClient {
 		System::ComponentModel::Container ^components;
 
 
-		void InitializeComponent(void);
+		void InitializeComponent(String^ nameOfUser);
 
 		System::Void btnSub1_Click(System::Object^ sender, System::EventArgs^ e);
 		System::Void btnSub2_Click(System::Object^ sender, System::EventArgs^ e);

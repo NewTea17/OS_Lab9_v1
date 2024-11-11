@@ -1,4 +1,5 @@
   MainClient.ServiceForm.resources - Embedded, ContainedInManifestFile, 
+  MainClient.StockForecastForm.resources - Embedded, ContainedInManifestFile, 
   MainClient.UserDetailsForm.resources - Embedded, ContainedInManifestFile, 
 ImageRuntimeVersion: v4.0.30319
 Assembly MainClient, Version=0.0.*, Culture=Invariant Language (Invariant Country): 
@@ -21,4 +22,7 @@ Class MainClient.UserDetailsForm: AutoLayout, AnsiClass, Class, Public, BeforeFi
 Class MainClient.ServiceForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(System.String): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class MainClient.StockForecastForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName

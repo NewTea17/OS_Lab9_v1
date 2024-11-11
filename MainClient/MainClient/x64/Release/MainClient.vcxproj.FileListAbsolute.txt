@@ -1,4 +1,5 @@
 G:\OS_Lab9_v1\MainClient\MainClient\x64\Release\MainClient.vcxproj.AssemblyReference.cache
 G:\OS_Lab9_v1\MainClient\MainClient\x64\Release\MainClient.ServiceForm.resources
+G:\OS_Lab9_v1\MainClient\MainClient\x64\Release\MainClient.StockForecastForm.resources
 G:\OS_Lab9_v1\MainClient\MainClient\x64\Release\MainClient.UserDetailsForm.resources
 G:\OS_Lab9_v1\MainClient\MainClient\x64\Release\MainClient.vcxproj.GenerateResource.cache
