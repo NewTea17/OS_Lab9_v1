@@ -1,4 +1,5 @@
 #include "ServiceForm.h"
+#include "WeatherForecastServiceForm.h"
 
 MainClient::ServiceForm::ServiceForm(void)
 {
@@ -328,9 +329,14 @@ void MainClient::ServiceForm::InitializeComponent(void)
 
 }
 
+// weather forecast
 System::Void MainClient::ServiceForm::btnSub1_Click(System::Object^ sender, System::EventArgs^ e)
 {
-	return System::Void();
+    this->Hide();
+    WeatherForecastServiceForm^ weatherForecastForm = gcnew WeatherForecastServiceForm();
+    weatherForecastForm->AddSubscriberToList(UsernameLbl->Text);
+    weatherForecastForm->ShowDialog();
+    this->Close();
 }
 
 System::Void MainClient::ServiceForm::btnSub2_Click(System::Object^ sender, System::EventArgs^ e)

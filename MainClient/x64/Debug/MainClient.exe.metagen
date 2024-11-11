@@ -1,5 +1,6 @@
   MainClient.ServiceForm.resources - Embedded, ContainedInManifestFile, 
   MainClient.UserDetailsForm.resources - Embedded, ContainedInManifestFile, 
+  MainClient.WeatherForecastServiceForm.resources - Embedded, ContainedInManifestFile, 
 ImageRuntimeVersion: v4.0.30319
 Assembly MainClient, Version=0.0.*, Culture=Invariant Language (Invariant Country): 
 	hash=SHA1, flags=PublicKey
@@ -22,3 +23,8 @@ Class MainClient.ServiceForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldI
   :System.Windows.Forms.Form
     Void .ctor(System.String): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class MainClient.WeatherForecastServiceForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    AddSubscriberToList(String): PrivateScope, Public, HideBySig

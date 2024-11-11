@@ -13,15 +13,22 @@ namespace MainClient {
 	public:
 		WeatherForecastServiceForm(void);
 
+		System::Void AddSubscriberToList(String^ userName);
+
 	protected:
 		~WeatherForecastServiceForm();
-	private: System::Windows::Forms::Label^ weatherForecastLbl;
-	protected:
-
-	protected:
 
 	private:
-		System::ComponentModel::Container ^components;
+		System::Windows::Forms::Label^ weatherForecastLbl;
+		System::Windows::Forms::TextBox^ weatherInformationBox;
+		System::Windows::Forms::Label^ weatherInfoLbl;
+
+		System::Windows::Forms::TextBox^ subscribersListBox;
+		System::Windows::Forms::Label^ subscribersListLbl;
+
+
+	private:
+		System::ComponentModel::Container^ components;
 
 		void InitializeComponent(void);
 	};
