@@ -10,8 +10,7 @@ MainClient::UserDetailsForm::UserDetailsForm(void)
 
 MainClient::UserDetailsForm::~UserDetailsForm()
 {
-	if (components)
-	{
+	if (components) {
 		delete components;
 	}
 }
@@ -126,24 +125,24 @@ System::Void MainClient::UserDetailsForm::UserDetailsForm_Load(System::Object^ s
 
 System::Void MainClient::UserDetailsForm::btnLogIn_Click(System::Object^ sender, System::EventArgs^ e)
 {
-    // Отримуємо введені користувачем дані з текстових полів
     System::String^ userName = textBoxName->Text;
     System::String^ userEmail = textBoxEmail->Text;
 
-    // Створюємо об'єкт UserDetails з отриманими даними (якщо клас UserDetails відповідає за валідацію)
-    UserDetails currentUser(userName, userEmail);
+    UserDetails^ currentUser = gcnew UserDetails(userName, userEmail);
 
-    // Перевірка облікових даних
-    if (currentUser.isValid()) {
-        // Якщо облікові дані коректні, показуємо повідомлення
+    if (currentUser->isValid()) {
         MessageBox::Show("Login successful!", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
 
-        // Відкриваємо нову форму ServiceForm
+        Client^ client = gcnew Client();
+        client->setUserDetails(currentUser);
+
+        client->sendUserDetails();
+
+        this->Hide();
         ServiceForm^ serviceForm = gcnew ServiceForm();
-        serviceForm->Show();
-    }
-    else {
-        // Якщо облікові дані некоректні, виводимо повідомлення про помилку
+        serviceForm->ShowDialog();
+        this->Close();
+    } else {
         MessageBox::Show("Invalid name or email.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
     }
 }

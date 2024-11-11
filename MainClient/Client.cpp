@@ -13,20 +13,16 @@ Client::Client()
 
 Client::~Client()
 {
-    if (hPipe != INVALID_HANDLE_VALUE) 
-    {
+    if (hPipe != INVALID_HANDLE_VALUE) {
         CloseHandle(hPipe);
     }
 }
 
 void Client::setUserDetails(const UserDetails^ user)
 {
-    if (user != nullptr)
-    {
+    if (user != nullptr) {
         userDetails = gcnew UserDetails(user->name, user->email);
-    }
-    else
-    {
+    } else {
         userDetails = nullptr;
     }
 }
