@@ -27,11 +27,12 @@ namespace MainClient {
 
 		System::Windows::Forms::TextBox^ subscribersListBox;
 		System::Windows::Forms::Label^ subscribersListLbl;
-
-
-	private:
-		System::ComponentModel::Container^ components;
+		System::Windows::Forms::Timer^ updateTimer;
+		
+		System::ComponentModel::IContainer^ components;
 
 		void InitializeComponent(void);
+
+		System::Void OnUpdateTimerTick(System::Object^ sender, System::EventArgs^ e);
 	};
 }

@@ -6,6 +6,16 @@
 MainClient::WeatherForecastServiceForm::WeatherForecastServiceForm(void)
 {
 	InitializeComponent();
+
+    this->updateTimer = gcnew System::Windows::Forms::Timer();
+    this->updateTimer->Interval = 5000;  // 5000 мілісекунд = 5 секунд
+    this->updateTimer->Tick += gcnew System::EventHandler(this, &MainClient::WeatherForecastServiceForm::OnUpdateTimerTick);
+    this->updateTimer->Start();
+}
+
+System::Void MainClient::WeatherForecastServiceForm::OnUpdateTimerTick(System::Object^ sender, System::EventArgs^ e)
+{
+    UpdateSubscribersList();
 }
 
 System::Void MainClient::WeatherForecastServiceForm::AddSubscriberToList(String^ userName)
@@ -49,11 +59,13 @@ MainClient::WeatherForecastServiceForm::~WeatherForecastServiceForm()
 
 void MainClient::WeatherForecastServiceForm::InitializeComponent(void)
 {
+    this->components = (gcnew System::ComponentModel::Container());
     this->weatherForecastLbl = (gcnew System::Windows::Forms::Label());
     this->weatherInformationBox = (gcnew System::Windows::Forms::TextBox());
     this->weatherInfoLbl = (gcnew System::Windows::Forms::Label());
     this->subscribersListBox = (gcnew System::Windows::Forms::TextBox());
     this->subscribersListLbl = (gcnew System::Windows::Forms::Label());
+    this->updateTimer = (gcnew System::Windows::Forms::Timer(this->components));
     this->SuspendLayout();
     // 
     // weatherForecastLbl
