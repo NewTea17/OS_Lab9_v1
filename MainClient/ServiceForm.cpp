@@ -1,3 +1,6 @@
+#include <fstream>
+#include <msclr/marshal.h>
+
 #include "ServiceForm.h"
 #include "WeatherForecastServiceForm.h"
 
@@ -332,6 +335,17 @@ void MainClient::ServiceForm::InitializeComponent(void)
 // weather forecast
 System::Void MainClient::ServiceForm::btnSub1_Click(System::Object^ sender, System::EventArgs^ e)
 {
+    IntPtr ptrToNativeString = System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(UsernameLbl->Text);
+    std::string userName = static_cast<const char*>(ptrToNativeString.ToPointer());
+    System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToNativeString);
+
+    std::ofstream file("usersOfWeatherService.txt", std::ios::app);
+    if (file.is_open())
+    {
+        file << userName << std::endl;  
+        file.close();              
+    }
+
     this->Hide();
     WeatherForecastServiceForm^ weatherForecastForm = gcnew WeatherForecastServiceForm();
     weatherForecastForm->AddSubscriberToList(UsernameLbl->Text);
