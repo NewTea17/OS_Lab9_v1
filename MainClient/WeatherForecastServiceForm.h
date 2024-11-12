@@ -33,6 +33,8 @@ namespace MainClient {
 
 		void InitializeComponent(void);
 
+		void LoadWeatherForecast();
+
 		System::Void OnUpdateTimerTick(System::Object^ sender, System::EventArgs^ e);
 	};
 }

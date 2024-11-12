@@ -1,0 +1,11 @@
+City        Monday    Tuesday    Wednesday    Thursday    Friday    Saturday    Sunday
+NewYork     15°C      14°C        13°C          11°C        9°C       8°C         10°C
+London      12°C      11°C        10°C          9°C         11°C      12°C        13°C
+Paris       14°C      13°C        12°C          11°C        13°C      14°C        15°C
+Tokyo       16°C      17°C        15°C          14°C        16°C      18°C        19°C
+Sydney      22°C      23°C        24°C          25°C        24°C      23°C        22°C
+MexicoCity  21°C      20°C        19°C          20°C        22°C      23°C        24°C
+Berlin      8°C       7°C         6°C           5°C         4°C       3°C         6°C
+Lviv        2°C       1°C         -1°C          -2°C        0°C       1°C         2°C
+CapeTown    18°C      19°C        20°C          21°C        20°C      19°C        18°C
+Kiev        26°C      27°C        28°C          29°C        28°C      27°C        26°C

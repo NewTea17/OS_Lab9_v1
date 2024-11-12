@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <sstream>
 #include <string>
 #include <fstream>
 #include "WeatherForecastServiceForm.h"
@@ -6,6 +7,8 @@
 MainClient::WeatherForecastServiceForm::WeatherForecastServiceForm(void)
 {
 	InitializeComponent();
+
+    LoadWeatherForecast();
 
     this->updateTimer = gcnew System::Windows::Forms::Timer();
     this->updateTimer->Interval = 5000;  // 5000 мілісекунд = 5 секунд
@@ -83,12 +86,15 @@ void MainClient::WeatherForecastServiceForm::InitializeComponent(void)
     // 
     // weatherInformationBox
     // 
+    this->weatherInformationBox->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+        static_cast<System::Byte>(0)));
     this->weatherInformationBox->Location = System::Drawing::Point(59, 120);
     this->weatherInformationBox->Multiline = true;
     this->weatherInformationBox->Name = L"weatherInformationBox";
     this->weatherInformationBox->ReadOnly = true;
-    this->weatherInformationBox->ScrollBars = System::Windows::Forms::ScrollBars::Vertical;
-    this->weatherInformationBox->Size = System::Drawing::Size(478, 382);
+    this->weatherInformationBox->WordWrap = false;
+    this->weatherInformationBox->ScrollBars = System::Windows::Forms::ScrollBars::Horizontal;
+    this->weatherInformationBox->Size = System::Drawing::Size(556, 382);
     this->weatherInformationBox->TabIndex = 1;
     // 
     // weatherInfoLbl
@@ -151,3 +157,61 @@ void MainClient::WeatherForecastServiceForm::InitializeComponent(void)
     this->PerformLayout();
 
 }
+
+void MainClient::WeatherForecastServiceForm::LoadWeatherForecast()
+{
+    std::ifstream file("weather_forecast.txt");
+    if (file.is_open())
+    {
+        std::string line;
+        bool isFirstLine = true;
+
+        while (std::getline(file, line))
+        {
+            std::istringstream ss(line);
+            std::string city;
+            std::string monday, tuesday, wednesday, thursday, friday, saturday, sunday;
+
+            ss >> city >> monday >> tuesday >> wednesday >> thursday >> friday >> saturday >> sunday;
+
+            String^ cityStr = gcnew String(city.c_str());
+            String^ mondayStr = gcnew String(monday.c_str());
+            String^ tuesdayStr = gcnew String(tuesday.c_str());
+            String^ wednesdayStr = gcnew String(wednesday.c_str());
+            String^ thursdayStr = gcnew String(thursday.c_str());
+            String^ fridayStr = gcnew String(friday.c_str());
+            String^ saturdayStr = gcnew String(saturday.c_str());
+            String^ sundayStr = gcnew String(sunday.c_str());
+
+            String^ formattedLine = cityStr->PadRight(15) + " "  
+                + mondayStr->PadRight(15)  
+                + tuesdayStr->PadRight(15)
+                + wednesdayStr->PadRight(15)
+                + thursdayStr->PadRight(15)
+                + fridayStr->PadRight(15)
+                + saturdayStr->PadRight(15)
+                + sundayStr->PadRight(15);
+
+            if (isFirstLine)
+            {
+                weatherInformationBox->Font = (gcnew System::Drawing::Font(L"Courier New", 12, System::Drawing::FontStyle::Bold)); // Моноширинний шрифт
+                isFirstLine = false;  
+            }
+            else
+            {
+                weatherInformationBox->Font = (gcnew System::Drawing::Font(L"Courier New", 12, System::Drawing::FontStyle::Regular)); // Моноширинний шрифт
+            }
+
+            weatherInformationBox->AppendText(formattedLine + Environment::NewLine);
+        }
+        file.close();
+    }
+    else
+    {
+        MessageBox::Show("Failed to load weather forecast data.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+    }
+}
+
+
+
+
