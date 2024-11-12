@@ -17,6 +17,8 @@ namespace MainClient {
 
 		System::Void UpdateSubscribersList();
 
+		void UpdateWeatherTemperature();
+
 	protected:
 		~WeatherForecastServiceForm();
 
@@ -28,7 +30,8 @@ namespace MainClient {
 		System::Windows::Forms::TextBox^ subscribersListBox;
 		System::Windows::Forms::Label^ subscribersListLbl;
 		System::Windows::Forms::Timer^ updateTimer;
-		
+	private: System::Windows::Forms::Timer^ weatherTimer;
+
 		System::ComponentModel::IContainer^ components;
 
 		void InitializeComponent(void);
@@ -36,5 +39,6 @@ namespace MainClient {
 		void LoadWeatherForecast();
 
 		System::Void OnUpdateTimerTick(System::Object^ sender, System::EventArgs^ e);
+		System::Void OnWeatherTimerTick(System::Object^ sender, System::EventArgs^ e);
 	};
 }
