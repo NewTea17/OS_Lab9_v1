@@ -1,4 +1,10 @@
-NewYork 15 11 11 7 12 5 18
-NewYork 10 13 18 13 15 8 7
-NewYork 14 17 13 6 6 4 15
-NewYork 13 15 12 6 19 7 11
+NewYork 17 21 30 14 9 -7 -2
+London 19 20 -7 3 -2 17 22
+Paris 18 9 19 -6 12 9 27
+Tokyo 28 25 10 32 25 17 10
+Sydney 18 22 21 21 20 13 22
+MexicoCity 17 13 29 7 30 34 31
+Berlin 11 17 11 3 -2 -2 23
+Lviv 9 -5 -12 -6 -4 3 20
+CapeTown 16 29 41 31 16 20 30
+Kiev 8 16 21 9 6 36 29
