@@ -1,3 +1,4 @@
+﻿#include <iostream>
 #include <fstream>
 #include <msclr/marshal.h>
 
@@ -342,14 +343,17 @@ System::Void MainClient::ServiceForm::btnSub1_Click(System::Object^ sender, Syst
     std::ofstream file("usersOfWeatherService.txt", std::ios::app);
     if (file.is_open())
     {
-        file << userName << std::endl;  
-        file.close();              
+        file << userName << std::endl;
+        file.close();
     }
 
     this->Hide();
+
     WeatherForecastServiceForm^ weatherForecastForm = gcnew WeatherForecastServiceForm();
-    weatherForecastForm->AddSubscriberToList(UsernameLbl->Text);
+
+    weatherForecastForm->UpdateSubscribersList();  // Оновлюємо список користувачів
     weatherForecastForm->ShowDialog();
+
     this->Close();
 }
 

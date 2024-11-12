@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 namespace MainClient {
 	using namespace System;
@@ -14,6 +14,8 @@ namespace MainClient {
 		WeatherForecastServiceForm(void);
 
 		System::Void AddSubscriberToList(String^ userName);
+
+		System::Void UpdateSubscribersList();
 
 	protected:
 		~WeatherForecastServiceForm();

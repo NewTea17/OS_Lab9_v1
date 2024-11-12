@@ -28,3 +28,4 @@ Class MainClient.WeatherForecastServiceForm: AutoLayout, AnsiClass, Class, Publi
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
   Methods:
     AddSubscriberToList(String): PrivateScope, Public, HideBySig
+    UpdateSubscribersList(): PrivateScope, Public, HideBySig

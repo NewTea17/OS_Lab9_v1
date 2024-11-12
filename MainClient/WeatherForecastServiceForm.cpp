@@ -1,4 +1,7 @@
-﻿#include "WeatherForecastServiceForm.h"
+﻿#include <iostream>
+#include <string>
+#include <fstream>
+#include "WeatherForecastServiceForm.h"
 
 MainClient::WeatherForecastServiceForm::WeatherForecastServiceForm(void)
 {
@@ -11,6 +14,27 @@ System::Void MainClient::WeatherForecastServiceForm::AddSubscriberToList(String^
         subscribersListBox->ReadOnly = false;
 
         subscribersListBox->AppendText(userName + Environment::NewLine);
+
+        subscribersListBox->ReadOnly = true;
+    }
+}
+
+System::Void MainClient::WeatherForecastServiceForm::UpdateSubscribersList()
+{
+    subscribersListBox->Clear();
+
+    std::ifstream file("usersOfWeatherService.txt");
+    if (file.is_open())
+    {
+        subscribersListBox->ReadOnly = false;
+
+        std::string line;
+        while (std::getline(file, line))
+        {
+            String^ userName = gcnew String(line.c_str()); 
+            subscribersListBox->AppendText(userName + Environment::NewLine); 
+        }
+        file.close();
 
         subscribersListBox->ReadOnly = true;
     }
