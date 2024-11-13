@@ -29,8 +29,9 @@ namespace MainClient {
 
 		System::Windows::Forms::TextBox^ subscribersListBox;
 		System::Windows::Forms::Label^ subscribersListLbl;
+
 		System::Windows::Forms::Timer^ updateTimer;
-	private: System::Windows::Forms::Timer^ weatherTimer;
+		System::Windows::Forms::Timer^ weatherTimer;
 
 		System::ComponentModel::IContainer^ components;
 

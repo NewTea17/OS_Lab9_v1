@@ -3,12 +3,32 @@
 #include <string>
 #include <fstream>
 #include <random>
+#include <Windows.h> 
 
 #include "WeatherForecastServiceForm.h"
+
+HANDLE hFileMutex = CreateMutex(NULL, FALSE, L"Global\\WeatherForecastMutex");
+bool isMasterClient = false;
 
 MainClient::WeatherForecastServiceForm::WeatherForecastServiceForm(void)
 {
 	InitializeComponent();
+
+	std::ifstream masterFile("master_client.txt");
+	if (masterFile.is_open()) {
+		std::string status;
+		masterFile >> status;
+		if (status == "true") {
+			isMasterClient = false;  
+		}
+		else {
+			isMasterClient = true;   
+			std::ofstream outFile("master_client.txt");
+			outFile << "true";
+			outFile.close();
+		}
+		masterFile.close();
+	}
 
 	LoadWeatherForecast();
 
@@ -18,7 +38,7 @@ MainClient::WeatherForecastServiceForm::WeatherForecastServiceForm(void)
 	this->updateTimer->Start();
 
 	this->weatherTimer = gcnew System::Windows::Forms::Timer();
-	this->weatherTimer->Interval = 5000;  // 5000 мілісекунд = 5 секунд
+	this->weatherTimer->Interval = 5000;  // 36000000 мілісекунд = 1 год
 	this->weatherTimer->Tick += gcnew System::EventHandler(this, &MainClient::WeatherForecastServiceForm::OnWeatherTimerTick);
 	this->weatherTimer->Start();
 }
@@ -63,64 +83,94 @@ System::Void MainClient::WeatherForecastServiceForm::UpdateSubscribersList()
 
 		subscribersListBox->ReadOnly = true;
 	}
+	else
+	{
+		MessageBox::Show("Unable to load subscribers list. The file might be missing or inaccessible.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+	}
 }
 
 void MainClient::WeatherForecastServiceForm::UpdateWeatherTemperature()
 {
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_int_distribution<> dist(-3, 3); 
+	DWORD dwWaitResult = WaitForSingleObject(hFileMutex, 5000);
 
-	std::ifstream file("weather_forecast.txt");
-	if (file.is_open())
-	{
-		std::stringstream updatedData;
+	if (dwWaitResult == WAIT_OBJECT_0) {
+		try {
+			std::ifstream file("weather_forecast.txt");
+			if (file.is_open()) {
+				std::stringstream updatedData;
+				std::string line;
 
-		std::string line;
-		while (std::getline(file, line))
-		{
-			std::istringstream ss(line);
-			std::string city, monday, tuesday, wednesday, thursday, friday, saturday, sunday;
+				if (isMasterClient) {
+					std::random_device rd;
+					std::mt19937 gen(rd());
+					std::uniform_int_distribution<> dist(-3, 3);
 
-			ss >> city >> monday >> tuesday >> wednesday >> thursday >> friday >> saturday >> sunday;
+					while (std::getline(file, line)) {
+						std::istringstream ss(line);
+						std::string city, monday, tuesday, wednesday, thursday, friday, saturday, sunday;
 
-			monday = std::to_string(std::stoi(monday) + dist(gen));
-			tuesday = std::to_string(std::stoi(tuesday) + dist(gen));
-			wednesday = std::to_string(std::stoi(wednesday) + dist(gen));
-			thursday = std::to_string(std::stoi(thursday) + dist(gen));
-			friday = std::to_string(std::stoi(friday) + dist(gen));
-			saturday = std::to_string(std::stoi(saturday) + dist(gen));
-			sunday = std::to_string(std::stoi(sunday) + dist(gen));
+						ss >> city >> monday >> tuesday >> wednesday >> thursday >> friday >> saturday >> sunday;
 
-			updatedData << city << " "
-				<< monday << " "
-				<< tuesday << " "
-				<< wednesday << " "
-				<< thursday << " "
-				<< friday << " "
-				<< saturday << " "
-				<< sunday << "\n";
+						monday = std::to_string(std::stoi(monday) + dist(gen));
+						tuesday = std::to_string(std::stoi(tuesday) + dist(gen));
+						wednesday = std::to_string(std::stoi(wednesday) + dist(gen));
+						thursday = std::to_string(std::stoi(thursday) + dist(gen));
+						friday = std::to_string(std::stoi(friday) + dist(gen));
+						saturday = std::to_string(std::stoi(saturday) + dist(gen));
+						sunday = std::to_string(std::stoi(sunday) + dist(gen));
+
+						updatedData << city << " "
+							<< monday << " "
+							<< tuesday << " "
+							<< wednesday << " "
+							<< thursday << " "
+							<< friday << " "
+							<< saturday << " "
+							<< sunday << "\n";
+					}
+					file.close();
+
+					std::ofstream outFile("weather_forecast.txt", std::ios::trunc);
+					if (outFile.is_open()) {
+						outFile << updatedData.str();
+						outFile.close();
+					}
+					else {
+						MessageBox::Show("Failed to save updated weather forecast data.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+					}
+				}
+				else {
+					updatedData << file.rdbuf(); 
+					file.close();
+				}
+
+				LoadWeatherForecast();
+			}
+			else {
+				MessageBox::Show("Failed to load weather forecast data.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+			}
+		}
+		catch (...) {
+			MessageBox::Show("An error occurred during weather forecast update.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
 		}
 
-		file.close();
-
-		std::ofstream outFile("weather_forecast.txt", std::ios::trunc);
-		if (outFile.is_open())
-		{
-			outFile << updatedData.str();
-			outFile.close();
-		}
-
-		LoadWeatherForecast();
+		ReleaseMutex(hFileMutex);
 	}
-	else
-	{
-		MessageBox::Show("Failed to load weather forecast data.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+	else {
+		MessageBox::Show("Another client is updating the weather forecast. Please try again later.", "Info", MessageBoxButtons::OK, MessageBoxIcon::Information);
 	}
 }
 
 MainClient::WeatherForecastServiceForm::~WeatherForecastServiceForm()
 {
+	if (isMasterClient) {
+		std::ofstream masterFile("master_client.txt");
+		if (masterFile.is_open()) {
+			masterFile << "false";
+			masterFile.close();
+		}
+	}
+
 	if (components) {
 		delete components;
 	}
@@ -230,13 +280,11 @@ void MainClient::WeatherForecastServiceForm::LoadWeatherForecast()
 	weatherInformationBox->Clear();
 
 	std::ifstream file("weather_forecast.txt");
-	if (file.is_open())
-	{
+	if (file.is_open()) {
 		std::string line;
 		bool isFirstLine = true;
 
-		while (std::getline(file, line))
-		{
+		while (std::getline(file, line)) {
 			std::istringstream ss(line);
 			std::string city;
 			std::string monday, tuesday, wednesday, thursday, friday, saturday, sunday;
@@ -262,26 +310,18 @@ void MainClient::WeatherForecastServiceForm::LoadWeatherForecast()
 				+ saturdayStr->PadRight(15)
 				+ sundayStr->PadRight(15);
 
-			if (isFirstLine)
-			{
+			if (isFirstLine) {
 				weatherInformationBox->Font = (gcnew System::Drawing::Font(L"Courier New", 12, System::Drawing::FontStyle::Bold)); // Моноширинний шрифт
 				isFirstLine = false;
-			}
-			else
-			{
+			} else {
 				weatherInformationBox->Font = (gcnew System::Drawing::Font(L"Courier New", 12, System::Drawing::FontStyle::Regular)); // Моноширинний шрифт
 			}
 
 			weatherInformationBox->AppendText(formattedLine + Environment::NewLine);
 		}
 		file.close();
-	}
-	else
-	{
+	} else {
 		MessageBox::Show("Failed to load weather forecast data.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
 	}
 }
-
-
-
 
