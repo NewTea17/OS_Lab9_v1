@@ -1,4 +1,5 @@
   MainClient.ServiceForm.resources - Embedded, ContainedInManifestFile, 
+  MainClient.StockForecastForm1.resources - Embedded, ContainedInManifestFile, 
   MainClient.UserDetailsForm.resources - Embedded, ContainedInManifestFile, 
   MainClient.WeatherForecastServiceForm.resources - Embedded, ContainedInManifestFile, 
 ImageRuntimeVersion: v4.0.30319
@@ -30,3 +31,10 @@ Class MainClient.WeatherForecastServiceForm: AutoLayout, AnsiClass, Class, Publi
     AddSubscriberToList(String): PrivateScope, Public, HideBySig
     UpdateSubscribersList(): PrivateScope, Public, HideBySig
     UpdateWeatherTemperature(): PrivateScope, Public, HideBySig
+Class MainClient.StockForecastForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    AddSubscriberToList(String): PrivateScope, Public, HideBySig
+    UpdateSubscribersList(): PrivateScope, Public, HideBySig
+    UpdateStocksPrices(): PrivateScope, Public, HideBySig
