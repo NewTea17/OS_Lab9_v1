@@ -26,3 +26,7 @@ Class MainClient.ServiceForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldI
 Class MainClient.StockForecastForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    AddSubscriberToList(String): PrivateScope, Public, HideBySig
+    UpdateSubscribersList(): PrivateScope, Public, HideBySig
+    UpdateStocksPrices(): PrivateScope, Public, HideBySig

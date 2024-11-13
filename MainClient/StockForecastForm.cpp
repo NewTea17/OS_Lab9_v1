@@ -1,30 +1,183 @@
-#include "StockForecastForm.h"
-#include <fstream>
-#include <string>
 #include <sstream>
-#include <msclr/marshal_cppstd.h>
+#include <string>
+#include <fstream>
+#include <random>
+#include <Windows.h> 
+#include <iostream>
+#include <iomanip>
+
+#include "StockForecastForm.h"
+
+HANDLE hFileMutex = CreateMutex(NULL, FALSE, L"Global\\StocksForecastMutex");
+bool isMasterClient = false;
 
 MainClient::StockForecastForm::StockForecastForm(void)
 {
 	InitializeComponent();
+
+	std::ifstream masterFile("master_client2.txt");
+	if (masterFile.is_open()) {
+		std::string status;
+		masterFile >> status;
+		if (status == "true") {
+			isMasterClient = false;
+		}
+		else {
+			isMasterClient = true;
+			std::ofstream outFile("master_client2.txt");
+			outFile << "true";
+			outFile.close();
+		}
+		masterFile.close();
+	}
+
+	LoadStocksForecast();
+
+	this->updateTimer = gcnew System::Windows::Forms::Timer();
+	this->updateTimer->Interval = 5000;  // 5000 мілісекунд = 5 секунд
+	this->updateTimer->Tick += gcnew System::EventHandler(this, &MainClient::StockForecastForm::OnUpdateTimerTick);
+	this->updateTimer->Start();
+
+	this->stocksTimer = gcnew System::Windows::Forms::Timer();
+	this->stocksTimer->Interval = 5000;  // 36000000 мілісекунд = 1 год
+	this->stocksTimer->Tick += gcnew System::EventHandler(this, &MainClient::StockForecastForm::OnStocksTimerTick);
+	this->stocksTimer->Start();
 }
+
+System::Void MainClient::StockForecastForm::OnUpdateTimerTick(System::Object^ sender, System::EventArgs^ e)
+{
+	UpdateSubscribersList();
+}
+
+System::Void MainClient::StockForecastForm::OnStocksTimerTick(System::Object^ sender, System::EventArgs^ e)
+{
+	UpdateStocksPrices();
+}
+
+System::Void MainClient::StockForecastForm::AddSubscriberToList(String^ userName)
+{
+	if (!String::IsNullOrWhiteSpace(userName)) {
+		txtUserList->ReadOnly = false;
+
+		txtUserList->AppendText(userName + Environment::NewLine);
+
+		txtUserList->ReadOnly = true;
+	}
+}
+
+System::Void MainClient::StockForecastForm::UpdateSubscribersList()
+{
+	txtUserList->Clear();
+
+	std::ifstream file("usersOfStocksService.txt");
+	if (file.is_open())
+	{
+		txtUserList->ReadOnly = false;
+
+		std::string line;
+		while (std::getline(file, line))
+		{
+			String^ userName = gcnew String(line.c_str());
+			txtUserList->AppendText(userName + Environment::NewLine);
+		}
+		file.close();
+
+		txtUserList->ReadOnly = true;
+	}
+	else
+	{
+		MessageBox::Show("Unable to load subscribers list. The file might be missing or inaccessible.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+	}
+}
+
+void MainClient::StockForecastForm::UpdateStocksPrices()
+{
+	DWORD dwWaitResult = WaitForSingleObject(hFileMutex, 5000);
+
+	if (dwWaitResult == WAIT_OBJECT_0) {
+		try {
+			std::ifstream file("stocks_forecast.txt");
+			if (file.is_open()) {
+				std::stringstream updatedData;
+				std::string line;
+
+				if (isMasterClient) {
+					std::random_device rd;
+					std::mt19937 gen(rd());
+					std::uniform_real_distribution<> dist(-5.0, 5.0); // Рандомні зміни для ціни акцій
+
+					while (std::getline(file, line)) {
+						std::istringstream ss(line);
+						std::string company;
+						double price;
+
+						ss >> company >> price;
+
+						// Додаємо випадкове значення до поточної ціни
+						price += dist(gen);
+						updatedData << company << " " << std::fixed << std::setprecision(2) << price << "\n";
+					}
+					file.close();
+
+					// Записуємо оновлені дані назад у файл
+					std::ofstream outFile("stocks_forecast.txt", std::ios::trunc);
+					if (outFile.is_open()) {
+						outFile << updatedData.str();
+						outFile.close();
+					}
+					else {
+						MessageBox::Show("Failed to save updated stocks data.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+					}
+				}
+				else {
+					// Читаємо поточний вміст файлу для інших клієнтів
+					updatedData << file.rdbuf();
+					file.close();
+				}
+
+				LoadStocksForecast(); // Метод для завантаження та відображення оновлених даних
+			}
+			else {
+				MessageBox::Show("Failed to load stocks data.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+			}
+		}
+		catch (...) {
+			MessageBox::Show("An error occurred during stocks update.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+		}
+
+		ReleaseMutex(hFileMutex);
+	}
+	else {
+		MessageBox::Show("Another client is updating the stocks data. Please try again later.", "Info", MessageBoxButtons::OK, MessageBoxIcon::Information);
+	}
+}
+
 
 MainClient::StockForecastForm::~StockForecastForm()
 {
-	if (components)
-	{
+	if (isMasterClient) {
+		std::ofstream masterFile("master_client2.txt");
+		if (masterFile.is_open()) {
+			masterFile << "false";
+			masterFile.close();
+		}
+	}
+
+	if (components) {
 		delete components;
 	}
 }
 
 void MainClient::StockForecastForm::InitializeComponent(void)
 {
+	this->components = (gcnew System::ComponentModel::Container());
 	this->titleLbl = (gcnew System::Windows::Forms::Label());
 	this->userListLbl = (gcnew System::Windows::Forms::Label());
 	this->txtUserList = (gcnew System::Windows::Forms::TextBox());
 	this->txtStocksInfo = (gcnew System::Windows::Forms::TextBox());
 	this->stocksInfoLbl = (gcnew System::Windows::Forms::Label());
-	this->startUpdatesBtn = (gcnew System::Windows::Forms::Button());
+	this->updateTimer = (gcnew System::Windows::Forms::Timer(this->components));
+	this->stocksTimer = (gcnew System::Windows::Forms::Timer(this->components));
 	this->SuspendLayout();
 	// 
 	// titleLbl
@@ -34,7 +187,7 @@ void MainClient::StockForecastForm::InitializeComponent(void)
 		static_cast<System::Byte>(0)));
 	this->titleLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(120)), static_cast<System::Int32>(static_cast<System::Byte>(44)),
 		static_cast<System::Int32>(static_cast<System::Byte>(158)));
-	this->titleLbl->Location = System::Drawing::Point(12, 30);
+	this->titleLbl->Location = System::Drawing::Point(159, 33);
 	this->titleLbl->Name = L"titleLbl";
 	this->titleLbl->Size = System::Drawing::Size(643, 38);
 	this->titleLbl->TabIndex = 0;
@@ -90,20 +243,6 @@ void MainClient::StockForecastForm::InitializeComponent(void)
 	this->stocksInfoLbl->TabIndex = 4;
 	this->stocksInfoLbl->Text = L"Stocks information (company name/price/status):";
 	// 
-	// startUpdatesBtn
-	// 
-	this->startUpdatesBtn->Font = (gcnew System::Drawing::Font(L"Elephant", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
-		static_cast<System::Byte>(0)));
-	this->startUpdatesBtn->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(152)), static_cast<System::Int32>(static_cast<System::Byte>(48)),
-		static_cast<System::Int32>(static_cast<System::Byte>(156)));
-	this->startUpdatesBtn->Location = System::Drawing::Point(722, 30);
-	this->startUpdatesBtn->Name = L"startUpdatesBtn";
-	this->startUpdatesBtn->Size = System::Drawing::Size(180, 42);
-	this->startUpdatesBtn->TabIndex = 5;
-	this->startUpdatesBtn->Text = L"Start updates";
-	this->startUpdatesBtn->UseVisualStyleBackColor = true;
-	this->startUpdatesBtn->Click += gcnew System::EventHandler(this, &StockForecastForm::startUpdatesBtn_Click);
-	// 
 	// StockForecastForm
 	// 
 	this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
@@ -111,7 +250,6 @@ void MainClient::StockForecastForm::InitializeComponent(void)
 	this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(220)), static_cast<System::Int32>(static_cast<System::Byte>(188)),
 		static_cast<System::Int32>(static_cast<System::Byte>(227)));
 	this->ClientSize = System::Drawing::Size(925, 544);
-	this->Controls->Add(this->startUpdatesBtn);
 	this->Controls->Add(this->stocksInfoLbl);
 	this->Controls->Add(this->txtStocksInfo);
 	this->Controls->Add(this->txtUserList);
@@ -126,71 +264,40 @@ void MainClient::StockForecastForm::InitializeComponent(void)
 
 }
 
-// Таймер та методи оновлення у клас StockForecastForm
-void MainClient::StockForecastForm::StartStockUpdates() {
-	System::Threading::Timer^ stockUpdateTimer = gcnew System::Threading::Timer(
-		gcnew System::Threading::TimerCallback(this, &StockForecastForm::UpdateStocks),
-		nullptr, 0, 15000);  // оновлення кожні 15 секунд
-}
-
-void MainClient::StockForecastForm::UpdateStocks(Object^ state)
+void MainClient::StockForecastForm::LoadStocksForecast()
 {
-	std::ifstream stockFile("stocks.txt");
-	if (!stockFile.is_open()) {
-		MessageBox::Show("Не вдалося відкрити файл з акціями.", "Помилка", MessageBoxButtons::OK, MessageBoxIcon::Error);
-		return;
+	txtStocksInfo->Clear();
+
+	std::ifstream file("stocks_forecast.txt");
+	if (file.is_open()) {
+		std::string line;
+		bool isFirstLine = true;
+
+		while (std::getline(file, line)) {
+			std::istringstream ss(line);
+			std::string company;
+			std::string price;
+
+			ss >> company >> price;
+
+			String^ companyStr = gcnew String(company.c_str());
+			String^ priceStr = gcnew String(price.c_str());
+
+			String^ formattedLine = companyStr->PadRight(20) + priceStr->PadRight(10);
+
+			if (isFirstLine) {
+				txtStocksInfo->Font = (gcnew System::Drawing::Font(L"Courier New", 12, System::Drawing::FontStyle::Bold)); // Моноширинний шрифт для першого рядка
+				isFirstLine = false;
+			}
+			else {
+				txtStocksInfo->Font = (gcnew System::Drawing::Font(L"Courier New", 12, System::Drawing::FontStyle::Regular)); // Моноширинний шрифт для інших рядків
+			}
+
+			txtStocksInfo->AppendText(formattedLine + Environment::NewLine);
+		}
+		file.close();
 	}
-	std::string line, updatedStocksInfo;
-
-	std::stringstream newFileContent;
-
-	while (std::getline(stockFile, line)) {
-		std::istringstream ss(line);
-		std::string company;
-		double price;
-		ss >> company >> price;
-
-		double percentChange = ((rand() % 21) - 10) / 100.0; // зміна на +-10%
-		double newPrice = price * (1 + percentChange);
-		std::string status = percentChange >= 0 ? "зросла" : "впала";
-
-		updatedStocksInfo += company + " - $" + std::to_string(newPrice) + " (" + status + ")\n";
-		newFileContent << company << " " << newPrice << std::endl;  // для запису у файл
+	else {
+		MessageBox::Show("Failed to load stocks forecast.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
 	}
-
-	stockFile.close();
-
-	// Записуємо оновлені дані у файл
-	std::ofstream outFile("stocks.txt", std::ios::trunc);
-	outFile << newFileContent.str();
-	outFile.close();
-
-	// Оновлюємо текстове поле
-	txtStocksInfo->Text = gcnew String(updatedStocksInfo.c_str());
-}
-
-
-void MainClient::StockForecastForm::UpdateUserList()
-{
-	std::ifstream userFile("users.txt");
-	if (!userFile.is_open()) {
-		MessageBox::Show("Не вдалося відкрити файл користувачів.", "Помилка", MessageBoxButtons::OK, MessageBoxIcon::Error);
-		return;
-	}
-
-	std::string line, userList;
-	while (std::getline(userFile, line)) {
-		userList += line + "\n"; // Збираємо всі рядки у std::string
-	}
-
-	userFile.close();
-
-	// Перетворюємо весь накопичений std::string в System::String
-	txtUserList->Text = gcnew String(userList.c_str()); // Оновлюємо текстове поле
-}
-
-System::Void MainClient::StockForecastForm::startUpdatesBtn_Click(System::Object^ sender, System::EventArgs^ e)
-{
-	UpdateStocks(nullptr); // Оновлюємо акції
-	UpdateUserList();      // Оновлюємо список користувачів
 }

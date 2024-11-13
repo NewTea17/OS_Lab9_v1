@@ -336,26 +336,28 @@ System::Void MainClient::ServiceForm::btnSub1_Click(System::Object^ sender, Syst
 	return System::Void();
 }
 
+//Stocks forecast
 System::Void MainClient::ServiceForm::btnSub2_Click(System::Object^ sender, System::EventArgs^ e)
 {
-    // Створюємо нове вікно StockForecastForm
+    IntPtr ptrToNativeString = System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(UsernameLbl->Text);
+    std::string userName = static_cast<const char*>(ptrToNativeString.ToPointer());
+    System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToNativeString);
+
+    std::ofstream file("usersOfStocksService.txt", std::ios::app);
+    if (file.is_open())
+    {
+        file << userName << std::endl;
+        file.close();
+    }
+
+    this->Hide();
+
     StockForecastForm^ stockForecastForm = gcnew StockForecastForm();
 
-    // Додаємо ім'я користувача в файл
-    std::ofstream userFile("usersOfStockService.txt", std::ios::app);  // Відкриваємо файл для дописування
-    if (userFile.is_open()) {
-        // Перетворюємо nameOfUser на std::string
-        IntPtr ptr1 = Marshal::StringToHGlobalAnsi(nameOfUser);
-        std::string userName = static_cast<char*>(ptr1.ToPointer()); // Конвертуємо в std::string
-        Marshal::FreeHGlobal(ptr1);
-        userFile << userName << std::endl;  // Додаємо ім'я користувача у файл
-        userFile.close();  // Закриваємо файл
-    }
-    else {
-        MessageBox::Show("Не вдалося відкрити файл для запису.", "Помилка", MessageBoxButtons::OK, MessageBoxIcon::Error);
-    }
+    stockForecastForm->UpdateSubscribersList();  // Оновлюємо список користувачів
+    stockForecastForm->ShowDialog();
 
-    stockForecastForm->Show();
+    this->Close();
 }
 
 System::Void MainClient::ServiceForm::btnSub3_Click(System::Object^ sender, System::EventArgs^ e)
