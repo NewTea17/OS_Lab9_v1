@@ -4,6 +4,7 @@
 
 #include "ServiceForm.h"
 #include "WeatherForecastServiceForm.h"
+#include "StockForecastForm1.h"
 
 MainClient::ServiceForm::ServiceForm(void)
 {
@@ -357,9 +358,28 @@ System::Void MainClient::ServiceForm::btnSub1_Click(System::Object^ sender, Syst
     this->Close();
 }
 
+//Stocks forecast
 System::Void MainClient::ServiceForm::btnSub2_Click(System::Object^ sender, System::EventArgs^ e)
 {
-	return System::Void();
+    IntPtr ptrToNativeString = System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(UsernameLbl->Text);
+    std::string userName = static_cast<const char*>(ptrToNativeString.ToPointer());
+    System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToNativeString);
+
+    std::ofstream file("usersOfStocksService.txt", std::ios::app);
+    if (file.is_open())
+    {
+        file << userName << std::endl;
+        file.close();
+    }
+
+    this->Hide();
+
+    StockForecastForm^ stockForecastForm = gcnew StockForecastForm();
+
+    stockForecastForm->UpdateSubscribersList();  // Оновлюємо список користувачів
+    stockForecastForm->ShowDialog();
+
+    this->Close();
 }
 
 System::Void MainClient::ServiceForm::btnSub3_Click(System::Object^ sender, System::EventArgs^ e)

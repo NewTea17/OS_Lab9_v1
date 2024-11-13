@@ -205,7 +205,7 @@ void MainClient::WeatherForecastServiceForm::InitializeComponent(void)
 	// 
 	this->weatherInformationBox->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 		static_cast<System::Byte>(0)));
-	this->weatherInformationBox->Location = System::Drawing::Point(59, 120);
+	this->weatherInformationBox->Location = System::Drawing::Point(29, 120);
 	this->weatherInformationBox->Multiline = true;
 	this->weatherInformationBox->Name = L"weatherInformationBox";
 	this->weatherInformationBox->ReadOnly = true;
@@ -221,11 +221,11 @@ void MainClient::WeatherForecastServiceForm::InitializeComponent(void)
 		static_cast<System::Byte>(0)));
 	this->weatherInfoLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(192)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 		static_cast<System::Int32>(static_cast<System::Byte>(192)));
-	this->weatherInfoLbl->Location = System::Drawing::Point(56, 89);
+	this->weatherInfoLbl->Location = System::Drawing::Point(24, 91);
 	this->weatherInfoLbl->Name = L"weatherInfoLbl";
-	this->weatherInfoLbl->Size = System::Drawing::Size(559, 26);
+	this->weatherInfoLbl->Size = System::Drawing::Size(560, 26);
 	this->weatherInfoLbl->TabIndex = 2;
-	this->weatherInfoLbl->Text = L"Weather information (сity name/m, tu, w, th, f, sat, sun)";
+	this->weatherInfoLbl->Text = L"Weather information (city name/m, tu, w, th, f, sat, sun)";
 	// 
 	// subscribersListBox
 	// 

@@ -123,6 +123,7 @@
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ServiceForm.cpp" />
+    <ClCompile Include="StockForecastForm1.cpp" />
     <ClCompile Include="UserDetails.cpp" />
     <ClCompile Include="UserDetailsForm.cpp" />
     <ClCompile Include="WeatherForecastServiceForm.cpp" />
@@ -139,6 +140,9 @@
     <ClInclude Include="ServiceForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="StockForecastForm1.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="UserDetails.h" />
     <ClInclude Include="UserDetailsForm.h">
       <FileType>CppForm</FileType>
@@ -150,6 +154,9 @@
   <ItemGroup>
     <EmbeddedResource Include="ServiceForm.resx">
       <DependentUpon>ServiceForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockForecastForm1.resx">
+      <DependentUpon>StockForecastForm1.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserDetailsForm.resx">
       <DependentUpon>UserDetailsForm.h</DependentUpon>

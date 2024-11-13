@@ -60,9 +60,9 @@ void Client::sendUserDetails()
 bool Client::isUserRegistered(const std::string& userName)
 {
     if (
-        isUserInFile(userName, "usersOfWeatherService.txt") //||
-        /*isUserInFile(userName, "someFile2.txt") ||            // Here yours file !!!!!!!!!!!!!!
-        isUserInFile(userName, "someFile3.txt")*/               // Here yours file !!!!!!!!!!!!!!
+        isUserInFile(userName, "usersOfWeatherService.txt") ||
+        isUserInFile(userName, "usersOfStocksService.txt")
+        //isUserInFile(userName, "someFile3.txt")               // Here yours file !!!!!!!!!!!!!!
         ) {
         return true;
     }
