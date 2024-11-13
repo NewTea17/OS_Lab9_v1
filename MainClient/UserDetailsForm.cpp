@@ -145,6 +145,8 @@ System::Void MainClient::UserDetailsForm::btnLogIn_Click(System::Object^ sender,
             ServiceForm^ serviceForm = gcnew ServiceForm(userName);
             serviceForm->ShowDialog();
             this->Close();
+        } catch (InvalidOperationException^ ex) {
+            MessageBox::Show(ex->Message, "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
         } catch (Exception^ ex) {
             MessageBox::Show("Failed to send user details!", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
         }
