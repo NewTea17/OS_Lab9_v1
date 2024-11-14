@@ -418,13 +418,15 @@ void MainClient::ServiceForm::onUnSub(const std::string& filename)
 
     std::vector<std::string> lines;
     std::string line;
-
+    
     while (std::getline(inputFile, line)) {
         if (line != userName) {
             lines.push_back(line);
         }
     }
     inputFile.close();
+
+    MessageBox::Show("Unsubscription successful!", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
 
     std::ofstream outputFile(filename, std::ios::trunc);
     if (!outputFile.is_open()) {
