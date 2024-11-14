@@ -121,6 +121,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="CurrencyForm.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ServiceForm.cpp" />
     <ClCompile Include="StockForecastForm1.cpp" />
@@ -137,6 +138,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
+    <ClInclude Include="CurrencyForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="ServiceForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -152,6 +156,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CurrencyForm.resx">
+      <DependentUpon>CurrencyForm.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ServiceForm.resx">
       <DependentUpon>ServiceForm.h</DependentUpon>
     </EmbeddedResource>

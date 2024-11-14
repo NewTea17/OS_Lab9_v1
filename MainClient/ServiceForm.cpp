@@ -8,6 +8,7 @@
 #include "ServiceForm.h"
 #include "WeatherForecastServiceForm.h"
 #include "StockForecastForm1.h"
+#include "CurrencyForm.h"
 
 MainClient::ServiceForm::ServiceForm(void)
 {
@@ -387,7 +388,25 @@ System::Void MainClient::ServiceForm::btnSub2_Click(System::Object^ sender, Syst
 
 System::Void MainClient::ServiceForm::btnSub3_Click(System::Object^ sender, System::EventArgs^ e)
 {
-	return System::Void();
+    IntPtr ptrToNativeString = System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(UsernameLbl->Text);
+    std::string userName = static_cast<const char*>(ptrToNativeString.ToPointer());
+    System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToNativeString);
+
+    std::ofstream file("usersOfCurrencyService.txt", std::ios::app);
+    if (file.is_open())
+    {
+        file << userName << std::endl;
+        file.close();
+    }
+
+    this->Hide();
+
+    CurrencyForm^ currencyForm = gcnew CurrencyForm();
+
+    currencyForm->UpdateSubscribersList();
+    currencyForm->ShowDialog();
+
+    this->Close();
 }
 
 System::Void MainClient::ServiceForm::btnUnsub1_Click(System::Object^ sender, System::EventArgs^ e)
@@ -402,7 +421,7 @@ System::Void MainClient::ServiceForm::btnUnsub2_Click(System::Object^ sender, Sy
 
 System::Void MainClient::ServiceForm::btnUnsub3_Click(System::Object^ sender, System::EventArgs^ e)
 {
-	return System::Void();
+    onUnSub("usersOfCurrencyService.txt");
 }
 
 void MainClient::ServiceForm::onUnSub(const std::string& filename)
