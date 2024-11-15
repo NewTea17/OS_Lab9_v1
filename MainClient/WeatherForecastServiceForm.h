@@ -45,6 +45,8 @@ namespace MainClient {
 		void InitializeComponent(void);
 		void LoadWeatherForecast();
 
+		bool CheckIfUserIsSubscribed(String^ userName);
+
 		System::Void OnUpdateTimerTick(System::Object^ sender, System::EventArgs^ e);
 		System::Void OnWeatherTimerTick(System::Object^ sender, System::EventArgs^ e);
 

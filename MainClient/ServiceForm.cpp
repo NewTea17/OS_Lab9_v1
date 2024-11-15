@@ -348,11 +348,14 @@ System::Void MainClient::ServiceForm::btnSub1_Click(System::Object^ sender, Syst
     std::string userName = static_cast<const char*>(ptrToNativeString.ToPointer());
     System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToNativeString);
 
-    std::ofstream file("usersOfWeatherService.txt", std::ios::app);
-    if (file.is_open())
+    if (btnSub1->Text != "Watch")
     {
-        file << userName << std::endl;
-        file.close();
+        std::ofstream file("usersOfWeatherService.txt", std::ios::app);
+        if (file.is_open())
+        {
+            file << userName << std::endl;
+            file.close();
+        }
     }
 
     this->Hide();
@@ -450,6 +453,7 @@ void MainClient::ServiceForm::onUnSub(const std::string& filename, size_t type)
 
     if (type == 1) {
         btnSub1->Visible = true;
+        btnSub1->Text = "Subscribe";
         btnUnsub1->Visible = false;
     }
     else if (type == 2) {

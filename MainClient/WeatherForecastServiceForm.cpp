@@ -34,11 +34,22 @@ System::Void MainClient::WeatherForecastServiceForm::OnWeatherTimerTick(System::
 
 System::Void MainClient::WeatherForecastServiceForm::btnGoBack_Click(System::Object^ sender, System::EventArgs^ e)
 {
+	bool isSubscribed = CheckIfUserIsSubscribed(UsernameLbl->Text);  
+
 	this->Hide();
 
 	ServiceForm^ form = gcnew ServiceForm(UsernameLbl->Text);
-	form->btnSub1->Visible = false;
-	form->btnUnsub1->Visible = true;
+
+	if (isSubscribed) {
+		form->btnSub1->Text = "Watch";
+		form->btnSub1->Visible = true;
+		form->btnUnsub1->Visible = true;
+	}
+	else {
+		form->btnSub1->Visible = true;
+		form->btnUnsub1->Visible = false;
+	}
+
 	form->ShowDialog();
 
 	this->Close();
@@ -384,5 +395,22 @@ void MainClient::WeatherForecastServiceForm::LoadWeatherForecast()
 	} else {
 		MessageBox::Show("Failed to load weather forecast data.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
 	}
+}
+
+bool MainClient::WeatherForecastServiceForm::CheckIfUserIsSubscribed(String^ userName)
+{
+	std::ifstream file("usersOfWeatherService.txt");
+	if (file.is_open()) {
+		std::string line;
+		while (std::getline(file, line)) {
+			String^ subscriber = gcnew String(line.c_str());
+			if (subscriber == userName) {
+				file.close();
+				return true;
+			}
+		}
+		file.close();
+	}
+	return false;
 }
 
