@@ -203,8 +203,11 @@ void MainClient::WeatherForecastServiceForm::InitializeComponent(void)
 	// 
 	// weatherInformationBox
 	// 
-	this->weatherInformationBox->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+	this->weatherInformationBox->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(254)),
+		static_cast<System::Int32>(static_cast<System::Byte>(227)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+	this->weatherInformationBox->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 		static_cast<System::Byte>(0)));
+	this->weatherInformationBox->ForeColor = System::Drawing::SystemColors::WindowText;
 	this->weatherInformationBox->Location = System::Drawing::Point(29, 120);
 	this->weatherInformationBox->Multiline = true;
 	this->weatherInformationBox->Name = L"weatherInformationBox";
@@ -219,8 +222,8 @@ void MainClient::WeatherForecastServiceForm::InitializeComponent(void)
 	this->weatherInfoLbl->AutoSize = true;
 	this->weatherInfoLbl->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 		static_cast<System::Byte>(0)));
-	this->weatherInfoLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(192)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
-		static_cast<System::Int32>(static_cast<System::Byte>(192)));
+	this->weatherInfoLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(152)), static_cast<System::Int32>(static_cast<System::Byte>(48)),
+		static_cast<System::Int32>(static_cast<System::Byte>(156)));
 	this->weatherInfoLbl->Location = System::Drawing::Point(24, 91);
 	this->weatherInfoLbl->Name = L"weatherInfoLbl";
 	this->weatherInfoLbl->Size = System::Drawing::Size(560, 26);
@@ -229,10 +232,12 @@ void MainClient::WeatherForecastServiceForm::InitializeComponent(void)
 	// 
 	// subscribersListBox
 	// 
-	this->subscribersListBox->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+	this->subscribersListBox->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(254)),
+		static_cast<System::Int32>(static_cast<System::Byte>(227)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+	this->subscribersListBox->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 		static_cast<System::Byte>(0)));
-	this->subscribersListBox->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(192)),
-		static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(192)));
+	this->subscribersListBox->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(152)),
+		static_cast<System::Int32>(static_cast<System::Byte>(48)), static_cast<System::Int32>(static_cast<System::Byte>(156)));
 	this->subscribersListBox->Location = System::Drawing::Point(626, 120);
 	this->subscribersListBox->Multiline = true;
 	this->subscribersListBox->Name = L"subscribersListBox";
@@ -246,8 +251,8 @@ void MainClient::WeatherForecastServiceForm::InitializeComponent(void)
 	this->subscribersListLbl->AutoSize = true;
 	this->subscribersListLbl->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 		static_cast<System::Byte>(0)));
-	this->subscribersListLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(192)),
-		static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(192)));
+	this->subscribersListLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(152)),
+		static_cast<System::Int32>(static_cast<System::Byte>(48)), static_cast<System::Int32>(static_cast<System::Byte>(156)));
 	this->subscribersListLbl->Location = System::Drawing::Point(621, 91);
 	this->subscribersListLbl->Name = L"subscribersListLbl";
 	this->subscribersListLbl->Size = System::Drawing::Size(195, 26);

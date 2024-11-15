@@ -44,10 +44,6 @@ void Client::sendUserDetails()
     std::string username = context.marshal_as<std::string>(userDetails->name);
     std::string userEmail = context.marshal_as<std::string>(userDetails->email);
 
-    if (isUserRegistered(username)) {
-        throw gcnew System::InvalidOperationException("User is already registered with this username!");
-    }
-
     std::string message = username + " " + userEmail;
     DWORD bytesWritten;
 

@@ -1,5 +1,8 @@
 ﻿#include <iostream>
 #include <fstream>
+#include <vector>
+#include <string>
+
 #include <msclr/marshal.h>
 
 #include "ServiceForm.h"
@@ -376,7 +379,7 @@ System::Void MainClient::ServiceForm::btnSub2_Click(System::Object^ sender, Syst
 
     StockForecastForm^ stockForecastForm = gcnew StockForecastForm();
 
-    stockForecastForm->UpdateSubscribersList();  // Оновлюємо список користувачів
+    stockForecastForm->UpdateSubscribersList();  
     stockForecastForm->ShowDialog();
 
     this->Close();
@@ -389,15 +392,49 @@ System::Void MainClient::ServiceForm::btnSub3_Click(System::Object^ sender, Syst
 
 System::Void MainClient::ServiceForm::btnUnsub1_Click(System::Object^ sender, System::EventArgs^ e)
 {
-	return System::Void();
+    onUnSub("usersOfWeatherService.txt");
 }
 
 System::Void MainClient::ServiceForm::btnUnsub2_Click(System::Object^ sender, System::EventArgs^ e)
 {
-	return System::Void();
+    onUnSub("usersOfStocksService.txt");
 }
 
 System::Void MainClient::ServiceForm::btnUnsub3_Click(System::Object^ sender, System::EventArgs^ e)
 {
 	return System::Void();
+}
+
+void MainClient::ServiceForm::onUnSub(const std::string& filename)
+{
+    IntPtr ptrToNativeString = System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(UsernameLbl->Text);
+    std::string userName = static_cast<const char*>(ptrToNativeString.ToPointer());
+    System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToNativeString);
+
+    std::ifstream inputFile(filename);
+    if (!inputFile.is_open()) {
+        throw gcnew System::IO::IOException("Unable to open the subscription file for reading!");
+    }
+
+    std::vector<std::string> lines;
+    std::string line;
+    
+    while (std::getline(inputFile, line)) {
+        if (line != userName) {
+            lines.push_back(line);
+        }
+    }
+    inputFile.close();
+
+    MessageBox::Show("Unsubscription successful!", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+
+    std::ofstream outputFile(filename, std::ios::trunc);
+    if (!outputFile.is_open()) {
+        throw gcnew System::IO::IOException("Unable to open the subscription file for writing!");
+    }
+
+    for (const auto& l : lines) {
+        outputFile << l << std::endl;
+    }
+    outputFile.close();
 }
