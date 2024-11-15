@@ -4,3 +4,4 @@ G:\OS_Lab9_v1\MainClient\MainClient\x64\Release\MainClient.UserDetailsForm.resou
 G:\OS_Lab9_v1\MainClient\MainClient\x64\Release\MainClient.vcxproj.GenerateResource.cache
 G:\OS_Lab9_v1\MainClient\MainClient\x64\Release\MainClient.WeatherForecastServiceForm.resources
 G:\OS_Lab9_v1\MainClient\MainClient\x64\Release\MainClient.StockForecastForm1.resources
+G:\OS_Lab9_v1\MainClient\MainClient\x64\Release\MainClient.CurrencyForm.resources
