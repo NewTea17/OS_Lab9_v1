@@ -157,8 +157,6 @@ MainClient::CurrencyForm::~CurrencyForm()
     }
 }
 
-
-
 void MainClient::CurrencyForm::InitializeComponent(void)
 {
     this->currencyInfoLbl = (gcnew System::Windows::Forms::Label());

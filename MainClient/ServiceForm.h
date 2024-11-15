@@ -36,6 +36,8 @@ namespace MainClient {
 		System::Windows::Forms::Label^ exchangeLbl;
 
 		System::Windows::Forms::Label^ stockLbl2;
+
+	public:
 		System::Windows::Forms::Button^ btnSub1;
 		System::Windows::Forms::Button^ btnUnsub1;
 
@@ -45,7 +47,7 @@ namespace MainClient {
 		System::Windows::Forms::Button^ btnSub3;
 		System::Windows::Forms::Button^ btnUnsub3;
 
-
+	private:
 		System::ComponentModel::Container ^components;
 
 

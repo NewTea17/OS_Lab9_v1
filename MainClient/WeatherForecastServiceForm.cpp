@@ -5,6 +5,7 @@
 #include <random>
 #include <Windows.h> 
 
+#include "ServiceForm.h"
 #include "WeatherForecastServiceForm.h"
 
 HANDLE hFileMutex = CreateMutex(NULL, FALSE, L"Global\\WeatherForecastMutex");
@@ -12,35 +13,13 @@ bool isMasterClient = false;
 
 MainClient::WeatherForecastServiceForm::WeatherForecastServiceForm(void)
 {
-	InitializeComponent();
+	Init();
+}
 
-	std::ifstream masterFile("master_client.txt");
-	if (masterFile.is_open()) {
-		std::string status;
-		masterFile >> status;
-		if (status == "true") {
-			isMasterClient = false;  
-		}
-		else {
-			isMasterClient = true;   
-			std::ofstream outFile("master_client.txt");
-			outFile << "true";
-			outFile.close();
-		}
-		masterFile.close();
-	}
-
-	LoadWeatherForecast();
-
-	this->updateTimer = gcnew System::Windows::Forms::Timer();
-	this->updateTimer->Interval = 5000;  // 5000 мілісекунд = 5 секунд
-	this->updateTimer->Tick += gcnew System::EventHandler(this, &MainClient::WeatherForecastServiceForm::OnUpdateTimerTick);
-	this->updateTimer->Start();
-
-	this->weatherTimer = gcnew System::Windows::Forms::Timer();
-	this->weatherTimer->Interval = 5000;  // 36000000 мілісекунд = 1 год
-	this->weatherTimer->Tick += gcnew System::EventHandler(this, &MainClient::WeatherForecastServiceForm::OnWeatherTimerTick);
-	this->weatherTimer->Start();
+MainClient::WeatherForecastServiceForm::WeatherForecastServiceForm(String^ userName)
+{
+	Init();
+	UsernameLbl->Text = userName;
 }
 
 System::Void MainClient::WeatherForecastServiceForm::OnUpdateTimerTick(System::Object^ sender, System::EventArgs^ e)
@@ -51,6 +30,18 @@ System::Void MainClient::WeatherForecastServiceForm::OnUpdateTimerTick(System::O
 System::Void MainClient::WeatherForecastServiceForm::OnWeatherTimerTick(System::Object^ sender, System::EventArgs^ e)
 {
 	UpdateWeatherTemperature();
+}
+
+System::Void MainClient::WeatherForecastServiceForm::btnGoBack_Click(System::Object^ sender, System::EventArgs^ e)
+{
+	this->Hide();
+
+	ServiceForm^ form = gcnew ServiceForm(UsernameLbl->Text);
+	form->btnSub1->Visible = false;
+	form->btnUnsub1->Visible = true;
+	form->ShowDialog();
+
+	this->Close();
 }
 
 System::Void MainClient::WeatherForecastServiceForm::AddSubscriberToList(String^ userName)
@@ -176,6 +167,39 @@ MainClient::WeatherForecastServiceForm::~WeatherForecastServiceForm()
 	}
 }
 
+void MainClient::WeatherForecastServiceForm::Init()
+{
+	InitializeComponent();
+
+	std::ifstream masterFile("master_client.txt");
+	if (masterFile.is_open()) {
+		std::string status;
+		masterFile >> status;
+		if (status == "true") {
+			isMasterClient = false;
+		}
+		else {
+			isMasterClient = true;
+			std::ofstream outFile("master_client.txt");
+			outFile << "true";
+			outFile.close();
+		}
+		masterFile.close();
+	}
+
+	LoadWeatherForecast();
+
+	this->updateTimer = gcnew System::Windows::Forms::Timer();
+	this->updateTimer->Interval = 5000;  // 5000 мілісекунд = 5 секунд
+	this->updateTimer->Tick += gcnew System::EventHandler(this, &MainClient::WeatherForecastServiceForm::OnUpdateTimerTick);
+	this->updateTimer->Start();
+
+	this->weatherTimer = gcnew System::Windows::Forms::Timer();
+	this->weatherTimer->Interval = 5000;  // 36000000 мілісекунд = 1 год
+	this->weatherTimer->Tick += gcnew System::EventHandler(this, &MainClient::WeatherForecastServiceForm::OnWeatherTimerTick);
+	this->weatherTimer->Start();
+}
+
 void MainClient::WeatherForecastServiceForm::InitializeComponent(void)
 {
 	this->components = (gcnew System::ComponentModel::Container());
@@ -186,6 +210,8 @@ void MainClient::WeatherForecastServiceForm::InitializeComponent(void)
 	this->subscribersListLbl = (gcnew System::Windows::Forms::Label());
 	this->updateTimer = (gcnew System::Windows::Forms::Timer(this->components));
 	this->weatherTimer = (gcnew System::Windows::Forms::Timer(this->components));
+	this->btnGoBack = (gcnew System::Windows::Forms::Button());
+	this->UsernameLbl = (gcnew System::Windows::Forms::Label());
 	this->SuspendLayout();
 	// 
 	// weatherForecastLbl
@@ -259,6 +285,34 @@ void MainClient::WeatherForecastServiceForm::InitializeComponent(void)
 	this->subscribersListLbl->TabIndex = 4;
 	this->subscribersListLbl->Text = L"Current users list:";
 	// 
+	// btnGoBack
+	// 
+	this->btnGoBack->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Bold));
+	this->btnGoBack->ForeColor = System::Drawing::SystemColors::ActiveCaption;
+	this->btnGoBack->Location = System::Drawing::Point(12, 12);
+	this->btnGoBack->Name = L"btnGoBack";
+	this->btnGoBack->Size = System::Drawing::Size(123, 40);
+	this->btnGoBack->TabIndex = 5;
+	this->btnGoBack->Text = L"Go back";
+	this->btnGoBack->UseVisualStyleBackColor = true;
+	this->btnGoBack->Click += gcnew System::EventHandler(this, &WeatherForecastServiceForm::btnGoBack_Click);
+	// 
+	// UsernameLbl
+	// 
+	this->UsernameLbl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
+		| System::Windows::Forms::AnchorStyles::Right));
+	this->UsernameLbl->AutoSize = true;
+	this->UsernameLbl->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+		static_cast<System::Byte>(0)));
+	this->UsernameLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(34)), static_cast<System::Int32>(static_cast<System::Byte>(85)),
+		static_cast<System::Int32>(static_cast<System::Byte>(179)));
+	this->UsernameLbl->Location = System::Drawing::Point(776, 19);
+	this->UsernameLbl->Name = L"UsernameLbl";
+	this->UsernameLbl->Size = System::Drawing::Size(119, 26);
+	this->UsernameLbl->TabIndex = 16;
+	this->UsernameLbl->Text = L"username";
+	this->UsernameLbl->TextAlign = System::Drawing::ContentAlignment::TopRight;
+	// 
 	// WeatherForecastServiceForm
 	// 
 	this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
@@ -266,6 +320,8 @@ void MainClient::WeatherForecastServiceForm::InitializeComponent(void)
 	this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(220)), static_cast<System::Int32>(static_cast<System::Byte>(188)),
 		static_cast<System::Int32>(static_cast<System::Byte>(227)));
 	this->ClientSize = System::Drawing::Size(925, 544);
+	this->Controls->Add(this->UsernameLbl);
+	this->Controls->Add(this->btnGoBack);
 	this->Controls->Add(this->subscribersListLbl);
 	this->Controls->Add(this->subscribersListBox);
 	this->Controls->Add(this->weatherInfoLbl);

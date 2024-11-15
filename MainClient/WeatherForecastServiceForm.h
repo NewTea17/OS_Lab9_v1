@@ -12,6 +12,7 @@ namespace MainClient {
 	{
 	public:
 		WeatherForecastServiceForm(void);
+		WeatherForecastServiceForm(String^ userName);
 
 		System::Void AddSubscriberToList(String^ userName);
 
@@ -33,13 +34,20 @@ namespace MainClient {
 		System::Windows::Forms::Timer^ updateTimer;
 		System::Windows::Forms::Timer^ weatherTimer;
 
+		System::Windows::Forms::Button^ btnGoBack;
+		System::Windows::Forms::Label^ UsernameLbl;
+
+
 		System::ComponentModel::IContainer^ components;
 
-		void InitializeComponent(void);
+		void Init();
 
+		void InitializeComponent(void);
 		void LoadWeatherForecast();
 
 		System::Void OnUpdateTimerTick(System::Object^ sender, System::EventArgs^ e);
 		System::Void OnWeatherTimerTick(System::Object^ sender, System::EventArgs^ e);
+
+		System::Void btnGoBack_Click(System::Object^ sender, System::EventArgs^ e);
 	};
 }

@@ -216,6 +216,7 @@ void MainClient::ServiceForm::InitializeComponent(void)
     this->btnUnsub1->TabIndex = 11;
     this->btnUnsub1->Text = L"Unsubscribe";
     this->btnUnsub1->UseVisualStyleBackColor = true;
+    this->btnUnsub1->Visible = false;
     this->btnUnsub1->Click += gcnew System::EventHandler(this, &ServiceForm::btnUnsub1_Click);
     // 
     // btnSub2
@@ -248,6 +249,7 @@ void MainClient::ServiceForm::InitializeComponent(void)
     this->btnUnsub2->TabIndex = 13;
     this->btnUnsub2->Text = L"Unsubscribe";
     this->btnUnsub2->UseVisualStyleBackColor = true;
+    this->btnUnsub2->Visible = false;
     this->btnUnsub2->Click += gcnew System::EventHandler(this, &ServiceForm::btnUnsub2_Click);
     // 
     // btnSub3
@@ -280,6 +282,7 @@ void MainClient::ServiceForm::InitializeComponent(void)
     this->btnUnsub3->TabIndex = 15;
     this->btnUnsub3->Text = L"Unsubscribe";
     this->btnUnsub3->UseVisualStyleBackColor = true;
+    this->btnUnsub3->Visible = false;
     this->btnUnsub3->Click += gcnew System::EventHandler(this, &ServiceForm::btnUnsub3_Click);
     // 
     // UsernameLbl
@@ -354,7 +357,7 @@ System::Void MainClient::ServiceForm::btnSub1_Click(System::Object^ sender, Syst
 
     this->Hide();
 
-    WeatherForecastServiceForm^ weatherForecastForm = gcnew WeatherForecastServiceForm();
+    WeatherForecastServiceForm^ weatherForecastForm = gcnew WeatherForecastServiceForm(UsernameLbl->Text);
 
     weatherForecastForm->UpdateSubscribersList();  // Оновлюємо список користувачів
     weatherForecastForm->ShowDialog();
