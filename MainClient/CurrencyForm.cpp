@@ -171,13 +171,12 @@ void MainClient::CurrencyForm::InitializeComponent(void)
     // currencyInfoLbl
     // 
     this->currencyInfoLbl->AutoSize = true;
-    this->currencyInfoLbl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
-        static_cast<System::Byte>(0)));
+    this->currencyInfoLbl->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Bold));
     this->currencyInfoLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(152)), static_cast<System::Int32>(static_cast<System::Byte>(48)),
         static_cast<System::Int32>(static_cast<System::Byte>(156)));
-    this->currencyInfoLbl->Location = System::Drawing::Point(22, 72);
+    this->currencyInfoLbl->Location = System::Drawing::Point(12, 72);
     this->currencyInfoLbl->Name = L"currencyInfoLbl";
-    this->currencyInfoLbl->Size = System::Drawing::Size(276, 25);
+    this->currencyInfoLbl->Size = System::Drawing::Size(318, 26);
     this->currencyInfoLbl->TabIndex = 9;
     this->currencyInfoLbl->Text = L"Exchange rate information :";
     // 
@@ -197,8 +196,7 @@ void MainClient::CurrencyForm::InitializeComponent(void)
     // 
     this->txtUserList->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(254)), static_cast<System::Int32>(static_cast<System::Byte>(227)),
         static_cast<System::Int32>(static_cast<System::Byte>(255)));
-    this->txtUserList->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
-        static_cast<System::Byte>(0)));
+    this->txtUserList->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Bold));
     this->txtUserList->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(152)), static_cast<System::Int32>(static_cast<System::Byte>(48)),
         static_cast<System::Int32>(static_cast<System::Byte>(156)));
     this->txtUserList->Location = System::Drawing::Point(642, 105);
@@ -212,26 +210,24 @@ void MainClient::CurrencyForm::InitializeComponent(void)
     // userListLbl
     // 
     this->userListLbl->AutoSize = true;
-    this->userListLbl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
-        static_cast<System::Byte>(0)));
+    this->userListLbl->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Bold));
     this->userListLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(152)), static_cast<System::Int32>(static_cast<System::Byte>(48)),
         static_cast<System::Int32>(static_cast<System::Byte>(156)));
-    this->userListLbl->Location = System::Drawing::Point(651, 72);
+    this->userListLbl->Location = System::Drawing::Point(637, 72);
     this->userListLbl->Name = L"userListLbl";
-    this->userListLbl->Size = System::Drawing::Size(183, 25);
+    this->userListLbl->Size = System::Drawing::Size(214, 26);
     this->userListLbl->TabIndex = 6;
     this->userListLbl->Text = L"Current users list:";
     // 
     // titleLbl
     // 
     this->titleLbl->AutoSize = true;
-    this->titleLbl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
-        static_cast<System::Byte>(0)));
+    this->titleLbl->Font = (gcnew System::Drawing::Font(L"Elephant", 18, System::Drawing::FontStyle::Bold));
     this->titleLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(120)), static_cast<System::Int32>(static_cast<System::Byte>(44)),
         static_cast<System::Int32>(static_cast<System::Byte>(158)));
-    this->titleLbl->Location = System::Drawing::Point(329, 9);
+    this->titleLbl->Location = System::Drawing::Point(329, 30);
     this->titleLbl->Name = L"titleLbl";
-    this->titleLbl->Size = System::Drawing::Size(295, 36);
+    this->titleLbl->Size = System::Drawing::Size(326, 38);
     this->titleLbl->TabIndex = 5;
     this->titleLbl->Text = L"Daily exchange rate";
     // 

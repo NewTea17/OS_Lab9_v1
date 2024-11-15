@@ -265,8 +265,7 @@ void MainClient::WeatherForecastServiceForm::InitializeComponent(void)
 	// weatherInfoLbl
 	// 
 	this->weatherInfoLbl->AutoSize = true;
-	this->weatherInfoLbl->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-		static_cast<System::Byte>(0)));
+	this->weatherInfoLbl->Font = (gcnew System::Drawing::Font(L"Elephant", 12));
 	this->weatherInfoLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(152)), static_cast<System::Int32>(static_cast<System::Byte>(48)),
 		static_cast<System::Int32>(static_cast<System::Byte>(156)));
 	this->weatherInfoLbl->Location = System::Drawing::Point(24, 91);
