@@ -36,6 +36,14 @@ System::Void MainClient::WeatherForecastServiceForm::btnGoBack_Click(System::Obj
 {
 	bool isSubscribed = CheckIfUserIsSubscribed(UsernameLbl->Text);  
 
+	if (isSubscribed) {
+		std::ofstream file("master_client.txt", std::ios::trunc);
+		if (file.is_open()) {
+			file << "false" << std::endl;
+			file.close();
+		}
+	}
+
 	this->Hide();
 
 	ServiceForm^ form = gcnew ServiceForm(UsernameLbl->Text);
