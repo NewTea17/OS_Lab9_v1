@@ -63,6 +63,6 @@ namespace MainClient {
 		System::Void btnUnsub3_Click(System::Object^ sender, System::EventArgs^ e);
 
 
-		void onUnSub(const std::string& filename);
+		void onUnSub(const std::string& filename, size_t type);
 	};
 }

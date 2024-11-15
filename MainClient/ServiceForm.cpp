@@ -414,20 +414,20 @@ System::Void MainClient::ServiceForm::btnSub3_Click(System::Object^ sender, Syst
 
 System::Void MainClient::ServiceForm::btnUnsub1_Click(System::Object^ sender, System::EventArgs^ e)
 {
-    onUnSub("usersOfWeatherService.txt");
+    onUnSub("usersOfWeatherService.txt", 1);
 }
 
 System::Void MainClient::ServiceForm::btnUnsub2_Click(System::Object^ sender, System::EventArgs^ e)
 {
-    onUnSub("usersOfStocksService.txt");
+    onUnSub("usersOfStocksService.txt", 2);
 }
 
 System::Void MainClient::ServiceForm::btnUnsub3_Click(System::Object^ sender, System::EventArgs^ e)
 {
-    onUnSub("usersOfCurrencyService.txt");
+    onUnSub("usersOfCurrencyService.txt", 3);
 }
 
-void MainClient::ServiceForm::onUnSub(const std::string& filename)
+void MainClient::ServiceForm::onUnSub(const std::string& filename, size_t type)
 {
     IntPtr ptrToNativeString = System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(UsernameLbl->Text);
     std::string userName = static_cast<const char*>(ptrToNativeString.ToPointer());
@@ -447,6 +447,19 @@ void MainClient::ServiceForm::onUnSub(const std::string& filename)
         }
     }
     inputFile.close();
+
+    if (type == 1) {
+        btnSub1->Visible = true;
+        btnUnsub1->Visible = false;
+    }
+    else if (type == 2) {
+        btnSub2->Visible = true;
+        btnUnsub3->Visible = false;
+    }
+    else {
+        btnSub3->Visible = true;
+        btnUnsub3->Visible = false;
+    }
 
     MessageBox::Show("Unsubscription successful!", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
 
