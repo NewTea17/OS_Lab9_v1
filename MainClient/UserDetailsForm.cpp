@@ -101,9 +101,11 @@ void MainClient::UserDetailsForm::InitializeComponent(void)
     // 
     // btnRegister
     // 
+    this->btnRegister->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
     this->btnRegister->Font = (gcnew System::Drawing::Font(L"Elephant", 13.8F, System::Drawing::FontStyle::Bold));
     this->btnRegister->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(120)), static_cast<System::Int32>(static_cast<System::Byte>(44)),
         static_cast<System::Int32>(static_cast<System::Byte>(158)));
+    this->btnRegister->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"btnRegister.Image")));
     this->btnRegister->Location = System::Drawing::Point(69, 217);
     this->btnRegister->Name = L"btnRegister";
     this->btnRegister->Size = System::Drawing::Size(155, 58);
