@@ -100,8 +100,41 @@ void Server::getUserDetails()
     std::string subEmail;
 
     if (iss >> subName >> subEmail) {
-        Subscriber subscriber(subName, subEmail);
+        HANDLE hFile = CreateFile(
+            L"users.txt",                // Ім'я файлу
+            FILE_APPEND_DATA,            // Режим доступу (додавання даних)
+            FILE_SHARE_READ,             // Розділення доступу
+            NULL,                        // Захист
+            OPEN_ALWAYS,                 // Створює файл, якщо його немає
+            FILE_ATTRIBUTE_NORMAL,       // Атрибути файлу
+            NULL);                       // Немає шаблону
 
+        if (hFile == INVALID_HANDLE_VALUE)
+        {
+            std::cerr << "Failed to open or create users.txt. Error: " << GetLastError() << std::endl;
+            return;
+        }
+
+        std::string userData = subName + " " + subEmail + "\r\n";
+        DWORD bytesWritten;
+
+        success = WriteFile(
+            hFile,                      // Дескриптор файлу
+            userData.c_str(),           // Дані для запису
+            userData.length(),          // Довжина даних
+            &bytesWritten,              // Фактична кількість записаних байтів
+            NULL);                      // Без оверлапінгу
+
+        if (!success)
+        {
+            std::cerr << "Failed to write to users.txt. Error: " << GetLastError() << std::endl;
+        }
+        else
+        {
+            std::cout << "User details saved to users.txt." << std::endl;
+        }
+
+        CloseHandle(hFile);
     }
 }
 
