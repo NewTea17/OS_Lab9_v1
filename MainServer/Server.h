@@ -1,6 +1,6 @@
-#pragma once
+﻿#pragma once
 
-#include<string>
+#include <string>
 #include <vector>
 #include <Windows.h>
 
@@ -9,20 +9,21 @@
 class Server
 {
 public:
-	Server();
+    Server();
 
-	void run();
+    void run();
 
-	void displayServices() const;
+    void displayServices() const;
 
-	void getUserDetails();
-
-private:
-	void loadServicesFromFile(const std::string filename);
+    void getUserDetails();
 
 private:
-	HANDLE hPipe;
-	const wchar_t* pipeName = L"\\\\.\\pipe\\UserDetailsPipe";
-	std::vector<ServiceDetails> services;
+    void storeUserDetails(const std::string& subName, const std::string& subEmail);  // Зберігає дані користувача
+    void processSubscription(const std::string& filename, const std::string& userName, bool subscribe); // Обробляє підписку/відписку
+    void sendResponse(const std::string& response);  // Відправляє відповідь користувачу
+
+private:
+    HANDLE hPipe;
+    const wchar_t* pipeName = L"\\\\.\\pipe\\UserDetailsPipe";
+    std::vector<ServiceDetails> services;
 };
-

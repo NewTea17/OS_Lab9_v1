@@ -348,6 +348,8 @@ System::Void MainClient::ServiceForm::btnSub1_Click(System::Object^ sender, Syst
     std::string userName = static_cast<const char*>(ptrToNativeString.ToPointer());
     System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToNativeString);
 
+    std::string request;
+
     if (btnSub1->Text != "Watch")
     {
         std::ofstream file("usersOfWeatherService.txt", std::ios::app);
@@ -356,7 +358,15 @@ System::Void MainClient::ServiceForm::btnSub1_Click(System::Object^ sender, Syst
             file << userName << std::endl;
             file.close();
         }
+
+        request = "SUBSCRIBE_WEATHER: " + userName;
     }
+    else
+    {
+        request = "UNSUBSCRIBE_WEATHER: " + userName;
+    }
+
+    // std::string response = sendRequestThroughPipe(request);
 
     this->Hide();
 
@@ -476,4 +486,33 @@ void MainClient::ServiceForm::onUnSub(const std::string& filename, size_t type)
         outputFile << l << std::endl;
     }
     outputFile.close();
+}
+
+std::string MainClient::ServiceForm::sendRequestThroughPipe(const std::string& request)
+{
+    const char* pipeName = "\\\\.\\pipe\\UserDetailsPipe";
+    HANDLE hPipe = CreateFileA(
+        pipeName,
+        GENERIC_READ | GENERIC_WRITE,
+        0,
+        NULL,
+        OPEN_EXISTING,
+        0,
+        NULL
+    );
+
+    if (hPipe == INVALID_HANDLE_VALUE) {
+        return "ERROR";
+    }
+
+    DWORD bytesWritten;
+    WriteFile(hPipe, request.c_str(), request.size(), &bytesWritten, NULL);
+
+    char buffer[512];
+    DWORD bytesRead;
+    ReadFile(hPipe, buffer, sizeof(buffer) - 1, &bytesRead, NULL);
+    buffer[bytesRead] = '\0'; 
+
+    CloseHandle(hPipe);
+    return std::string(buffer);
 }
