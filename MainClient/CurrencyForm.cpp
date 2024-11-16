@@ -6,6 +6,7 @@
 #include <iostream>
 #include <iomanip>
 
+#include "ServiceForm.h"
 #include "CurrencyForm.h"
 
 HANDLE hCurrencyFileMutex = CreateMutex(NULL, FALSE, L"Global\\CurrencyInfoMutex");
@@ -13,34 +14,13 @@ bool isMasterClient3 = false;
 
 MainClient::CurrencyForm::CurrencyForm(void)
 {
-    InitializeComponent();
+    Init();
+}
 
-    std::ifstream masterFile("master_client3.txt");
-    if (masterFile.is_open()) {
-        std::string status;
-        masterFile >> status;
-        if (status == "true") {
-            isMasterClient3 = false;
-        }
-        else {
-            isMasterClient3 = true;
-            std::ofstream outFile("master_client3.txt");
-            outFile << "true";
-            outFile.close();
-        }
-        masterFile.close();
-    }
-    LoadCurrencyRates();
-
-    this->updateTimer = gcnew System::Windows::Forms::Timer();
-    this->updateTimer->Interval = 5000;
-    this->updateTimer->Tick += gcnew System::EventHandler(this, &MainClient::CurrencyForm::OnUpdateTimerTick);
-    this->updateTimer->Start();
-
-    this->currencyTimer = gcnew System::Windows::Forms::Timer();
-    this->currencyTimer->Interval = 5000;
-    this->currencyTimer->Tick += gcnew System::EventHandler(this, &MainClient::CurrencyForm::OnCurrencyTimerTick);
-    this->currencyTimer->Start();
+MainClient::CurrencyForm::CurrencyForm(String^ userName)
+{
+    Init();
+    UsernameLbl->Text = userName;
 }
 
 System::Void MainClient::CurrencyForm::OnUpdateTimerTick(System::Object^ sender, System::EventArgs^ e)
@@ -51,6 +31,64 @@ System::Void MainClient::CurrencyForm::OnUpdateTimerTick(System::Object^ sender,
 System::Void MainClient::CurrencyForm::OnCurrencyTimerTick(System::Object^ sender, System::EventArgs^ e)
 {
     UpdateCurrencyRates();
+}
+
+System::Void MainClient::CurrencyForm::CurrencyForm_Load(System::Object^ sender, System::EventArgs^ e)
+{
+    return System::Void();
+}
+
+System::Void MainClient::CurrencyForm::panel1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e)
+{
+    return System::Void();
+}
+
+bool MainClient::CurrencyForm::CheckIfUserIsSubscribed(String^ userName)
+{
+    std::ifstream file("usersOfCurrencyService.txt");
+    if (file.is_open()) {
+        std::string line;
+        while (std::getline(file, line)) {
+            String^ subscriber = gcnew String(line.c_str());
+            if (subscriber == userName) {
+                file.close();
+                return true;
+            }
+        }
+        file.close();
+    }
+    return false;
+}
+
+System::Void MainClient::CurrencyForm::btnGoBack_Click(System::Object^ sender, System::EventArgs^ e)
+{
+    bool isSubscribed = CheckIfUserIsSubscribed(UsernameLbl->Text);
+
+    if (isSubscribed) {
+        std::ofstream file("master_client3.txt", std::ios::trunc);
+        if (file.is_open()) {
+            file << "false" << std::endl;
+            file.close();
+        }
+    }
+
+    this->Hide();
+
+    ServiceForm^ form = gcnew ServiceForm(UsernameLbl->Text);
+
+    if (isSubscribed) {
+        form->btnSub3->Text = "Watch";
+        form->btnSub3->Visible = true;
+        form->btnUnsub3->Visible = true;
+    }
+    else {
+        form->btnSub3->Visible = true;
+        form->btnUnsub3->Visible = false;
+    }
+
+    form->ShowDialog();
+
+    this->Close();
 }
 
 System::Void MainClient::CurrencyForm::AddSubscriberToList(String^ userName)
@@ -165,6 +203,8 @@ void MainClient::CurrencyForm::InitializeComponent(void)
     this->userListLbl = (gcnew System::Windows::Forms::Label());
     this->titleLbl = (gcnew System::Windows::Forms::Label());
     this->panel1 = (gcnew System::Windows::Forms::Panel());
+    this->UsernameLbl = (gcnew System::Windows::Forms::Label());
+    this->btnGoBack = (gcnew System::Windows::Forms::Button());
     this->panel1->SuspendLayout();
     this->SuspendLayout();
     // 
@@ -235,6 +275,8 @@ void MainClient::CurrencyForm::InitializeComponent(void)
     // 
     this->panel1->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(220)), static_cast<System::Int32>(static_cast<System::Byte>(188)),
         static_cast<System::Int32>(static_cast<System::Byte>(227)));
+    this->panel1->Controls->Add(this->UsernameLbl);
+    this->panel1->Controls->Add(this->btnGoBack);
     this->panel1->Controls->Add(this->currencyInfoLbl);
     this->panel1->Controls->Add(this->txtCurrencyInfo);
     this->panel1->Controls->Add(this->userListLbl);
@@ -244,6 +286,34 @@ void MainClient::CurrencyForm::InitializeComponent(void)
     this->panel1->Size = System::Drawing::Size(927, 525);
     this->panel1->TabIndex = 10;
     this->panel1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &CurrencyForm::panel1_Paint);
+    // 
+    // UsernameLbl
+    // 
+    this->UsernameLbl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
+        | System::Windows::Forms::AnchorStyles::Right));
+    this->UsernameLbl->AutoSize = true;
+    this->UsernameLbl->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+        static_cast<System::Byte>(0)));
+    this->UsernameLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(34)), static_cast<System::Int32>(static_cast<System::Byte>(85)),
+        static_cast<System::Int32>(static_cast<System::Byte>(179)));
+    this->UsernameLbl->Location = System::Drawing::Point(782, 19);
+    this->UsernameLbl->Name = L"UsernameLbl";
+    this->UsernameLbl->Size = System::Drawing::Size(119, 26);
+    this->UsernameLbl->TabIndex = 17;
+    this->UsernameLbl->Text = L"username";
+    this->UsernameLbl->TextAlign = System::Drawing::ContentAlignment::TopRight;
+    // 
+    // btnGoBack
+    // 
+    this->btnGoBack->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Bold));
+    this->btnGoBack->ForeColor = System::Drawing::SystemColors::ActiveCaption;
+    this->btnGoBack->Location = System::Drawing::Point(12, 12);
+    this->btnGoBack->Name = L"btnGoBack";
+    this->btnGoBack->Size = System::Drawing::Size(123, 40);
+    this->btnGoBack->TabIndex = 11;
+    this->btnGoBack->Text = L"Go back";
+    this->btnGoBack->UseVisualStyleBackColor = true;
+    this->btnGoBack->Click += gcnew System::EventHandler(this, &CurrencyForm::btnGoBack_Click);
     // 
     // CurrencyForm
     // 
@@ -281,5 +351,37 @@ void MainClient::CurrencyForm::LoadCurrencyRates()
     else {
         MessageBox::Show("Unable to load currency rates. The file might be missing or inaccessible.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
     }
+}
+
+void MainClient::CurrencyForm::Init()
+{
+    InitializeComponent();
+
+    std::ifstream masterFile("master_client3.txt");
+    if (masterFile.is_open()) {
+        std::string status;
+        masterFile >> status;
+        if (status == "true") {
+            isMasterClient3 = false;
+        }
+        else {
+            isMasterClient3 = true;
+            std::ofstream outFile("master_client3.txt");
+            outFile << "true";
+            outFile.close();
+        }
+        masterFile.close();
+    }
+    LoadCurrencyRates();
+
+    this->updateTimer = gcnew System::Windows::Forms::Timer();
+    this->updateTimer->Interval = 5000;
+    this->updateTimer->Tick += gcnew System::EventHandler(this, &MainClient::CurrencyForm::OnUpdateTimerTick);
+    this->updateTimer->Start();
+
+    this->currencyTimer = gcnew System::Windows::Forms::Timer();
+    this->currencyTimer->Interval = 5000;
+    this->currencyTimer->Tick += gcnew System::EventHandler(this, &MainClient::CurrencyForm::OnCurrencyTimerTick);
+    this->currencyTimer->Start();
 }
 

@@ -421,16 +421,29 @@ System::Void MainClient::ServiceForm::btnSub3_Click(System::Object^ sender, Syst
     std::string userName = static_cast<const char*>(ptrToNativeString.ToPointer());
     System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToNativeString);
 
-    std::ofstream file("usersOfCurrencyService.txt", std::ios::app);
-    if (file.is_open())
+    std::string request;
+
+    if (btnSub3->Text != "Watch")
     {
-        file << userName << std::endl;
-        file.close();
+        std::ofstream file("usersOfCurrencyService.txt", std::ios::app);
+        if (file.is_open())
+        {
+            file << userName << std::endl;
+            file.close();
+        }
+
+        request = "SUBSCRIBE_STOCKS: " + userName;
     }
+    else
+    {
+        request = "UNSUBSCRIBE_STOCKS: " + userName;
+    }
+
+    // std::string response = sendRequestThroughPipe(request);
 
     this->Hide();
 
-    CurrencyForm^ currencyForm = gcnew CurrencyForm();
+    CurrencyForm^ currencyForm = gcnew CurrencyForm(UsernameLbl->Text);
 
     currencyForm->UpdateSubscribersList();
     currencyForm->ShowDialog();
