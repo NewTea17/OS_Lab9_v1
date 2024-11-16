@@ -49,6 +49,7 @@ Class MainClient.WeatherForecastServiceForm: AutoLayout, AnsiClass, Class, Publi
     UpdateWeatherTemperature(): PrivateScope, Public, HideBySig
 Class MainClient.StockForecastForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
+    Void .ctor(System.String): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
   Methods:
     AddSubscriberToList(String): PrivateScope, Public, HideBySig

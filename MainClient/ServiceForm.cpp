@@ -385,16 +385,29 @@ System::Void MainClient::ServiceForm::btnSub2_Click(System::Object^ sender, Syst
     std::string userName = static_cast<const char*>(ptrToNativeString.ToPointer());
     System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToNativeString);
 
-    std::ofstream file("usersOfStocksService.txt", std::ios::app);
-    if (file.is_open())
+    std::string request;
+
+    if (btnSub2->Text != "Watch")
     {
-        file << userName << std::endl;
-        file.close();
+        std::ofstream file("usersOfStocksService.txt", std::ios::app);
+        if (file.is_open())
+        {
+            file << userName << std::endl;
+            file.close();
+        }
+
+        request = "SUBSCRIBE_STOCKS: " + userName;
     }
+    else
+    {
+        request = "UNSUBSCRIBE_STOCKS: " + userName;
+    }
+
+    // std::string response = sendRequestThroughPipe(request);
 
     this->Hide();
 
-    StockForecastForm^ stockForecastForm = gcnew StockForecastForm();
+    StockForecastForm^ stockForecastForm = gcnew StockForecastForm(UsernameLbl->Text);
 
     stockForecastForm->UpdateSubscribersList();  
     stockForecastForm->ShowDialog();
@@ -468,10 +481,12 @@ void MainClient::ServiceForm::onUnSub(const std::string& filename, size_t type)
     }
     else if (type == 2) {
         btnSub2->Visible = true;
-        btnUnsub3->Visible = false;
+        btnSub2->Text = "Subscribe";
+        btnUnsub2->Visible = false;
     }
     else {
         btnSub3->Visible = true;
+        btnSub3->Text = "Subscribe";
         btnUnsub3->Visible = false;
     }
 

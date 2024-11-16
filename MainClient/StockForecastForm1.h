@@ -13,6 +13,7 @@ namespace MainClient {
 	{
 	public:
 		StockForecastForm(void);
+		StockForecastForm(String^ userName);
 
 		System::Void AddSubscriberToList(String^ userName);
 
@@ -30,10 +31,12 @@ namespace MainClient {
 		System::Windows::Forms::TextBox^ txtStocksInfo;
 		System::Windows::Forms::Label^ stocksInfoLbl;
 
-
 		System::Windows::Forms::Timer^ updateTimer;
 		System::Windows::Forms::Timer^ stocksTimer;
-	private: System::ComponentModel::IContainer^ components;
+		System::Windows::Forms::Button^ btnGoBack;
+		System::Windows::Forms::Label^ UsernameLbl;
+		
+		System::ComponentModel::IContainer^ components;
 
 
 
@@ -41,7 +44,12 @@ namespace MainClient {
 
 		void LoadStocksForecast();
 
+		void Init();
+
+		bool CheckIfUserIsSubscribed(String^ userName);
+
 		System::Void OnUpdateTimerTick(System::Object^ sender, System::EventArgs^ e);
 		System::Void OnStocksTimerTick(System::Object^ sender, System::EventArgs^ e);
+		System::Void btnGoBack_Click(System::Object^ sender, System::EventArgs^ e);
 	};
 }

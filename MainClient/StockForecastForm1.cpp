@@ -6,6 +6,7 @@
 #include <iostream>
 #include <iomanip>
 
+#include "ServiceForm.h"
 #include "StockForecastForm1.h"
 
 HANDLE hStocksFileMutex = CreateMutex(NULL, FALSE, L"Global\\StocksForecastMutex");
@@ -13,35 +14,13 @@ bool isMasterClient2 = false;
 
 MainClient::StockForecastForm::StockForecastForm(void)
 {
-	InitializeComponent();
+	Init();
+}
 
-	std::ifstream masterFile("master_client2.txt");
-	if (masterFile.is_open()) {
-		std::string status;
-		masterFile >> status;
-		if (status == "true") {
-			isMasterClient2 = false;
-		}
-		else {
-			isMasterClient2 = true;
-			std::ofstream outFile("master_client2.txt");
-			outFile << "true";
-			outFile.close();
-		}
-		masterFile.close();
-	}
-
-	LoadStocksForecast();
-
-	this->updateTimer = gcnew System::Windows::Forms::Timer();
-	this->updateTimer->Interval = 5000;  // 5000 мілісекунд = 5 секунд
-	this->updateTimer->Tick += gcnew System::EventHandler(this, &MainClient::StockForecastForm::OnUpdateTimerTick);
-	this->updateTimer->Start();
-
-	this->stocksTimer = gcnew System::Windows::Forms::Timer();
-	this->stocksTimer->Interval = 5000;  // 36000000 мілісекунд = 1 год
-	this->stocksTimer->Tick += gcnew System::EventHandler(this, &MainClient::StockForecastForm::OnStocksTimerTick);
-	this->stocksTimer->Start();
+MainClient::StockForecastForm::StockForecastForm(String^ userName)
+{
+	Init();
+	UsernameLbl->Text = userName;
 }
 
 System::Void MainClient::StockForecastForm::OnUpdateTimerTick(System::Object^ sender, System::EventArgs^ e)
@@ -52,6 +31,37 @@ System::Void MainClient::StockForecastForm::OnUpdateTimerTick(System::Object^ se
 System::Void MainClient::StockForecastForm::OnStocksTimerTick(System::Object^ sender, System::EventArgs^ e)
 {
 	UpdateStocksPrices();
+}
+
+System::Void MainClient::StockForecastForm::btnGoBack_Click(System::Object^ sender, System::EventArgs^ e)
+{
+	bool isSubscribed = CheckIfUserIsSubscribed(UsernameLbl->Text);
+
+	if (isSubscribed) {
+		std::ofstream file("master_client2.txt", std::ios::trunc);
+		if (file.is_open()) {
+			file << "false" << std::endl;
+			file.close();
+		}
+	}
+
+	this->Hide();
+
+	ServiceForm^ form = gcnew ServiceForm(UsernameLbl->Text);
+
+	if (isSubscribed) {
+		form->btnSub2->Text = "Watch";
+		form->btnSub2->Visible = true;
+		form->btnUnsub2->Visible = true;
+	}
+	else {
+		form->btnSub2->Visible = true;
+		form->btnUnsub2->Visible = false;
+	}
+
+	form->ShowDialog();
+
+	this->Close();
 }
 
 System::Void MainClient::StockForecastForm::AddSubscriberToList(String^ userName)
@@ -152,7 +162,6 @@ void MainClient::StockForecastForm::UpdateStocksPrices()
 	}
 }
 
-
 MainClient::StockForecastForm::~StockForecastForm()
 {
 	if (isMasterClient2) {
@@ -178,6 +187,8 @@ void MainClient::StockForecastForm::InitializeComponent(void)
 	this->stocksInfoLbl = (gcnew System::Windows::Forms::Label());
 	this->updateTimer = (gcnew System::Windows::Forms::Timer(this->components));
 	this->stocksTimer = (gcnew System::Windows::Forms::Timer(this->components));
+	this->btnGoBack = (gcnew System::Windows::Forms::Button());
+	this->UsernameLbl = (gcnew System::Windows::Forms::Label());
 	this->SuspendLayout();
 	// 
 	// titleLbl
@@ -247,6 +258,34 @@ void MainClient::StockForecastForm::InitializeComponent(void)
 	this->stocksInfoLbl->TabIndex = 4;
 	this->stocksInfoLbl->Text = L"Stocks information (company name/price/status):";
 	// 
+	// btnGoBack
+	// 
+	this->btnGoBack->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Bold));
+	this->btnGoBack->ForeColor = System::Drawing::SystemColors::ActiveCaption;
+	this->btnGoBack->Location = System::Drawing::Point(12, 12);
+	this->btnGoBack->Name = L"btnGoBack";
+	this->btnGoBack->Size = System::Drawing::Size(123, 40);
+	this->btnGoBack->TabIndex = 6;
+	this->btnGoBack->Text = L"Go back";
+	this->btnGoBack->UseVisualStyleBackColor = true;
+	this->btnGoBack->Click += gcnew System::EventHandler(this, &StockForecastForm::btnGoBack_Click);
+	// 
+	// UsernameLbl
+	// 
+	this->UsernameLbl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
+		| System::Windows::Forms::AnchorStyles::Right));
+	this->UsernameLbl->AutoSize = true;
+	this->UsernameLbl->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+		static_cast<System::Byte>(0)));
+	this->UsernameLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(34)), static_cast<System::Int32>(static_cast<System::Byte>(85)),
+		static_cast<System::Int32>(static_cast<System::Byte>(179)));
+	this->UsernameLbl->Location = System::Drawing::Point(794, 7);
+	this->UsernameLbl->Name = L"UsernameLbl";
+	this->UsernameLbl->Size = System::Drawing::Size(119, 26);
+	this->UsernameLbl->TabIndex = 17;
+	this->UsernameLbl->Text = L"username";
+	this->UsernameLbl->TextAlign = System::Drawing::ContentAlignment::TopRight;
+	// 
 	// StockForecastForm
 	// 
 	this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
@@ -254,6 +293,8 @@ void MainClient::StockForecastForm::InitializeComponent(void)
 	this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(220)), static_cast<System::Int32>(static_cast<System::Byte>(188)),
 		static_cast<System::Int32>(static_cast<System::Byte>(227)));
 	this->ClientSize = System::Drawing::Size(925, 544);
+	this->Controls->Add(this->UsernameLbl);
+	this->Controls->Add(this->btnGoBack);
 	this->Controls->Add(this->stocksInfoLbl);
 	this->Controls->Add(this->txtStocksInfo);
 	this->Controls->Add(this->txtUserList);
@@ -304,4 +345,54 @@ void MainClient::StockForecastForm::LoadStocksForecast()
 	else {
 		MessageBox::Show("Failed to load stocks forecast.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
 	}
+}
+
+void MainClient::StockForecastForm::Init()
+{
+	InitializeComponent();
+
+	std::ifstream masterFile("master_client2.txt");
+	if (masterFile.is_open()) {
+		std::string status;
+		masterFile >> status;
+		if (status == "true") {
+			isMasterClient2 = false;
+		}
+		else {
+			isMasterClient2 = true;
+			std::ofstream outFile("master_client2.txt");
+			outFile << "true";
+			outFile.close();
+		}
+		masterFile.close();
+	}
+
+	LoadStocksForecast();
+
+	this->updateTimer = gcnew System::Windows::Forms::Timer();
+	this->updateTimer->Interval = 5000;  // 5000 мілісекунд = 5 секунд
+	this->updateTimer->Tick += gcnew System::EventHandler(this, &MainClient::StockForecastForm::OnUpdateTimerTick);
+	this->updateTimer->Start();
+
+	this->stocksTimer = gcnew System::Windows::Forms::Timer();
+	this->stocksTimer->Interval = 5000;  // 36000000 мілісекунд = 1 год
+	this->stocksTimer->Tick += gcnew System::EventHandler(this, &MainClient::StockForecastForm::OnStocksTimerTick);
+	this->stocksTimer->Start();
+}
+
+bool MainClient::StockForecastForm::CheckIfUserIsSubscribed(String^ userName)
+{
+	std::ifstream file("usersOfStocksService.txt");
+	if (file.is_open()) {
+		std::string line;
+		while (std::getline(file, line)) {
+			String^ subscriber = gcnew String(line.c_str());
+			if (subscriber == userName) {
+				file.close();
+				return true;
+			}
+		}
+		file.close();
+	}
+	return false;
 }
