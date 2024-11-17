@@ -266,6 +266,5 @@ System::Void MainClient::UserDetailsForm::btnRegister_Click(System::Object^ send
         MessageBox::Show("Failed to send user details!", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
     }
 
-    MessageBox::Show("Registration successful!", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
     return System::Void();
 }
