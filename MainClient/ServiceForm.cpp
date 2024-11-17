@@ -71,7 +71,7 @@ void MainClient::ServiceForm::InitializeComponent(void)
     this->pictureWeather = (gcnew System::Windows::Forms::PictureBox());
     this->pictureStocks = (gcnew System::Windows::Forms::PictureBox());
     this->pictureExchange = (gcnew System::Windows::Forms::PictureBox());
-    this->weatherLbl = (gcnew System::Windows::Forms::Label());
+    this->weatherLbl1 = (gcnew System::Windows::Forms::Label());
     this->stockLbl1 = (gcnew System::Windows::Forms::Label());
     this->exchangeLbl = (gcnew System::Windows::Forms::Label());
     this->stockLbl2 = (gcnew System::Windows::Forms::Label());
@@ -82,6 +82,7 @@ void MainClient::ServiceForm::InitializeComponent(void)
     this->btnSub3 = (gcnew System::Windows::Forms::Button());
     this->btnUnsub3 = (gcnew System::Windows::Forms::Button());
     this->UsernameLbl = (gcnew System::Windows::Forms::Label());
+    this->weatherLbl2 = (gcnew System::Windows::Forms::Label());
     (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
     (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
     (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->BeginInit();
@@ -163,19 +164,19 @@ void MainClient::ServiceForm::InitializeComponent(void)
     this->pictureExchange->TabIndex = 5;
     this->pictureExchange->TabStop = false;
     // 
-    // weatherLbl
+    // weatherLbl1
     // 
-    this->weatherLbl->AutoSize = true;
-    this->weatherLbl->BackColor = System::Drawing::Color::Transparent;
-    this->weatherLbl->Font = (gcnew System::Drawing::Font(L"Elephant", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+    this->weatherLbl1->AutoSize = true;
+    this->weatherLbl1->BackColor = System::Drawing::Color::Transparent;
+    this->weatherLbl1->Font = (gcnew System::Drawing::Font(L"Elephant", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
         static_cast<System::Byte>(0)));
-    this->weatherLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(120)), static_cast<System::Int32>(static_cast<System::Byte>(44)),
+    this->weatherLbl1->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(120)), static_cast<System::Int32>(static_cast<System::Byte>(44)),
         static_cast<System::Int32>(static_cast<System::Byte>(158)));
-    this->weatherLbl->Location = System::Drawing::Point(62, 300);
-    this->weatherLbl->Name = L"weatherLbl";
-    this->weatherLbl->Size = System::Drawing::Size(240, 22);
-    this->weatherLbl->TabIndex = 6;
-    this->weatherLbl->Text = L"Hourly weather forecast";
+    this->weatherLbl1->Location = System::Drawing::Point(99, 300);
+    this->weatherLbl1->Name = L"weatherLbl1";
+    this->weatherLbl1->Size = System::Drawing::Size(159, 22);
+    this->weatherLbl1->TabIndex = 6;
+    this->weatherLbl1->Text = L"Hourly weather";
     // 
     // stockLbl1
     // 
@@ -334,6 +335,20 @@ void MainClient::ServiceForm::InitializeComponent(void)
     this->UsernameLbl->Text = L"username";
     this->UsernameLbl->TextAlign = System::Drawing::ContentAlignment::TopRight;
     // 
+    // weatherLbl2
+    // 
+    this->weatherLbl2->AutoSize = true;
+    this->weatherLbl2->BackColor = System::Drawing::Color::Transparent;
+    this->weatherLbl2->Font = (gcnew System::Drawing::Font(L"Elephant", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+        static_cast<System::Byte>(0)));
+    this->weatherLbl2->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(120)), static_cast<System::Int32>(static_cast<System::Byte>(44)),
+        static_cast<System::Int32>(static_cast<System::Byte>(158)));
+    this->weatherLbl2->Location = System::Drawing::Point(138, 322);
+    this->weatherLbl2->Name = L"weatherLbl2";
+    this->weatherLbl2->Size = System::Drawing::Size(86, 22);
+    this->weatherLbl2->TabIndex = 17;
+    this->weatherLbl2->Text = L"forecast";
+    // 
     // ServiceForm
     // 
     this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
@@ -341,6 +356,7 @@ void MainClient::ServiceForm::InitializeComponent(void)
     this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(136)), static_cast<System::Int32>(static_cast<System::Byte>(201)),
         static_cast<System::Int32>(static_cast<System::Byte>(227)));
     this->ClientSize = System::Drawing::Size(925, 544);
+    this->Controls->Add(this->weatherLbl2);
     this->Controls->Add(this->UsernameLbl);
     this->Controls->Add(this->btnUnsub3);
     this->Controls->Add(this->btnSub3);
@@ -351,7 +367,7 @@ void MainClient::ServiceForm::InitializeComponent(void)
     this->Controls->Add(this->stockLbl2);
     this->Controls->Add(this->exchangeLbl);
     this->Controls->Add(this->stockLbl1);
-    this->Controls->Add(this->weatherLbl);
+    this->Controls->Add(this->weatherLbl1);
     this->Controls->Add(this->pictureExchange);
     this->Controls->Add(this->pictureStocks);
     this->Controls->Add(this->pictureWeather);

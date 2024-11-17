@@ -180,7 +180,6 @@ MainClient::StockForecastForm::~StockForecastForm()
 void MainClient::StockForecastForm::InitializeComponent(void)
 {
 	this->components = (gcnew System::ComponentModel::Container());
-	System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(StockForecastForm::typeid));
 	this->titleLbl = (gcnew System::Windows::Forms::Label());
 	this->userListLbl = (gcnew System::Windows::Forms::Label());
 	this->txtUserList = (gcnew System::Windows::Forms::TextBox());
@@ -261,16 +260,17 @@ void MainClient::StockForecastForm::InitializeComponent(void)
 	// 
 	// btnGoBack
 	// 
+	this->btnGoBack->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(186)), static_cast<System::Int32>(static_cast<System::Byte>(231)),
+		static_cast<System::Int32>(static_cast<System::Byte>(255)));
 	this->btnGoBack->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Bold));
 	this->btnGoBack->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(34)), static_cast<System::Int32>(static_cast<System::Byte>(85)),
 		static_cast<System::Int32>(static_cast<System::Byte>(179)));
-	// this->btnGoBack->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"btnGoBack.Image")));
 	this->btnGoBack->Location = System::Drawing::Point(12, 12);
 	this->btnGoBack->Name = L"btnGoBack";
 	this->btnGoBack->Size = System::Drawing::Size(123, 40);
 	this->btnGoBack->TabIndex = 6;
 	this->btnGoBack->Text = L"Go back";
-	this->btnGoBack->UseVisualStyleBackColor = true;
+	this->btnGoBack->UseVisualStyleBackColor = false;
 	this->btnGoBack->Click += gcnew System::EventHandler(this, &StockForecastForm::btnGoBack_Click);
 	// 
 	// UsernameLbl
