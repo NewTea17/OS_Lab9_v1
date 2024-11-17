@@ -15,17 +15,50 @@ MainClient::ServiceForm::ServiceForm(void)
 	InitializeComponent();
 }
 
+MainClient::ServiceForm::ServiceForm(String^ userName)
+{
+    InitializeComponent();
+    UsernameLbl->Text = userName;
+
+    if (IsUserSubscribed("usersOfWeatherService.txt", userName)) {
+        btnSub1->Text = "Watch";
+        btnSub1->Visible = true;
+        btnUnsub1->Visible = true;
+    }
+    else {
+        btnSub1->Text = "Subscribe";
+        btnSub1->Visible = true;
+        btnUnsub1->Visible = false;
+    }
+
+    if (IsUserSubscribed("usersOfStocksService.txt", userName)) {
+        btnSub2->Text = "Watch";
+        btnSub2->Visible = true;
+        btnUnsub2->Visible = true;
+    }
+    else {
+        btnSub2->Text = "Subscribe";
+        btnSub2->Visible = true;
+        btnUnsub2->Visible = false;
+    }
+
+    if (IsUserSubscribed("usersOfCurrencyService.txt", userName)) {
+        btnSub3->Text = "Watch";
+        btnSub3->Visible = true;
+        btnUnsub3->Visible = true;
+    }
+    else {
+        btnSub3->Text = "Subscribe";
+        btnSub3->Visible = true;
+        btnUnsub3->Visible = false;
+    }
+}
+
 MainClient::ServiceForm::~ServiceForm()
 {
 	if (components) {
 		delete components;
 	}
-}
-
-MainClient::ServiceForm::ServiceForm(String^ userName)
-{
-    InitializeComponent();
-    UsernameLbl->Text = userName;
 }
 
 void MainClient::ServiceForm::InitializeComponent(void)
@@ -543,4 +576,24 @@ std::string MainClient::ServiceForm::sendRequestThroughPipe(const std::string& r
 
     CloseHandle(hPipe);
     return std::string(buffer);
+}
+
+bool MainClient::ServiceForm::IsUserSubscribed(const std::string& filename, String^ userName)
+{
+    IntPtr ptrToNativeString = System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(userName);
+    std::string nativeUserName = static_cast<const char*>(ptrToNativeString.ToPointer());
+    System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToNativeString);
+
+    std::ifstream file(filename);
+    if (!file.is_open()) return false;
+
+    std::string line;
+    while (std::getline(file, line)) {
+        if (line == nativeUserName) {
+            file.close();
+            return true;
+        }
+    }
+    file.close();
+    return false;
 }

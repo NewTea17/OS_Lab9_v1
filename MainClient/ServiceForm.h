@@ -66,5 +66,7 @@ namespace MainClient {
 		void onUnSub(const std::string& filename, size_t type);
 
 		std::string sendRequestThroughPipe(const std::string& request);
+
+		bool IsUserSubscribed(const std::string& filename, String^ userName);
 	};
 }
