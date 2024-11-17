@@ -18,16 +18,6 @@ Assembly System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=
 	hash=None, flags=None
 Assembly System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
 	hash=None, flags=None
-Class MainClient.CurrencyForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
-  :System.Windows.Forms.Form
-    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
-  Methods:
-    AddSubscriberToList(String): PrivateScope, Public, HideBySig
-    UpdateSubscribersList(): PrivateScope, Public, HideBySig
-    UpdateCurrencyRates(): PrivateScope, Public, HideBySig
-Class MainClient.UserDetailsForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
-  :System.Windows.Forms.Form
-    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
 Class MainClient.ServiceForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(System.String): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
@@ -39,6 +29,17 @@ Class MainClient.ServiceForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldI
     System.Windows.Forms.Button btnUnsub2 : Public
     System.Windows.Forms.Button btnSub3 : Public
     System.Windows.Forms.Button btnUnsub3 : Public
+Class MainClient.CurrencyForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(System.String): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    AddSubscriberToList(String): PrivateScope, Public, HideBySig
+    UpdateSubscribersList(): PrivateScope, Public, HideBySig
+    UpdateCurrencyRates(): PrivateScope, Public, HideBySig
+Class MainClient.UserDetailsForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
 Class MainClient.WeatherForecastServiceForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(System.String): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
@@ -49,6 +50,7 @@ Class MainClient.WeatherForecastServiceForm: AutoLayout, AnsiClass, Class, Publi
     UpdateWeatherTemperature(): PrivateScope, Public, HideBySig
 Class MainClient.StockForecastForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
+    Void .ctor(System.String): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
   Methods:
     AddSubscriberToList(String): PrivateScope, Public, HideBySig

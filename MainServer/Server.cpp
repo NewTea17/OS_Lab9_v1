@@ -96,7 +96,7 @@ void Server::getUserDetails()
     std::istringstream iss(buffer);
     std::string subName, subEmail, command;
 
-    // Ожидаем команду, ім'я та email користувача
+    // Очікуємо команду, ім'я та email користувача
     if (iss >> command >> subName >> subEmail) {
         // Спочатку зберігаємо інформацію про користувача
         storeUserDetails(subName, subEmail);

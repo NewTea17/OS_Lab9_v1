@@ -432,11 +432,11 @@ System::Void MainClient::ServiceForm::btnSub3_Click(System::Object^ sender, Syst
             file.close();
         }
 
-        request = "SUBSCRIBE_STOCKS: " + userName;
+        request = "SUBSCRIBE_CURRENCY: " + userName;
     }
     else
     {
-        request = "UNSUBSCRIBE_STOCKS: " + userName;
+        request = "UNSUBSCRIBE_CURRENCY: " + userName;
     }
 
     // std::string response = sendRequestThroughPipe(request);

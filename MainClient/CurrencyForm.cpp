@@ -197,6 +197,7 @@ MainClient::CurrencyForm::~CurrencyForm()
 
 void MainClient::CurrencyForm::InitializeComponent(void)
 {
+    System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(CurrencyForm::typeid));
     this->currencyInfoLbl = (gcnew System::Windows::Forms::Label());
     this->txtCurrencyInfo = (gcnew System::Windows::Forms::TextBox());
     this->txtUserList = (gcnew System::Windows::Forms::TextBox());
@@ -214,7 +215,7 @@ void MainClient::CurrencyForm::InitializeComponent(void)
     this->currencyInfoLbl->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Bold));
     this->currencyInfoLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(152)), static_cast<System::Int32>(static_cast<System::Byte>(48)),
         static_cast<System::Int32>(static_cast<System::Byte>(156)));
-    this->currencyInfoLbl->Location = System::Drawing::Point(12, 72);
+    this->currencyInfoLbl->Location = System::Drawing::Point(12, 88);
     this->currencyInfoLbl->Name = L"currencyInfoLbl";
     this->currencyInfoLbl->Size = System::Drawing::Size(318, 26);
     this->currencyInfoLbl->TabIndex = 9;
@@ -224,7 +225,7 @@ void MainClient::CurrencyForm::InitializeComponent(void)
     // 
     this->txtCurrencyInfo->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(254)), static_cast<System::Int32>(static_cast<System::Byte>(227)),
         static_cast<System::Int32>(static_cast<System::Byte>(255)));
-    this->txtCurrencyInfo->Location = System::Drawing::Point(12, 105);
+    this->txtCurrencyInfo->Location = System::Drawing::Point(18, 121);
     this->txtCurrencyInfo->Multiline = true;
     this->txtCurrencyInfo->Name = L"txtCurrencyInfo";
     this->txtCurrencyInfo->ReadOnly = true;
@@ -239,7 +240,7 @@ void MainClient::CurrencyForm::InitializeComponent(void)
     this->txtUserList->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Bold));
     this->txtUserList->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(152)), static_cast<System::Int32>(static_cast<System::Byte>(48)),
         static_cast<System::Int32>(static_cast<System::Byte>(156)));
-    this->txtUserList->Location = System::Drawing::Point(642, 105);
+    this->txtUserList->Location = System::Drawing::Point(655, 121);
     this->txtUserList->Multiline = true;
     this->txtUserList->Name = L"txtUserList";
     this->txtUserList->ReadOnly = true;
@@ -253,7 +254,7 @@ void MainClient::CurrencyForm::InitializeComponent(void)
     this->userListLbl->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Bold));
     this->userListLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(152)), static_cast<System::Int32>(static_cast<System::Byte>(48)),
         static_cast<System::Int32>(static_cast<System::Byte>(156)));
-    this->userListLbl->Location = System::Drawing::Point(637, 72);
+    this->userListLbl->Location = System::Drawing::Point(650, 88);
     this->userListLbl->Name = L"userListLbl";
     this->userListLbl->Size = System::Drawing::Size(214, 26);
     this->userListLbl->TabIndex = 6;
@@ -265,7 +266,7 @@ void MainClient::CurrencyForm::InitializeComponent(void)
     this->titleLbl->Font = (gcnew System::Drawing::Font(L"Elephant", 18, System::Drawing::FontStyle::Bold));
     this->titleLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(120)), static_cast<System::Int32>(static_cast<System::Byte>(44)),
         static_cast<System::Int32>(static_cast<System::Byte>(158)));
-    this->titleLbl->Location = System::Drawing::Point(329, 30);
+    this->titleLbl->Location = System::Drawing::Point(329, 45);
     this->titleLbl->Name = L"titleLbl";
     this->titleLbl->Size = System::Drawing::Size(326, 38);
     this->titleLbl->TabIndex = 5;
@@ -275,6 +276,7 @@ void MainClient::CurrencyForm::InitializeComponent(void)
     // 
     this->panel1->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(220)), static_cast<System::Int32>(static_cast<System::Byte>(188)),
         static_cast<System::Int32>(static_cast<System::Byte>(227)));
+    this->panel1->Controls->Add(this->txtUserList);
     this->panel1->Controls->Add(this->UsernameLbl);
     this->panel1->Controls->Add(this->btnGoBack);
     this->panel1->Controls->Add(this->currencyInfoLbl);
@@ -282,8 +284,10 @@ void MainClient::CurrencyForm::InitializeComponent(void)
     this->panel1->Controls->Add(this->userListLbl);
     this->panel1->Controls->Add(this->titleLbl);
     this->panel1->Location = System::Drawing::Point(0, 0);
+    this->panel1->MaximumSize = System::Drawing::Size(943, 591);
+    this->panel1->MinimumSize = System::Drawing::Size(943, 591);
     this->panel1->Name = L"panel1";
-    this->panel1->Size = System::Drawing::Size(927, 525);
+    this->panel1->Size = System::Drawing::Size(943, 591);
     this->panel1->TabIndex = 10;
     this->panel1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &CurrencyForm::panel1_Paint);
     // 
@@ -296,7 +300,7 @@ void MainClient::CurrencyForm::InitializeComponent(void)
         static_cast<System::Byte>(0)));
     this->UsernameLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(34)), static_cast<System::Int32>(static_cast<System::Byte>(85)),
         static_cast<System::Int32>(static_cast<System::Byte>(179)));
-    this->UsernameLbl->Location = System::Drawing::Point(782, 19);
+    this->UsernameLbl->Location = System::Drawing::Point(794, 6);
     this->UsernameLbl->Name = L"UsernameLbl";
     this->UsernameLbl->Size = System::Drawing::Size(119, 26);
     this->UsernameLbl->TabIndex = 17;
@@ -306,7 +310,9 @@ void MainClient::CurrencyForm::InitializeComponent(void)
     // btnGoBack
     // 
     this->btnGoBack->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Bold));
-    this->btnGoBack->ForeColor = System::Drawing::SystemColors::ActiveCaption;
+    this->btnGoBack->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(34)), static_cast<System::Int32>(static_cast<System::Byte>(85)),
+        static_cast<System::Int32>(static_cast<System::Byte>(179)));
+    this->btnGoBack->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"btnGoBack.Image")));
     this->btnGoBack->Location = System::Drawing::Point(12, 12);
     this->btnGoBack->Name = L"btnGoBack";
     this->btnGoBack->Size = System::Drawing::Size(123, 40);
@@ -319,8 +325,7 @@ void MainClient::CurrencyForm::InitializeComponent(void)
     // 
     this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
     this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-    this->ClientSize = System::Drawing::Size(924, 521);
-    this->Controls->Add(this->txtUserList);
+    this->ClientSize = System::Drawing::Size(927, 543);
     this->Controls->Add(this->panel1);
     this->Name = L"CurrencyForm";
     this->Text = L"CurrencyForm";
@@ -328,7 +333,6 @@ void MainClient::CurrencyForm::InitializeComponent(void)
     this->panel1->ResumeLayout(false);
     this->panel1->PerformLayout();
     this->ResumeLayout(false);
-    this->PerformLayout();
 
 }
 
