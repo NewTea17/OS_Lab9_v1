@@ -249,15 +249,22 @@ System::Void MainClient::UserDetailsForm::btnRegister_Click(System::Object^ send
     outputFile << userName << " " << userEmail << std::endl;
     outputFile.close();
 
-    Client^ client = gcnew Client();
-    client->setUserDetails(newUser);
+    try {
+        Client^ client = gcnew Client();
+        client->setUserDetails(newUser);
 
-    client->sendUserDetails();
+        client->sendUserDetails();
 
-    this->Hide();
-    ServiceForm^ serviceForm = gcnew ServiceForm(userNameManaged);
-    serviceForm->ShowDialog();
-    this->Close();
+        this->Hide();
+        ServiceForm^ serviceForm = gcnew ServiceForm(userNameManaged);
+        serviceForm->ShowDialog();
+        this->Close();
+
+        MessageBox::Show("Registration successful!", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+    }
+    catch (Exception^ ex) {
+        MessageBox::Show("Failed to send user details!", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+    }
 
     MessageBox::Show("Registration successful!", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
     return System::Void();
