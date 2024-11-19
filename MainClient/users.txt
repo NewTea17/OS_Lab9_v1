@@ -1,7 +1,0 @@
-user user@a.a
-a a@a.a
-d f@d.d
-burmos burmos@gmail.com
-n n@n.n
-4 j@j.j
-b b@b.b

@@ -30,13 +30,13 @@ namespace MainClient {
 		System::Windows::Forms::PictureBox^ pictureWeather;
 		System::Windows::Forms::PictureBox^ pictureStocks;
 		System::Windows::Forms::PictureBox^ pictureExchange;
-	private: System::Windows::Forms::Label^ weatherLbl1;
 
-
+		System::Windows::Forms::Label^ weatherLbl1;
 		System::Windows::Forms::Label^ stockLbl1;
 		System::Windows::Forms::Label^ exchangeLbl;
 
 		System::Windows::Forms::Label^ stockLbl2;
+		System::Windows::Forms::Label^ weatherLbl2;
 
 	public:
 		System::Windows::Forms::Button^ btnSub1;
@@ -47,10 +47,6 @@ namespace MainClient {
 
 		System::Windows::Forms::Button^ btnSub3;
 		System::Windows::Forms::Button^ btnUnsub3;
-	private: System::Windows::Forms::Label^ weatherLbl2;
-	public:
-
-	public:
 
 	private:
 		System::ComponentModel::Container ^components;
