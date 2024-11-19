@@ -121,10 +121,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="CurrencyForm.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ServiceForm.cpp" />
+    <ClCompile Include="StockForecastForm1.cpp" />
     <ClCompile Include="UserDetails.cpp" />
     <ClCompile Include="UserDetailsForm.cpp" />
+    <ClCompile Include="WeatherForecastServiceForm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -135,20 +138,38 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
+    <ClInclude Include="CurrencyForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="ServiceForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="StockForecastForm1.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="UserDetails.h" />
     <ClInclude Include="UserDetailsForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="WeatherForecastServiceForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CurrencyForm.resx">
+      <DependentUpon>CurrencyForm.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ServiceForm.resx">
       <DependentUpon>ServiceForm.h</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="StockForecastForm1.resx">
+      <DependentUpon>StockForecastForm1.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserDetailsForm.resx">
       <DependentUpon>UserDetailsForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WeatherForecastServiceForm.resx">
+      <DependentUpon>WeatherForecastServiceForm.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

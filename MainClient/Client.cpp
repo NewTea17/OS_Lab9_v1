@@ -1,3 +1,5 @@
+#include <fstream>
+#include <iostream>
 #include <string>
 #include <msclr/marshal_cppstd.h>
 #include "Client.h"
@@ -49,4 +51,36 @@ void Client::sendUserDetails()
     if (!success) {
         throw gcnew System::InvalidOperationException("Cannot send user details to server!");
     }
+}
+
+bool Client::isUserRegistered(const std::string& userName)
+{
+    if (
+        isUserInFile(userName, "usersOfWeatherService.txt") ||
+        isUserInFile(userName, "usersOfStocksService.txt") ||
+        isUserInFile(userName, "usersOfCurrencyService.txt")
+        ) {
+        return true;
+    }
+
+    return false;
+}
+
+bool Client::isUserInFile(const std::string& userName, const std::string& filename)
+{
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        throw gcnew System::InvalidOperationException("Cannot open file!");
+    }
+
+    std::string line;
+    while (std::getline(file, line)) {
+        if (line == userName) {
+            file.close();
+            return true; 
+        }
+    }
+
+    file.close();
+    return false;
 }

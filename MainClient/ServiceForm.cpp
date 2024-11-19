@@ -1,8 +1,58 @@
+﻿#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <ctime>
+
+#include <msclr/marshal.h>
+
 #include "ServiceForm.h"
+#include "WeatherForecastServiceForm.h"
+#include "StockForecastForm1.h"
+#include "CurrencyForm.h"
 
 MainClient::ServiceForm::ServiceForm(void)
 {
 	InitializeComponent();
+}
+
+MainClient::ServiceForm::ServiceForm(String^ userName)
+{
+    InitializeComponent();
+    UsernameLbl->Text = userName;
+
+    if (IsUserSubscribed("usersOfWeatherService.txt", userName)) {
+        btnSub1->Text = "Watch";
+        btnSub1->Visible = true;
+        btnUnsub1->Visible = true;
+    }
+    else {
+        btnSub1->Text = "Subscribe";
+        btnSub1->Visible = true;
+        btnUnsub1->Visible = false;
+    }
+
+    if (IsUserSubscribed("usersOfStocksService.txt", userName)) {
+        btnSub2->Text = "Watch";
+        btnSub2->Visible = true;
+        btnUnsub2->Visible = true;
+    }
+    else {
+        btnSub2->Text = "Subscribe";
+        btnSub2->Visible = true;
+        btnUnsub2->Visible = false;
+    }
+
+    if (IsUserSubscribed("usersOfCurrencyService.txt", userName)) {
+        btnSub3->Text = "Watch";
+        btnSub3->Visible = true;
+        btnUnsub3->Visible = true;
+    }
+    else {
+        btnSub3->Text = "Subscribe";
+        btnSub3->Visible = true;
+        btnUnsub3->Visible = false;
+    }
 }
 
 MainClient::ServiceForm::~ServiceForm()
@@ -10,12 +60,6 @@ MainClient::ServiceForm::~ServiceForm()
 	if (components) {
 		delete components;
 	}
-}
-
-MainClient::ServiceForm::ServiceForm(String^ userName)
-{
-    InitializeComponent();
-    UsernameLbl->Text = userName;
 }
 
 void MainClient::ServiceForm::InitializeComponent(void)
@@ -28,7 +72,7 @@ void MainClient::ServiceForm::InitializeComponent(void)
     this->pictureWeather = (gcnew System::Windows::Forms::PictureBox());
     this->pictureStocks = (gcnew System::Windows::Forms::PictureBox());
     this->pictureExchange = (gcnew System::Windows::Forms::PictureBox());
-    this->weatherLbl = (gcnew System::Windows::Forms::Label());
+    this->weatherLbl1 = (gcnew System::Windows::Forms::Label());
     this->stockLbl1 = (gcnew System::Windows::Forms::Label());
     this->exchangeLbl = (gcnew System::Windows::Forms::Label());
     this->stockLbl2 = (gcnew System::Windows::Forms::Label());
@@ -39,6 +83,7 @@ void MainClient::ServiceForm::InitializeComponent(void)
     this->btnSub3 = (gcnew System::Windows::Forms::Button());
     this->btnUnsub3 = (gcnew System::Windows::Forms::Button());
     this->UsernameLbl = (gcnew System::Windows::Forms::Label());
+    this->weatherLbl2 = (gcnew System::Windows::Forms::Label());
     (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
     (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
     (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->BeginInit();
@@ -120,19 +165,19 @@ void MainClient::ServiceForm::InitializeComponent(void)
     this->pictureExchange->TabIndex = 5;
     this->pictureExchange->TabStop = false;
     // 
-    // weatherLbl
+    // weatherLbl1
     // 
-    this->weatherLbl->AutoSize = true;
-    this->weatherLbl->BackColor = System::Drawing::Color::Transparent;
-    this->weatherLbl->Font = (gcnew System::Drawing::Font(L"Elephant", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+    this->weatherLbl1->AutoSize = true;
+    this->weatherLbl1->BackColor = System::Drawing::Color::Transparent;
+    this->weatherLbl1->Font = (gcnew System::Drawing::Font(L"Elephant", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
         static_cast<System::Byte>(0)));
-    this->weatherLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(120)), static_cast<System::Int32>(static_cast<System::Byte>(44)),
+    this->weatherLbl1->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(120)), static_cast<System::Int32>(static_cast<System::Byte>(44)),
         static_cast<System::Int32>(static_cast<System::Byte>(158)));
-    this->weatherLbl->Location = System::Drawing::Point(62, 300);
-    this->weatherLbl->Name = L"weatherLbl";
-    this->weatherLbl->Size = System::Drawing::Size(240, 22);
-    this->weatherLbl->TabIndex = 6;
-    this->weatherLbl->Text = L"Hourly weather forecast";
+    this->weatherLbl1->Location = System::Drawing::Point(99, 300);
+    this->weatherLbl1->Name = L"weatherLbl1";
+    this->weatherLbl1->Size = System::Drawing::Size(159, 22);
+    this->weatherLbl1->TabIndex = 6;
+    this->weatherLbl1->Text = L"Hourly weather";
     // 
     // stockLbl1
     // 
@@ -206,6 +251,7 @@ void MainClient::ServiceForm::InitializeComponent(void)
     this->btnUnsub1->TabIndex = 11;
     this->btnUnsub1->Text = L"Unsubscribe";
     this->btnUnsub1->UseVisualStyleBackColor = true;
+    this->btnUnsub1->Visible = false;
     this->btnUnsub1->Click += gcnew System::EventHandler(this, &ServiceForm::btnUnsub1_Click);
     // 
     // btnSub2
@@ -238,6 +284,7 @@ void MainClient::ServiceForm::InitializeComponent(void)
     this->btnUnsub2->TabIndex = 13;
     this->btnUnsub2->Text = L"Unsubscribe";
     this->btnUnsub2->UseVisualStyleBackColor = true;
+    this->btnUnsub2->Visible = false;
     this->btnUnsub2->Click += gcnew System::EventHandler(this, &ServiceForm::btnUnsub2_Click);
     // 
     // btnSub3
@@ -270,6 +317,7 @@ void MainClient::ServiceForm::InitializeComponent(void)
     this->btnUnsub3->TabIndex = 15;
     this->btnUnsub3->Text = L"Unsubscribe";
     this->btnUnsub3->UseVisualStyleBackColor = true;
+    this->btnUnsub3->Visible = false;
     this->btnUnsub3->Click += gcnew System::EventHandler(this, &ServiceForm::btnUnsub3_Click);
     // 
     // UsernameLbl
@@ -288,6 +336,20 @@ void MainClient::ServiceForm::InitializeComponent(void)
     this->UsernameLbl->Text = L"username";
     this->UsernameLbl->TextAlign = System::Drawing::ContentAlignment::TopRight;
     // 
+    // weatherLbl2
+    // 
+    this->weatherLbl2->AutoSize = true;
+    this->weatherLbl2->BackColor = System::Drawing::Color::Transparent;
+    this->weatherLbl2->Font = (gcnew System::Drawing::Font(L"Elephant", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+        static_cast<System::Byte>(0)));
+    this->weatherLbl2->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(120)), static_cast<System::Int32>(static_cast<System::Byte>(44)),
+        static_cast<System::Int32>(static_cast<System::Byte>(158)));
+    this->weatherLbl2->Location = System::Drawing::Point(138, 322);
+    this->weatherLbl2->Name = L"weatherLbl2";
+    this->weatherLbl2->Size = System::Drawing::Size(86, 22);
+    this->weatherLbl2->TabIndex = 17;
+    this->weatherLbl2->Text = L"forecast";
+    // 
     // ServiceForm
     // 
     this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
@@ -295,6 +357,7 @@ void MainClient::ServiceForm::InitializeComponent(void)
     this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(136)), static_cast<System::Int32>(static_cast<System::Byte>(201)),
         static_cast<System::Int32>(static_cast<System::Byte>(227)));
     this->ClientSize = System::Drawing::Size(925, 544);
+    this->Controls->Add(this->weatherLbl2);
     this->Controls->Add(this->UsernameLbl);
     this->Controls->Add(this->btnUnsub3);
     this->Controls->Add(this->btnSub3);
@@ -305,7 +368,7 @@ void MainClient::ServiceForm::InitializeComponent(void)
     this->Controls->Add(this->stockLbl2);
     this->Controls->Add(this->exchangeLbl);
     this->Controls->Add(this->stockLbl1);
-    this->Controls->Add(this->weatherLbl);
+    this->Controls->Add(this->weatherLbl1);
     this->Controls->Add(this->pictureExchange);
     this->Controls->Add(this->pictureStocks);
     this->Controls->Add(this->pictureWeather);
@@ -328,32 +391,226 @@ void MainClient::ServiceForm::InitializeComponent(void)
 
 }
 
+// weather forecast
 System::Void MainClient::ServiceForm::btnSub1_Click(System::Object^ sender, System::EventArgs^ e)
 {
-	return System::Void();
+    IntPtr ptrToNativeString = System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(UsernameLbl->Text);
+    std::string userName = static_cast<const char*>(ptrToNativeString.ToPointer());
+    System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToNativeString);
+
+    if (btnSub1->Text != "Watch")
+    {
+        std::ofstream file("usersOfWeatherService.txt", std::ios::app);
+        if (file.is_open())
+        {
+            file << userName << std::endl;
+            file.close();
+        }
+
+        logServiceAction(userName, "Weather Forecast", "Subscribe");
+    }
+
+    this->Hide();
+
+    WeatherForecastServiceForm^ weatherForecastForm = gcnew WeatherForecastServiceForm(UsernameLbl->Text);
+
+    weatherForecastForm->UpdateSubscribersList();  // Оновлюємо список користувачів
+    weatherForecastForm->ShowDialog();
+
+    this->Close();
 }
 
+//Stocks forecast
 System::Void MainClient::ServiceForm::btnSub2_Click(System::Object^ sender, System::EventArgs^ e)
 {
-	return System::Void();
+    IntPtr ptrToNativeString = System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(UsernameLbl->Text);
+    std::string userName = static_cast<const char*>(ptrToNativeString.ToPointer());
+    System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToNativeString);
+
+    if (btnSub2->Text != "Watch")
+    {
+        std::ofstream file("usersOfStocksService.txt", std::ios::app);
+        if (file.is_open())
+        {
+            file << userName << std::endl;
+            file.close();
+        }
+
+        logServiceAction(userName, "Stocks Forecast", "Subscribe");
+    }
+
+    this->Hide();
+
+    StockForecastForm^ stockForecastForm = gcnew StockForecastForm(UsernameLbl->Text);
+
+    stockForecastForm->UpdateSubscribersList();  
+    stockForecastForm->ShowDialog();
+
+    this->Close();
 }
 
 System::Void MainClient::ServiceForm::btnSub3_Click(System::Object^ sender, System::EventArgs^ e)
 {
-	return System::Void();
+    IntPtr ptrToNativeString = System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(UsernameLbl->Text);
+    std::string userName = static_cast<const char*>(ptrToNativeString.ToPointer());
+    System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToNativeString);
+
+    std::string request;
+
+    if (btnSub3->Text != "Watch")
+    {
+        std::ofstream file("usersOfCurrencyService.txt", std::ios::app);
+        if (file.is_open())
+        {
+            file << userName << std::endl;
+            file.close();
+        }
+
+        logServiceAction(userName, "Currency Forecast", "Subscribe");
+    }
+
+    this->Hide();
+
+    CurrencyForm^ currencyForm = gcnew CurrencyForm(UsernameLbl->Text);
+
+    currencyForm->UpdateSubscribersList();
+    currencyForm->ShowDialog();
+
+    this->Close();
 }
 
 System::Void MainClient::ServiceForm::btnUnsub1_Click(System::Object^ sender, System::EventArgs^ e)
 {
-	return System::Void();
+    onUnSub("usersOfWeatherService.txt", 1);
 }
 
 System::Void MainClient::ServiceForm::btnUnsub2_Click(System::Object^ sender, System::EventArgs^ e)
 {
-	return System::Void();
+    onUnSub("usersOfStocksService.txt", 2);
 }
 
 System::Void MainClient::ServiceForm::btnUnsub3_Click(System::Object^ sender, System::EventArgs^ e)
 {
-	return System::Void();
+    onUnSub("usersOfCurrencyService.txt", 3);
+}
+
+void MainClient::ServiceForm::onUnSub(const std::string& filename, size_t type)
+{
+    IntPtr ptrToNativeString = System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(UsernameLbl->Text);
+    std::string userName = static_cast<const char*>(ptrToNativeString.ToPointer());
+    System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToNativeString);
+
+    std::ifstream inputFile(filename);
+    if (!inputFile.is_open()) {
+        throw gcnew System::IO::IOException("Unable to open the subscription file for reading!");
+    }
+
+    std::vector<std::string> lines;
+    std::string line;
+    
+    while (std::getline(inputFile, line)) {
+        if (line != userName) {
+            lines.push_back(line);
+        }
+    }
+    inputFile.close();
+
+    if (type == 1) {
+        btnSub1->Visible = true;
+        btnSub1->Text = "Subscribe";
+        btnUnsub1->Visible = false;
+        logServiceAction(userName, "Weather Forecast", "Unsubscribe");
+    }
+    else if (type == 2) {
+        btnSub2->Visible = true;
+        btnSub2->Text = "Subscribe";
+        btnUnsub2->Visible = false;
+        logServiceAction(userName, "Stocks Forecast", "Unsubscribe");
+    }
+    else {
+        btnSub3->Visible = true;
+        btnSub3->Text = "Subscribe";
+        btnUnsub3->Visible = false;
+        logServiceAction(userName, "Currency Forecast", "Unsubscribe");
+    }
+
+    MessageBox::Show("Unsubscription successful!", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+
+    std::ofstream outputFile(filename, std::ios::trunc);
+    if (!outputFile.is_open()) {
+        throw gcnew System::IO::IOException("Unable to open the subscription file for writing!");
+    }
+
+    for (const auto& l : lines) {
+        outputFile << l << std::endl;
+    }
+    outputFile.close();
+}
+
+std::string MainClient::ServiceForm::sendRequestThroughPipe(const std::string& request)
+{
+    const char* pipeName = "\\\\.\\pipe\\UserDetailsPipe";
+    HANDLE hPipe = CreateFileA(
+        pipeName,
+        GENERIC_READ | GENERIC_WRITE,
+        0,
+        NULL,
+        OPEN_EXISTING,
+        0,
+        NULL
+    );
+
+    if (hPipe == INVALID_HANDLE_VALUE) {
+        return "ERROR";
+    }
+
+    DWORD bytesWritten;
+    WriteFile(hPipe, request.c_str(), request.size(), &bytesWritten, NULL);
+
+    char buffer[512];
+    DWORD bytesRead;
+    ReadFile(hPipe, buffer, sizeof(buffer) - 1, &bytesRead, NULL);
+    buffer[bytesRead] = '\0'; 
+
+    CloseHandle(hPipe);
+    return std::string(buffer);
+}
+
+bool MainClient::ServiceForm::IsUserSubscribed(const std::string& filename, String^ userName)
+{
+    IntPtr ptrToNativeString = System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(userName);
+    std::string nativeUserName = static_cast<const char*>(ptrToNativeString.ToPointer());
+    System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToNativeString);
+
+    std::ifstream file(filename);
+    if (!file.is_open()) return false;
+
+    std::string line;
+    while (std::getline(file, line)) {
+        if (line == nativeUserName) {
+            file.close();
+            return true;
+        }
+    }
+    file.close();
+    return false;
+}
+
+void MainClient::ServiceForm::logServiceAction(const std::string& userName, const std::string& serviceName, const std::string& action)
+{
+    std::ofstream logFile("servicesLogs.txt", std::ios::app);
+    if (!logFile.is_open()) {
+        throw gcnew System::IO::IOException("Unable to open the log file for writing!");
+    }
+
+    // Get current time
+    std::time_t now = std::time(nullptr);
+    char timeBuffer[100];
+    std::strftime(timeBuffer, sizeof(timeBuffer), "%Y-%m-%d %H:%M:%S", std::localtime(&now));
+
+    // Write to the log file
+    logFile << "[" << timeBuffer << "] "
+        << "User: " << userName << ", Service: " << serviceName << ", Action: " << action << std::endl;
+
+    logFile.close();
 }

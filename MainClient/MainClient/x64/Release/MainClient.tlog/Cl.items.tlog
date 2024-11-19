@@ -1,6 +1,9 @@
 G:\OS_Lab9_v1\MainClient\Client.cpp;G:\OS_Lab9_v1\MainClient\MainClient\x64\Release\Client.obj
+G:\OS_Lab9_v1\MainClient\CurrencyForm.cpp;G:\OS_Lab9_v1\MainClient\MainClient\x64\Release\CurrencyForm.obj
 G:\OS_Lab9_v1\MainClient\main.cpp;G:\OS_Lab9_v1\MainClient\MainClient\x64\Release\main.obj
 G:\OS_Lab9_v1\MainClient\ServiceForm.cpp;G:\OS_Lab9_v1\MainClient\MainClient\x64\Release\ServiceForm.obj
+G:\OS_Lab9_v1\MainClient\StockForecastForm1.cpp;G:\OS_Lab9_v1\MainClient\MainClient\x64\Release\StockForecastForm1.obj
 G:\OS_Lab9_v1\MainClient\UserDetails.cpp;G:\OS_Lab9_v1\MainClient\MainClient\x64\Release\UserDetails.obj
 G:\OS_Lab9_v1\MainClient\UserDetailsForm.cpp;G:\OS_Lab9_v1\MainClient\MainClient\x64\Release\UserDetailsForm.obj
+G:\OS_Lab9_v1\MainClient\WeatherForecastServiceForm.cpp;G:\OS_Lab9_v1\MainClient\MainClient\x64\Release\WeatherForecastServiceForm.obj
 G:\OS_Lab9_v1\MainClient\MainClient\x64\Release\.NETFramework,Version=v4.7.2.AssemblyAttributes.cpp;G:\OS_Lab9_v1\MainClient\MainClient\x64\Release\.NETFramework,Version=v4.7.2.AssemblyAttributes.obj

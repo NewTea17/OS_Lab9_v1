@@ -1,0 +1,7 @@
+F:\OS_Lab9_v1\MainClient\MainClient\x64\Debug\MainClient.vcxproj.AssemblyReference.cache
+F:\OS_Lab9_v1\MainClient\MainClient\x64\Debug\MainClient.CurrencyForm.resources
+F:\OS_Lab9_v1\MainClient\MainClient\x64\Debug\MainClient.ServiceForm.resources
+F:\OS_Lab9_v1\MainClient\MainClient\x64\Debug\MainClient.StockForecastForm1.resources
+F:\OS_Lab9_v1\MainClient\MainClient\x64\Debug\MainClient.UserDetailsForm.resources
+F:\OS_Lab9_v1\MainClient\MainClient\x64\Debug\MainClient.WeatherForecastServiceForm.resources
+F:\OS_Lab9_v1\MainClient\MainClient\x64\Debug\MainClient.vcxproj.GenerateResource.cache

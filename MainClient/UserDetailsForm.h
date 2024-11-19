@@ -25,14 +25,19 @@ namespace MainClient {
 
 		System::Windows::Forms::Label^ nameLbl;
 		System::Windows::Forms::Label^ label1;
-		System::Windows::Forms::Button^ btnLogIn;
 
-	private:
+		System::Windows::Forms::Button^ btnLogIn;
+		System::Windows::Forms::Button^ btnRegister;
+
 		System::ComponentModel::Container^ components;
 
 		void InitializeComponent(void);
 
 		System::Void UserDetailsForm_Load(System::Object^ sender, System::EventArgs^ e);
+
 		System::Void btnLogIn_Click(System::Object^ sender, System::EventArgs^ e);
+		System::Void btnRegister_Click(System::Object^ sender, System::EventArgs^ e);
+
+		void MainClient::UserDetailsForm::LogMessage(const std::string& userName, const std::string& userEmail, const std::string& message);
 	};
 }

@@ -1,5 +1,8 @@
+  MainClient.CurrencyForm.resources - Embedded, ContainedInManifestFile, 
   MainClient.ServiceForm.resources - Embedded, ContainedInManifestFile, 
+  MainClient.StockForecastForm1.resources - Embedded, ContainedInManifestFile, 
   MainClient.UserDetailsForm.resources - Embedded, ContainedInManifestFile, 
+  MainClient.WeatherForecastServiceForm.resources - Embedded, ContainedInManifestFile, 
 ImageRuntimeVersion: v4.0.30319
 Assembly MainClient, Version=0.0.*, Culture=Invariant Language (Invariant Country): 
 	hash=SHA1, flags=PublicKey
@@ -15,10 +18,41 @@ Assembly System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=
 	hash=None, flags=None
 Assembly System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
 	hash=None, flags=None
-Class MainClient.UserDetailsForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
-  :System.Windows.Forms.Form
-    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
 Class MainClient.ServiceForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(System.String): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    System.Windows.Forms.Button btnSub1 : Public
+    System.Windows.Forms.Button btnUnsub1 : Public
+    System.Windows.Forms.Button btnSub2 : Public
+    System.Windows.Forms.Button btnUnsub2 : Public
+    System.Windows.Forms.Button btnSub3 : Public
+    System.Windows.Forms.Button btnUnsub3 : Public
+Class MainClient.CurrencyForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(System.String): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    AddSubscriberToList(String): PrivateScope, Public, HideBySig
+    UpdateSubscribersList(): PrivateScope, Public, HideBySig
+    UpdateCurrencyRates(): PrivateScope, Public, HideBySig
+Class MainClient.UserDetailsForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class MainClient.WeatherForecastServiceForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(System.String): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    AddSubscriberToList(String): PrivateScope, Public, HideBySig
+    UpdateSubscribersList(): PrivateScope, Public, HideBySig
+    UpdateWeatherTemperature(): PrivateScope, Public, HideBySig
+Class MainClient.StockForecastForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(System.String): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    AddSubscriberToList(String): PrivateScope, Public, HideBySig
+    UpdateSubscribersList(): PrivateScope, Public, HideBySig
+    UpdateStocksPrices(): PrivateScope, Public, HideBySig

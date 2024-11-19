@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 namespace MainClient {
 	using namespace System;
 	using namespace System::ComponentModel;
@@ -18,7 +20,8 @@ namespace MainClient {
 		~ServiceForm();
 
 	private: 
-		System::Windows::Forms::Label^ ServicesLbl;
+		System::Windows::Forms::Label^ ServicesLbl;		
+		System::Windows::Forms::Label^ UsernameLbl;
 
 		System::Windows::Forms::PictureBox^ pictureBox1;
 		System::Windows::Forms::PictureBox^ pictureBox2;
@@ -28,11 +31,14 @@ namespace MainClient {
 		System::Windows::Forms::PictureBox^ pictureStocks;
 		System::Windows::Forms::PictureBox^ pictureExchange;
 
-		System::Windows::Forms::Label^ weatherLbl;
+		System::Windows::Forms::Label^ weatherLbl1;
 		System::Windows::Forms::Label^ stockLbl1;
 		System::Windows::Forms::Label^ exchangeLbl;
 
 		System::Windows::Forms::Label^ stockLbl2;
+		System::Windows::Forms::Label^ weatherLbl2;
+
+	public:
 		System::Windows::Forms::Button^ btnSub1;
 		System::Windows::Forms::Button^ btnUnsub1;
 
@@ -41,10 +47,8 @@ namespace MainClient {
 
 		System::Windows::Forms::Button^ btnSub3;
 		System::Windows::Forms::Button^ btnUnsub3;
-	private: System::Windows::Forms::Label^ UsernameLbl;
 
-
-
+	private:
 		System::ComponentModel::Container ^components;
 
 
@@ -58,5 +62,14 @@ namespace MainClient {
 
 		System::Void btnUnsub2_Click(System::Object^ sender, System::EventArgs^ e);
 		System::Void btnUnsub3_Click(System::Object^ sender, System::EventArgs^ e);
+
+
+		void onUnSub(const std::string& filename, size_t type);
+
+		std::string sendRequestThroughPipe(const std::string& request);
+
+		bool IsUserSubscribed(const std::string& filename, String^ userName);
+
+		void logServiceAction(const std::string& userName, const std::string& serviceName, const std::string& action);
 	};
 }

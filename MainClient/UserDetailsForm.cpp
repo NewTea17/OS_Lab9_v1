@@ -1,4 +1,9 @@
-﻿#include "UserDetailsForm.h"
+﻿#include <fstream>
+#include <sstream>
+#include <msclr/marshal.h>
+#include <ctime>
+
+#include "UserDetailsForm.h"
 #include "ServiceForm.h"
 
 #include "Client.h"
@@ -23,6 +28,7 @@ void MainClient::UserDetailsForm::InitializeComponent(void)
     this->nameLbl = (gcnew System::Windows::Forms::Label());
     this->label1 = (gcnew System::Windows::Forms::Label());
     this->btnLogIn = (gcnew System::Windows::Forms::Button());
+    this->btnRegister = (gcnew System::Windows::Forms::Button());
     this->SuspendLayout();
     // 
     // textBoxName
@@ -86,13 +92,28 @@ void MainClient::UserDetailsForm::InitializeComponent(void)
     this->btnLogIn->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(120)), static_cast<System::Int32>(static_cast<System::Byte>(44)),
         static_cast<System::Int32>(static_cast<System::Byte>(158)));
     this->btnLogIn->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"btnLogIn.Image")));
-    this->btnLogIn->Location = System::Drawing::Point(171, 219);
+    this->btnLogIn->Location = System::Drawing::Point(296, 214);
     this->btnLogIn->Name = L"btnLogIn";
     this->btnLogIn->Size = System::Drawing::Size(155, 58);
     this->btnLogIn->TabIndex = 4;
     this->btnLogIn->Text = L"LogIn";
     this->btnLogIn->UseVisualStyleBackColor = true;
     this->btnLogIn->Click += gcnew System::EventHandler(this, &UserDetailsForm::btnLogIn_Click);
+    // 
+    // btnRegister
+    // 
+    this->btnRegister->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+    this->btnRegister->Font = (gcnew System::Drawing::Font(L"Elephant", 13.8F, System::Drawing::FontStyle::Bold));
+    this->btnRegister->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(120)), static_cast<System::Int32>(static_cast<System::Byte>(44)),
+        static_cast<System::Int32>(static_cast<System::Byte>(158)));
+    this->btnRegister->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"btnRegister.Image")));
+    this->btnRegister->Location = System::Drawing::Point(69, 217);
+    this->btnRegister->Name = L"btnRegister";
+    this->btnRegister->Size = System::Drawing::Size(155, 58);
+    this->btnRegister->TabIndex = 5;
+    this->btnRegister->Text = L"Register";
+    this->btnRegister->UseVisualStyleBackColor = true;
+    this->btnRegister->Click += gcnew System::EventHandler(this, &UserDetailsForm::btnRegister_Click);
     // 
     // UserDetailsForm
     // 
@@ -101,6 +122,7 @@ void MainClient::UserDetailsForm::InitializeComponent(void)
     this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(220)), static_cast<System::Int32>(static_cast<System::Byte>(188)),
         static_cast<System::Int32>(static_cast<System::Byte>(227)));
     this->ClientSize = System::Drawing::Size(516, 330);
+    this->Controls->Add(this->btnRegister);
     this->Controls->Add(this->btnLogIn);
     this->Controls->Add(this->label1);
     this->Controls->Add(this->nameLbl);
@@ -123,32 +145,154 @@ System::Void MainClient::UserDetailsForm::UserDetailsForm_Load(System::Object^ s
 
 }
 
-
-// TODO: Create authorization
 System::Void MainClient::UserDetailsForm::btnLogIn_Click(System::Object^ sender, System::EventArgs^ e)
 {
-    System::String^ userName = textBoxName->Text;
-    System::String^ userEmail = textBoxEmail->Text;
+    System::String^ userNameManaged = textBoxName->Text;
+    System::String^ userEmailManaged = textBoxEmail->Text;
 
-    UserDetails^ currentUser = gcnew UserDetails(userName, userEmail);
+    UserDetails^ currentUser = gcnew UserDetails(userNameManaged, userEmailManaged);
 
-    if (currentUser->isValid()) {
+    IntPtr ptrToUserName = System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(userNameManaged);
+    std::string userName = static_cast<const char*>(ptrToUserName.ToPointer());
+    System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToUserName);
+
+    IntPtr ptrToUserEmail = System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(userEmailManaged);
+    std::string userEmail = static_cast<const char*>(ptrToUserEmail.ToPointer());
+    System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToUserEmail);
+
+    if (!currentUser->isValid()) {
+        LogMessage(userName, userEmail, "Invalid name or email.");
+        MessageBox::Show("Invalid name or email.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+        return System::Void();
+    }
+
+    std::ifstream inputFile("users.txt");
+    std::string line;
+    bool userFound = false;
+    while (std::getline(inputFile, line)) {
+        std::istringstream ss(line);
+        std::string existingUsername, existingEmail;
+        ss >> existingUsername >> existingEmail;
+
+        if (existingUsername == userName && existingEmail == userEmail) {
+            userFound = true;
+            break;
+        }
+    }
+    inputFile.close();
+
+    if (userFound) {
+        LogMessage(userName, userEmail, "Login successful.");
         MessageBox::Show("Login successful!", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
 
         try {
             Client^ client = gcnew Client();
             client->setUserDetails(currentUser);
-
             client->sendUserDetails();
 
             this->Hide();
-            ServiceForm^ serviceForm = gcnew ServiceForm(userName);
+
+            ServiceForm^ serviceForm = gcnew ServiceForm(userNameManaged);
             serviceForm->ShowDialog();
+
             this->Close();
-        } catch (Exception^ ex) {
+        }
+        catch (InvalidOperationException^ ex) {
+            MessageBox::Show(ex->Message, "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+        }
+        catch (Exception^ ex) {
+            LogMessage(userName, userEmail, "Failed to send user details.");
             MessageBox::Show("Failed to send user details!", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
         }
-    } else {
+    }
+    else {
+        LogMessage(userName, userEmail, "User not found or incorrect email.");
+        MessageBox::Show("User not found or incorrect email.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+    }
+}
+
+System::Void MainClient::UserDetailsForm::btnRegister_Click(System::Object^ sender, System::EventArgs^ e)
+{
+    System::String^ userNameManaged = textBoxName->Text;
+    System::String^ userEmailManaged = textBoxEmail->Text;
+
+    UserDetails^ newUser = gcnew UserDetails(userNameManaged, userEmailManaged);
+
+    IntPtr ptrToUserName = System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(userNameManaged);
+    std::string userName = static_cast<const char*>(ptrToUserName.ToPointer());
+    System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToUserName);
+
+    IntPtr ptrToUserEmail = System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(userEmailManaged);
+    std::string userEmail = static_cast<const char*>(ptrToUserEmail.ToPointer());
+    System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToUserEmail);
+
+    if (!newUser->isValid()) {
+        LogMessage(userName, userEmail, "Invalid name or email.");
         MessageBox::Show("Invalid name or email.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+        return System::Void();
+    }
+
+    std::ifstream inputFile("users.txt");
+    std::string line;
+    while (std::getline(inputFile, line)) {
+        std::istringstream ss(line);
+        std::string existingUsername, existingEmail;
+        ss >> existingUsername >> existingEmail;
+        if (existingUsername == userName) {
+            LogMessage(userName, userEmail, "User already registered.");
+            MessageBox::Show("User already registered!", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+            inputFile.close();
+            return System::Void();
+        }
+    }
+    inputFile.close();
+
+    std::ofstream outputFile("users.txt", std::ios::app);
+    if (!outputFile.is_open()) {
+        LogMessage(userName, userEmail, "Failed to open user file for registration.");
+        MessageBox::Show("Failed to open user file for registration!", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+        return System::Void();
+    }
+
+    outputFile << userName << " " << userEmail << std::endl;
+    outputFile.close();
+
+    try {
+        Client^ client = gcnew Client();
+        client->setUserDetails(newUser);
+
+        client->sendUserDetails();
+
+        this->Hide();
+        ServiceForm^ serviceForm = gcnew ServiceForm(userNameManaged);
+        serviceForm->ShowDialog();
+        this->Close();
+
+        LogMessage(userName, userEmail, "Registration successful.");
+        MessageBox::Show("Registration successful!", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+    }
+    catch (Exception^ ex) {
+        LogMessage(userName, userEmail, "Failed to send user details.");
+        MessageBox::Show("Failed to send user details!", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+    }
+
+    return System::Void();
+}
+
+// Функція для запису логів у файл
+void MainClient::UserDetailsForm::LogMessage(const std::string& userName, const std::string& userEmail, const std::string& message) {
+    // Отримуємо поточний час
+    std::time_t currentTime = std::time(nullptr);
+    std::string timeStr = std::ctime(&currentTime);
+    timeStr.pop_back(); // Видаляємо символ нового рядка
+
+    // Формуємо рядок логування
+    std::string logEntry = "[" + timeStr + "] " + userName + " (" + userEmail + "): " + message + "\n";
+
+    // Записуємо в файл
+    std::ofstream logFile("registrationDataLogs.txt", std::ios::app);
+    if (logFile.is_open()) {
+        logFile << logEntry;
+        logFile.close();
     }
 }

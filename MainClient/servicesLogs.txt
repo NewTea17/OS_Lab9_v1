@@ -1,0 +1,6 @@
+[2024-11-19 23:48:47] User: a, Service: Weather Forecast, Action: Subscribe
+[2024-11-19 23:48:51] User: a, Service: Weather Forecast, Action: Unsubscribe
+[2024-11-19 23:48:53] User: a, Service: Stocks Forecast, Action: Subscribe
+[2024-11-19 23:48:55] User: a, Service: Currency Forecast, Action: Subscribe
+[2024-11-19 23:49:00] User: a, Service: Stocks Forecast, Action: Unsubscribe
+[2024-11-19 23:49:01] User: a, Service: Currency Forecast, Action: Unsubscribe

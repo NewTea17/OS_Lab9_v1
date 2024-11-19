@@ -1,5 +1,8 @@
 D:\Trenning C++\MainClient\x64\Debug\MainClient.vcxproj.AssemblyReference.cache
+D:\Trenning C++\MainClient\x64\Debug\MainClient.CurrencyForm.resources
 D:\Trenning C++\MainClient\x64\Debug\MainClient.ServiceForm.resources
+D:\Trenning C++\MainClient\x64\Debug\MainClient.StockForecastForm1.resources
 D:\Trenning C++\MainClient\x64\Debug\MainClient.UserDetailsForm.resources
+D:\Trenning C++\MainClient\x64\Debug\MainClient.WeatherForecastServiceForm.resources
 D:\Trenning C++\MainClient\x64\Debug\MainClient.vcxproj.GenerateResource.cache
 D:\Trenning C++\MainClient\x64\Debug\MainClient.exe
