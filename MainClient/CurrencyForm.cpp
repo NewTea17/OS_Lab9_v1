@@ -1,4 +1,4 @@
-#include <sstream>
+﻿#include <sstream>
 #include <string>
 #include <fstream>
 #include <random>
@@ -157,6 +157,38 @@ MainClient::CurrencyForm::~CurrencyForm()
     }
 }
 
+void MainClient::CurrencyForm::LoadCurrencyRates()
+{
+    std::ifstream file("currency_rates.txt");
+    if (file.is_open()) {
+        txtCurrencyInfo->ReadOnly = false;
+        txtCurrencyInfo->Clear();
+
+        std::string line;
+        while (std::getline(file, line)) {
+            std::istringstream ss(line);
+            std::string currency;
+            double rate;
+
+            if (ss >> currency >> rate) {
+                String^ currencyStr = gcnew String(currency.c_str());
+                String^ rateStr = rate.ToString("F2");
+
+                String^ formattedLine = currencyStr->PadRight(15) + rateStr->PadLeft(15);
+
+                txtCurrencyInfo->AppendText(formattedLine + Environment::NewLine);
+            }
+        }
+        file.close();
+
+        txtCurrencyInfo->ReadOnly = true;
+    }
+    else {
+        MessageBox::Show("Unable to load currency rates. The file might be missing or inaccessible.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+    }
+}
+
+
 
 
 void MainClient::CurrencyForm::InitializeComponent(void)
@@ -231,7 +263,7 @@ void MainClient::CurrencyForm::InitializeComponent(void)
         static_cast<System::Byte>(0)));
     this->titleLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(120)), static_cast<System::Int32>(static_cast<System::Byte>(44)),
         static_cast<System::Int32>(static_cast<System::Byte>(158)));
-    this->titleLbl->Location = System::Drawing::Point(329, 9);
+    this->titleLbl->Location = System::Drawing::Point(309, 9);
     this->titleLbl->Name = L"titleLbl";
     this->titleLbl->Size = System::Drawing::Size(295, 36);
     this->titleLbl->TabIndex = 5;
@@ -268,24 +300,5 @@ void MainClient::CurrencyForm::InitializeComponent(void)
 
 }
 
-void MainClient::CurrencyForm::LoadCurrencyRates()
-{
-    std::ifstream file("currency_rates.txt");
-    if (file.is_open()) {
-        txtCurrencyInfo->ReadOnly = false;
-        txtCurrencyInfo->Clear();
 
-        std::string line;
-        while (std::getline(file, line)) {
-            String^ currencyInfo = gcnew String(line.c_str());
-            txtCurrencyInfo->AppendText(currencyInfo + Environment::NewLine);
-        }
-        file.close();
-
-        txtCurrencyInfo->ReadOnly = true;
-    }
-    else {
-        MessageBox::Show("Unable to load currency rates. The file might be missing or inaccessible.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
-    }
-}
 
