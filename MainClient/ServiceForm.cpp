@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <ctime>
 
 #include <msclr/marshal.h>
 
@@ -397,8 +398,6 @@ System::Void MainClient::ServiceForm::btnSub1_Click(System::Object^ sender, Syst
     std::string userName = static_cast<const char*>(ptrToNativeString.ToPointer());
     System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToNativeString);
 
-    std::string request;
-
     if (btnSub1->Text != "Watch")
     {
         std::ofstream file("usersOfWeatherService.txt", std::ios::app);
@@ -408,14 +407,8 @@ System::Void MainClient::ServiceForm::btnSub1_Click(System::Object^ sender, Syst
             file.close();
         }
 
-        request = "SUBSCRIBE_WEATHER: " + userName;
+        logServiceAction(userName, "Weather Forecast", "Subscribe");
     }
-    else
-    {
-        request = "UNSUBSCRIBE_WEATHER: " + userName;
-    }
-
-    // std::string response = sendRequestThroughPipe(request);
 
     this->Hide();
 
@@ -434,8 +427,6 @@ System::Void MainClient::ServiceForm::btnSub2_Click(System::Object^ sender, Syst
     std::string userName = static_cast<const char*>(ptrToNativeString.ToPointer());
     System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToNativeString);
 
-    std::string request;
-
     if (btnSub2->Text != "Watch")
     {
         std::ofstream file("usersOfStocksService.txt", std::ios::app);
@@ -445,14 +436,8 @@ System::Void MainClient::ServiceForm::btnSub2_Click(System::Object^ sender, Syst
             file.close();
         }
 
-        request = "SUBSCRIBE_STOCKS: " + userName;
+        logServiceAction(userName, "Stocks Forecast", "Subscribe");
     }
-    else
-    {
-        request = "UNSUBSCRIBE_STOCKS: " + userName;
-    }
-
-    // std::string response = sendRequestThroughPipe(request);
 
     this->Hide();
 
@@ -481,14 +466,8 @@ System::Void MainClient::ServiceForm::btnSub3_Click(System::Object^ sender, Syst
             file.close();
         }
 
-        request = "SUBSCRIBE_CURRENCY: " + userName;
+        logServiceAction(userName, "Currency Forecast", "Subscribe");
     }
-    else
-    {
-        request = "UNSUBSCRIBE_CURRENCY: " + userName;
-    }
-
-    // std::string response = sendRequestThroughPipe(request);
 
     this->Hide();
 
@@ -540,16 +519,19 @@ void MainClient::ServiceForm::onUnSub(const std::string& filename, size_t type)
         btnSub1->Visible = true;
         btnSub1->Text = "Subscribe";
         btnUnsub1->Visible = false;
+        logServiceAction(userName, "Weather Forecast", "Unsubscribe");
     }
     else if (type == 2) {
         btnSub2->Visible = true;
         btnSub2->Text = "Subscribe";
         btnUnsub2->Visible = false;
+        logServiceAction(userName, "Stocks Forecast", "Unsubscribe");
     }
     else {
         btnSub3->Visible = true;
         btnSub3->Text = "Subscribe";
         btnUnsub3->Visible = false;
+        logServiceAction(userName, "Currency Forecast", "Unsubscribe");
     }
 
     MessageBox::Show("Unsubscription successful!", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
@@ -612,4 +594,23 @@ bool MainClient::ServiceForm::IsUserSubscribed(const std::string& filename, Stri
     }
     file.close();
     return false;
+}
+
+void MainClient::ServiceForm::logServiceAction(const std::string& userName, const std::string& serviceName, const std::string& action)
+{
+    std::ofstream logFile("servicesLogs.txt", std::ios::app);
+    if (!logFile.is_open()) {
+        throw gcnew System::IO::IOException("Unable to open the log file for writing!");
+    }
+
+    // Get current time
+    std::time_t now = std::time(nullptr);
+    char timeBuffer[100];
+    std::strftime(timeBuffer, sizeof(timeBuffer), "%Y-%m-%d %H:%M:%S", std::localtime(&now));
+
+    // Write to the log file
+    logFile << "[" << timeBuffer << "] "
+        << "User: " << userName << ", Service: " << serviceName << ", Action: " << action << std::endl;
+
+    logFile.close();
 }

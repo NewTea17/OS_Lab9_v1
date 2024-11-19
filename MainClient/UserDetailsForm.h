@@ -37,5 +37,7 @@ namespace MainClient {
 
 		System::Void btnLogIn_Click(System::Object^ sender, System::EventArgs^ e);
 		System::Void btnRegister_Click(System::Object^ sender, System::EventArgs^ e);
+
+		void MainClient::UserDetailsForm::LogMessage(const std::string& userName, const std::string& userEmail, const std::string& message);
 	};
 }

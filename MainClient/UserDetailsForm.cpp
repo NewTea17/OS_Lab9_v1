@@ -1,6 +1,7 @@
 ﻿#include <fstream>
 #include <sstream>
 #include <msclr/marshal.h>
+#include <ctime>
 
 #include "UserDetailsForm.h"
 #include "ServiceForm.h"
@@ -151,11 +152,6 @@ System::Void MainClient::UserDetailsForm::btnLogIn_Click(System::Object^ sender,
 
     UserDetails^ currentUser = gcnew UserDetails(userNameManaged, userEmailManaged);
 
-    if (!currentUser->isValid()) {
-        MessageBox::Show("Invalid name or email.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
-        return System::Void();
-    }
-
     IntPtr ptrToUserName = System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(userNameManaged);
     std::string userName = static_cast<const char*>(ptrToUserName.ToPointer());
     System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToUserName);
@@ -163,6 +159,12 @@ System::Void MainClient::UserDetailsForm::btnLogIn_Click(System::Object^ sender,
     IntPtr ptrToUserEmail = System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(userEmailManaged);
     std::string userEmail = static_cast<const char*>(ptrToUserEmail.ToPointer());
     System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToUserEmail);
+
+    if (!currentUser->isValid()) {
+        LogMessage(userName, userEmail, "Invalid name or email.");
+        MessageBox::Show("Invalid name or email.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+        return System::Void();
+    }
 
     std::ifstream inputFile("users.txt");
     std::string line;
@@ -180,6 +182,7 @@ System::Void MainClient::UserDetailsForm::btnLogIn_Click(System::Object^ sender,
     inputFile.close();
 
     if (userFound) {
+        LogMessage(userName, userEmail, "Login successful.");
         MessageBox::Show("Login successful!", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
 
         try {
@@ -198,10 +201,12 @@ System::Void MainClient::UserDetailsForm::btnLogIn_Click(System::Object^ sender,
             MessageBox::Show(ex->Message, "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
         }
         catch (Exception^ ex) {
+            LogMessage(userName, userEmail, "Failed to send user details.");
             MessageBox::Show("Failed to send user details!", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
         }
     }
     else {
+        LogMessage(userName, userEmail, "User not found or incorrect email.");
         MessageBox::Show("User not found or incorrect email.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
     }
 }
@@ -213,11 +218,6 @@ System::Void MainClient::UserDetailsForm::btnRegister_Click(System::Object^ send
 
     UserDetails^ newUser = gcnew UserDetails(userNameManaged, userEmailManaged);
 
-    if (!newUser->isValid()) {
-        MessageBox::Show("Invalid name or email.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
-        return System::Void();
-    }
-
     IntPtr ptrToUserName = System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(userNameManaged);
     std::string userName = static_cast<const char*>(ptrToUserName.ToPointer());
     System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToUserName);
@@ -226,6 +226,12 @@ System::Void MainClient::UserDetailsForm::btnRegister_Click(System::Object^ send
     std::string userEmail = static_cast<const char*>(ptrToUserEmail.ToPointer());
     System::Runtime::InteropServices::Marshal::FreeHGlobal(ptrToUserEmail);
 
+    if (!newUser->isValid()) {
+        LogMessage(userName, userEmail, "Invalid name or email.");
+        MessageBox::Show("Invalid name or email.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+        return System::Void();
+    }
+
     std::ifstream inputFile("users.txt");
     std::string line;
     while (std::getline(inputFile, line)) {
@@ -233,6 +239,7 @@ System::Void MainClient::UserDetailsForm::btnRegister_Click(System::Object^ send
         std::string existingUsername, existingEmail;
         ss >> existingUsername >> existingEmail;
         if (existingUsername == userName) {
+            LogMessage(userName, userEmail, "User already registered.");
             MessageBox::Show("User already registered!", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
             inputFile.close();
             return System::Void();
@@ -242,6 +249,7 @@ System::Void MainClient::UserDetailsForm::btnRegister_Click(System::Object^ send
 
     std::ofstream outputFile("users.txt", std::ios::app);
     if (!outputFile.is_open()) {
+        LogMessage(userName, userEmail, "Failed to open user file for registration.");
         MessageBox::Show("Failed to open user file for registration!", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
         return System::Void();
     }
@@ -260,11 +268,31 @@ System::Void MainClient::UserDetailsForm::btnRegister_Click(System::Object^ send
         serviceForm->ShowDialog();
         this->Close();
 
+        LogMessage(userName, userEmail, "Registration successful.");
         MessageBox::Show("Registration successful!", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
     }
     catch (Exception^ ex) {
+        LogMessage(userName, userEmail, "Failed to send user details.");
         MessageBox::Show("Failed to send user details!", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
     }
 
     return System::Void();
+}
+
+// Функція для запису логів у файл
+void MainClient::UserDetailsForm::LogMessage(const std::string& userName, const std::string& userEmail, const std::string& message) {
+    // Отримуємо поточний час
+    std::time_t currentTime = std::time(nullptr);
+    std::string timeStr = std::ctime(&currentTime);
+    timeStr.pop_back(); // Видаляємо символ нового рядка
+
+    // Формуємо рядок логування
+    std::string logEntry = "[" + timeStr + "] " + userName + " (" + userEmail + "): " + message + "\n";
+
+    // Записуємо в файл
+    std::ofstream logFile("registrationDataLogs.txt", std::ios::app);
+    if (logFile.is_open()) {
+        logFile << logEntry;
+        logFile.close();
+    }
 }
