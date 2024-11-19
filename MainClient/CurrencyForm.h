@@ -43,5 +43,7 @@ namespace MainClient {
            System::Void OnCurrencyTimerTick(System::Object^ sender, System::EventArgs^ e);
            System::Void CurrencyForm_Load(System::Object^ sender, System::EventArgs^ e) {}
            System::Void panel1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {}
+    private: System::Void txtUserList_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+    }
     };
 }

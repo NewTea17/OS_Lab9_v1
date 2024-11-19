@@ -97,7 +97,7 @@ System::Void MainClient::CurrencyForm::UpdateCurrencyRates()
                 if (isMasterClient3) {
                     std::random_device rd;
                     std::mt19937 gen(rd());
-                    std::uniform_real_distribution<> dist(-5.0, 5.0);
+                    std::uniform_real_distribution<> dist(-3.0, 3.0);
 
                     while (std::getline(file, line)) {
                         std::istringstream ss(line);
@@ -219,6 +219,8 @@ void MainClient::CurrencyForm::InitializeComponent(void)
     // 
     this->txtCurrencyInfo->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(254)), static_cast<System::Int32>(static_cast<System::Byte>(227)),
         static_cast<System::Int32>(static_cast<System::Byte>(255)));
+    this->txtCurrencyInfo->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+        static_cast<System::Byte>(0)));
     this->txtCurrencyInfo->Location = System::Drawing::Point(12, 105);
     this->txtCurrencyInfo->Multiline = true;
     this->txtCurrencyInfo->Name = L"txtCurrencyInfo";
@@ -242,6 +244,7 @@ void MainClient::CurrencyForm::InitializeComponent(void)
     this->txtUserList->ScrollBars = System::Windows::Forms::ScrollBars::Vertical;
     this->txtUserList->Size = System::Drawing::Size(259, 398);
     this->txtUserList->TabIndex = 7;
+    this->txtUserList->TextChanged += gcnew System::EventHandler(this, &CurrencyForm::txtUserList_TextChanged);
     // 
     // userListLbl
     // 

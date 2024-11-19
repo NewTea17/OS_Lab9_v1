@@ -191,13 +191,13 @@ void MainClient::WeatherForecastServiceForm::InitializeComponent(void)
 	// weatherForecastLbl
 	// 
 	this->weatherForecastLbl->AutoSize = true;
-	this->weatherForecastLbl->Font = (gcnew System::Drawing::Font(L"Elephant", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-		static_cast<System::Byte>(0)));
+	this->weatherForecastLbl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 19.8F, System::Drawing::FontStyle::Regular,
+		System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
 	this->weatherForecastLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(120)),
 		static_cast<System::Int32>(static_cast<System::Byte>(44)), static_cast<System::Int32>(static_cast<System::Byte>(158)));
 	this->weatherForecastLbl->Location = System::Drawing::Point(241, 31);
 	this->weatherForecastLbl->Name = L"weatherForecastLbl";
-	this->weatherForecastLbl->Size = System::Drawing::Size(415, 42);
+	this->weatherForecastLbl->Size = System::Drawing::Size(363, 38);
 	this->weatherForecastLbl->TabIndex = 0;
 	this->weatherForecastLbl->Text = L"Hourly weather forecast";
 	// 
@@ -205,7 +205,7 @@ void MainClient::WeatherForecastServiceForm::InitializeComponent(void)
 	// 
 	this->weatherInformationBox->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(254)),
 		static_cast<System::Int32>(static_cast<System::Byte>(227)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
-	this->weatherInformationBox->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+	this->weatherInformationBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 		static_cast<System::Byte>(0)));
 	this->weatherInformationBox->ForeColor = System::Drawing::SystemColors::WindowText;
 	this->weatherInformationBox->Location = System::Drawing::Point(29, 120);
@@ -220,13 +220,13 @@ void MainClient::WeatherForecastServiceForm::InitializeComponent(void)
 	// weatherInfoLbl
 	// 
 	this->weatherInfoLbl->AutoSize = true;
-	this->weatherInfoLbl->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+	this->weatherInfoLbl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 		static_cast<System::Byte>(0)));
 	this->weatherInfoLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(152)), static_cast<System::Int32>(static_cast<System::Byte>(48)),
 		static_cast<System::Int32>(static_cast<System::Byte>(156)));
 	this->weatherInfoLbl->Location = System::Drawing::Point(24, 91);
 	this->weatherInfoLbl->Name = L"weatherInfoLbl";
-	this->weatherInfoLbl->Size = System::Drawing::Size(560, 26);
+	this->weatherInfoLbl->Size = System::Drawing::Size(480, 25);
 	this->weatherInfoLbl->TabIndex = 2;
 	this->weatherInfoLbl->Text = L"Weather information (city name/m, tu, w, th, f, sat, sun)";
 	// 
@@ -234,7 +234,7 @@ void MainClient::WeatherForecastServiceForm::InitializeComponent(void)
 	// 
 	this->subscribersListBox->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(254)),
 		static_cast<System::Int32>(static_cast<System::Byte>(227)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
-	this->subscribersListBox->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+	this->subscribersListBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 		static_cast<System::Byte>(0)));
 	this->subscribersListBox->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(152)),
 		static_cast<System::Int32>(static_cast<System::Byte>(48)), static_cast<System::Int32>(static_cast<System::Byte>(156)));
@@ -249,13 +249,13 @@ void MainClient::WeatherForecastServiceForm::InitializeComponent(void)
 	// subscribersListLbl
 	// 
 	this->subscribersListLbl->AutoSize = true;
-	this->subscribersListLbl->Font = (gcnew System::Drawing::Font(L"Elephant", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+	this->subscribersListLbl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 		static_cast<System::Byte>(0)));
 	this->subscribersListLbl->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(152)),
 		static_cast<System::Int32>(static_cast<System::Byte>(48)), static_cast<System::Int32>(static_cast<System::Byte>(156)));
 	this->subscribersListLbl->Location = System::Drawing::Point(621, 91);
 	this->subscribersListLbl->Name = L"subscribersListLbl";
-	this->subscribersListLbl->Size = System::Drawing::Size(195, 26);
+	this->subscribersListLbl->Size = System::Drawing::Size(164, 25);
 	this->subscribersListLbl->TabIndex = 4;
 	this->subscribersListLbl->Text = L"Current users list:";
 	// 
