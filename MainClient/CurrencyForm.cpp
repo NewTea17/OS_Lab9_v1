@@ -225,13 +225,13 @@ void MainClient::CurrencyForm::InitializeComponent(void)
     // 
     this->txtCurrencyInfo->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(254)), static_cast<System::Int32>(static_cast<System::Byte>(227)),
         static_cast<System::Int32>(static_cast<System::Byte>(255)));
-    this->txtCurrencyInfo->Location = System::Drawing::Point(18, 121);
+    this->txtCurrencyInfo->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+        static_cast<System::Byte>(0)));
+    this->txtCurrencyInfo->Location = System::Drawing::Point(12, 121);
     this->txtCurrencyInfo->Multiline = true;
     this->txtCurrencyInfo->Name = L"txtCurrencyInfo";
-    this->txtCurrencyInfo->ReadOnly = true;
-    this->txtCurrencyInfo->ScrollBars = System::Windows::Forms::ScrollBars::Vertical;
-    this->txtCurrencyInfo->Size = System::Drawing::Size(612, 398);
-    this->txtCurrencyInfo->TabIndex = 8;
+    this->txtCurrencyInfo->Size = System::Drawing::Size(637, 381);
+    this->txtCurrencyInfo->TabIndex = 18;
     // 
     // txtUserList
     // 

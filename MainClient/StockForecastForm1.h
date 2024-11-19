@@ -38,8 +38,6 @@ namespace MainClient {
 		
 		System::ComponentModel::IContainer^ components;
 
-
-
 		void InitializeComponent(void);
 
 		void LoadStocksForecast();
