@@ -547,35 +547,6 @@ void MainClient::ServiceForm::onUnSub(const std::string& filename, size_t type)
     outputFile.close();
 }
 
-std::string MainClient::ServiceForm::sendRequestThroughPipe(const std::string& request)
-{
-    const char* pipeName = "\\\\.\\pipe\\UserDetailsPipe";
-    HANDLE hPipe = CreateFileA(
-        pipeName,
-        GENERIC_READ | GENERIC_WRITE,
-        0,
-        NULL,
-        OPEN_EXISTING,
-        0,
-        NULL
-    );
-
-    if (hPipe == INVALID_HANDLE_VALUE) {
-        return "ERROR";
-    }
-
-    DWORD bytesWritten;
-    WriteFile(hPipe, request.c_str(), request.size(), &bytesWritten, NULL);
-
-    char buffer[512];
-    DWORD bytesRead;
-    ReadFile(hPipe, buffer, sizeof(buffer) - 1, &bytesRead, NULL);
-    buffer[bytesRead] = '\0'; 
-
-    CloseHandle(hPipe);
-    return std::string(buffer);
-}
-
 bool MainClient::ServiceForm::IsUserSubscribed(const std::string& filename, String^ userName)
 {
     IntPtr ptrToNativeString = System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(userName);
