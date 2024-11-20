@@ -227,10 +227,11 @@ void MainClient::CurrencyForm::InitializeComponent(void)
         static_cast<System::Int32>(static_cast<System::Byte>(255)));
     this->txtCurrencyInfo->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
         static_cast<System::Byte>(0)));
-    this->txtCurrencyInfo->Location = System::Drawing::Point(12, 121);
+    this->txtCurrencyInfo->Location = System::Drawing::Point(17, 121);
     this->txtCurrencyInfo->Multiline = true;
     this->txtCurrencyInfo->Name = L"txtCurrencyInfo";
-    this->txtCurrencyInfo->Size = System::Drawing::Size(637, 381);
+    this->txtCurrencyInfo->ScrollBars = System::Windows::Forms::ScrollBars::Vertical;
+    this->txtCurrencyInfo->Size = System::Drawing::Size(621, 398);
     this->txtCurrencyInfo->TabIndex = 18;
     // 
     // txtUserList
@@ -345,8 +346,18 @@ void MainClient::CurrencyForm::LoadCurrencyRates()
 
         std::string line;
         while (std::getline(file, line)) {
-            String^ currencyInfo = gcnew String(line.c_str());
-            txtCurrencyInfo->AppendText(currencyInfo + Environment::NewLine);
+            std::istringstream ss(line);
+            std::string currency;
+            double rate;
+
+            if (ss >> currency >> rate) {
+                String^ currencyStr = gcnew String(currency.c_str());
+                String^ rateStr = rate.ToString("F2");
+
+                String^ formattedLine = String::Format("{0,-8}{1,10}", currencyStr, rateStr);
+
+                txtCurrencyInfo->AppendText(formattedLine + Environment::NewLine);
+            }
         }
         file.close();
 
